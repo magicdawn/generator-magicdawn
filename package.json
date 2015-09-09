@@ -15,6 +15,9 @@
   ],
   "author": "magicdawn",
   "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "bugs": {
     "url": "https://github.com/magicdawn/generator-magicdawn/issues"
   },

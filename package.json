@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/magicdawn/generator-magicdawn#readme",
   "dependencies": {
+    "lodash": "^3.10.1",
     "yeoman-generator": "^0.20.3"
   }
 }

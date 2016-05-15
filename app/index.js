@@ -6,6 +6,14 @@
 const Base = require('yeoman-generator').Base;
 const inherits = require('util').inherits;
 const _ = require('lodash');
+const co = require('co');
+const fs = require('needle-kit').fs;
+
+/**
+ * do exports
+ */
+
+module.exports = Generator;
 
 /**
  * Generator Class definition
@@ -16,66 +24,35 @@ const _ = require('lodash');
  * # yo magicdawn <file>
  * yo magicdawn jshint
  */
-module.exports = class Generator extends Base {
-  constructor() {
-    super();
 
-    this.fileMap = {
-      hint: '.jshintrc',
-      jshint: '.jshintrc',
-      beautify: '.jsbeautifyrc',
-      jsbeautify: '.jsbeautifyrc'
-    };
+function Generator() {
+  Base.apply(this);
+  this.sourceRoot(__dirname + '/templates');
+}
+inherits(Generator, Base);
 
-    this.argument('file', {
-      required: false,
-      type: 'String',
-      desc: '生成什么文件'
-    });
+const g = Generator.prototype;
 
-    this.sourceRoot(__dirname + '/../');
-    this.fileSrcMap = {
-      '.jshintrc': this.templatePath('app/templates/.jshintrc'),
-      '.jsbeautifyrc': this.templatePath('.jsbeautifyrc')
-    };
+/**
+ * we starts here
+ */
+
+g.default = co.wrap(function*() {
+  if (!(yield this._checkPackageJson())) return;
+
+  // 复制文件
+  // 1 .eslintrc.yml .jsbeautifyrc .travis.yml
+  // 2 空 .gitignore test/mocha.opts README.md
+});
+
+g._checkPackageJson = co.wrap(function*() {
+  const destPackageJsonPath = this.destinationPath('package.json');
+  const exists = yield fs.existsAsync(destPackageJsonPath);
+
+  // warn
+  if (!exists) {
+    console.error('package.json not found, run `npm init` first');
   }
 
-  default () {
-    const files = this
-      ._getFiles()
-      .filter(x => Boolean(x));
-
-    files.forEach(item => {
-      const src = this.fileSrcMap[item];
-      const dest = this.destinationPath(item);
-      this.fs.copy(src, dest);
-    });
-  }
-
-  _getFiles() {
-    const files = _.values(this.fileMap);
-    const empty = [];
-
-    // all
-    if (!this.file) {
-      return files;
-    }
-
-    // .
-    if (_.startsWith(this.file, '.')) {
-      if (~files.indexOf(this.file)) {
-        this.log(`file not found: ${ this.file }`);
-        return empty;
-      }
-    }
-
-    //
-    const target = this.fileMap[this.file];
-    if (!target) {
-      this.log(`file not found: ${ this.file }`);
-      return empty;
-    }
-
-    return [target];
-  }
-};
+  return exists;
+});

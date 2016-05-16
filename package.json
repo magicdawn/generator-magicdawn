@@ -23,7 +23,10 @@
   },
   "homepage": "https://github.com/magicdawn/generator-magicdawn#readme",
   "dependencies": {
+    "co": "^4.6.0",
     "lodash": "^4.12.0",
+    "moment": "^2.13.0",
+    "needle-kit": "^1.2.0",
     "yeoman-generator": "^0.23.3"
   }
 }

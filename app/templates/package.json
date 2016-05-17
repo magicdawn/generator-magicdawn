@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "mocha",
-    "test-cover": "istabul cover _mocha -- -u exports"
+    "test-cover": "istanbul cover _mocha -- -u exports"
   },
   "dependencies": {},
   "devDependencies": {

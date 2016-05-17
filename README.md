@@ -13,5 +13,8 @@ npm i generator-magicdawn -g
 - `npm init` fill `name` `version` `description`
 - `yo magicdawn`
 
+## Changelog
+[CHANGELOG.md](CHANGELOG.md)
+
 ## License
 the MIT License http://magicdawn.mit-license.org

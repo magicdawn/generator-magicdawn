@@ -9,6 +9,7 @@ const _ = require('lodash');
 const co = require('co');
 const fs = require('needle-kit').fs;
 const moment = require('moment');
+const debug = require('debug')('yo:magicdawn:app');
 
 /**
  * do exports
@@ -21,7 +22,9 @@ module.exports = Generator;
  */
 
 function Generator() {
-  Base.apply(this);
+  Base.apply(this, arguments);
+  debug('constructor arguments %j', arguments);
+
   this.sourceRoot(__dirname + '/templates');
 }
 
@@ -74,15 +77,15 @@ g._checkPackageJson = co.wrap(function*() {
 
 g._modifyPackageJson = function() {
   const destPath = this.destinationPath('package.json');
-  let dest = require(destPath);
-  let src = require(this.templatePath('package.json'));
+  let dest = this.fs.readJSON(destPath);
+  let src = this.fs.readJSON(this.templatePath('package.json'));
   src = _.pick(src, 'dependencies', 'devDependencies', 'scripts');
 
   // defaults
   dest = _.defaultsDeep(dest, src);
 
   // write
-  this.fs.writeJson(destPath, dest);
+  this.fs.writeJSON(destPath, dest);
 };
 
 /**
@@ -94,7 +97,7 @@ g._copyFiles = function() {
   const files = [
     '.eslintrc.yml', '.jsbeautifyrc',
     '.travis.yml', 'test/mocha.opts',
-    '.gitignore'
+    '.gitignore', 'LICENSE'
   ];
 
   for (let f of files) {
@@ -105,12 +108,16 @@ g._copyFiles = function() {
 };
 
 g._copyTpl = function() {
+  const pkg = this.fs.readJSON(this.destinationPath('package.json'));
+
   _.each({
     'CHANGELOG.md': {
       currentDate: moment().format('YYYY-MM-DD')
     },
     'README.md': {
-
+      packageName: pkg.name,
+      packageLocalName: _.camelCase(pkg.name), // 变量名
+      packageDescription: pkg.description // 描述
     }
   }, (v, f) => {
     const from = this.templatePath(f);

@@ -97,7 +97,7 @@ g._copyFiles = function() {
   const files = [
     '.eslintrc.yml', '.jsbeautifyrc',
     '.travis.yml', 'test/mocha.opts',
-    '.gitignore', 'LICENSE'
+    'LICENSE'
   ];
 
   for (let f of files) {
@@ -105,6 +105,13 @@ g._copyFiles = function() {
     const to = this.destinationPath(f);
     this.fs.copy(from, to);
   }
+
+  // .gitignore 特殊
+  // https://github.com/npm/npm/issues/3763
+  this.fs.copy(
+    this.templatePath('gitignore'),
+    this.destinationPath('.gitignore')
+  );
 };
 
 g._copyTpl = function() {

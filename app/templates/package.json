@@ -9,9 +9,9 @@
   "dependencies": {},
   "devDependencies": {
     "coveralls": "^2.11.9",
-    "eslint": "^2.10.1",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5",
-    "should": "^8.3.1"
+    "eslint": "^2.13.1",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3",
+    "should": "^9.0.2"
   }
 }

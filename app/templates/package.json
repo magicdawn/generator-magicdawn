@@ -6,8 +6,11 @@
     "test": "mocha",
     "test-cover": "istanbul cover _mocha -- -u exports"
   },
-  "dependencies": {},
+  "dependencies": {
+    "co": "^4.6.0"
+  },
   "devDependencies": {
+    "co-mocha": "^1.1.2",
     "coveralls": "^2.11.9",
     "eslint": "^2.13.1",
     "istanbul": "^0.4.4",

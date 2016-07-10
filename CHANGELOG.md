@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.4 2016-07-10
+- update deps
+- update template deps
+- update template README badge, rm coveralls branch
+- update license
+
 ## v0.3.2 / v0.3.3 2016-06-25
 - try to get `.gitignore` published. At last I take the rename strategy,
   rename `gitignore` -> `.gitignore`

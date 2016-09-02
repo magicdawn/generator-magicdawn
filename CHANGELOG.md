@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.1 2016-09-02
+- fix codecov badge link
+
 ## v0.4.0 2016-09-02
 - update deps
 - use codecov instead of coveralls

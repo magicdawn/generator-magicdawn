@@ -9,6 +9,7 @@ const _ = require('lodash');
 const co = require('co');
 const fs = require('needle-kit').fs;
 const moment = require('moment');
+const gitRepoName = require('git-repo-name');
 const debug = require('debug')('yo:magicdawn:app');
 
 /**
@@ -116,6 +117,14 @@ g._copyFiles = function() {
 
 g._copyTpl = function() {
   const pkg = this.fs.readJSON(this.destinationPath('package.json'));
+  let repoName, e;
+  try {
+    repoName = gitRepoName.sync();
+  } catch (e) {
+    // noop
+  }
+  debug('repoName = %s, err = %s', repoName, e && e.message);
+  repoName = repoName || pkg.name;
 
   _.each({
     'CHANGELOG.md': {
@@ -123,6 +132,7 @@ g._copyTpl = function() {
     },
     'README.md': {
       packageName: pkg.name,
+      repoName,
       packageLocalName: _.camelCase(pkg.name), // 变量名
       packageDescription: pkg.description // 描述
     }

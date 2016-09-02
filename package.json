@@ -25,6 +25,7 @@
   "dependencies": {
     "co": "^4.6.0",
     "debug": "^2.2.0",
+    "git-repo-name": "^0.6.0",
     "lodash": "^4.13.1",
     "moment": "^2.14.1",
     "needle-kit": "^1.2.0",

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.0 2016-09-02
+- update deps
+- use codecov instead of coveralls
+- modify .travis.yml to use codecov
+- update .eslintrc.yml
+
 ## v0.3.4 2016-07-10
 - update deps
 - update template deps

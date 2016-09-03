@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.5.0 2016-09-03
+- fix `repoName`, use `git-config` instead of `git-repo-name`
+
 ## v0.4.1 2016-09-02
 - fix codecov badge link
 

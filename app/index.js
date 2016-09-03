@@ -124,8 +124,6 @@ g._copyTpl = function() {
   const giturl = config['remote "origin"'] && config['remote "origin"'].url;
   let repoName = (giturl && basename(giturl, '.git'));
   debug('repoName = %s', repoName);
-  console.log(config, giturl, repoName);
-
   if (!repoName) repoName = pkg.name;
 
   _.each({

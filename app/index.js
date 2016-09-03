@@ -3,14 +3,15 @@
 /**
  * module dependencies
  */
+const basename = require('path').basename;
 const Base = require('yeoman-generator').Base;
 const inherits = require('util').inherits;
 const _ = require('lodash');
 const co = require('co');
 const fs = require('needle-kit').fs;
 const moment = require('moment');
-const gitRepoName = require('git-repo-name');
 const debug = require('debug')('yo:magicdawn:app');
+const gitconfig = require('git-config');
 
 /**
  * do exports
@@ -117,14 +118,15 @@ g._copyFiles = function() {
 
 g._copyTpl = function() {
   const pkg = this.fs.readJSON(this.destinationPath('package.json'));
-  let repoName, e;
-  try {
-    repoName = gitRepoName.sync();
-  } catch (e) {
-    // noop
-  }
-  debug('repoName = %s, err = %s', repoName, e && e.message);
-  repoName = repoName || pkg.name;
+
+  // 获取 repoName
+  const config = gitconfig.sync(process.cwd() + '/.git/config');
+  const giturl = config['remote "origin"'] && config['remote "origin"'].url;
+  let repoName = (giturl && basename(giturl, '.git'));
+  debug('repoName = %s', repoName);
+  console.log(config, giturl, repoName);
+
+  if (!repoName) repoName = pkg.name;
 
   _.each({
     'CHANGELOG.md': {

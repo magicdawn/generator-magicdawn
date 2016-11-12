@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.6.1 2016-11-12
+
+- add `test/.eslintrc.yml`
+
 ## v0.6.0 2016-11-12
 - use no semi
 - use `async/await` instead of `co-mocha`

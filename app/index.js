@@ -86,10 +86,9 @@ const Generator = module.exports = class Generator extends Base {
   _copyFiles() {
     // 原样复制
     const files = [
-      '.babelrc',
-      '.eslintrc.yml', '.jsbeautifyrc',
-      '.travis.yml', 'test/mocha.opts',
-      'LICENSE',
+      '.babelrc', '.eslintrc.yml', '.jsbeautifyrc',
+      'test/mocha.opts', 'test/.eslintrc.yml',
+      '.travis.yml', 'LICENSE',
     ]
 
     for (let f of files) {

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.6.0 2016-11-12
+- use no semi
+- use `async/await` instead of `co-mocha`
+- use `nyc` instead of `istanbul`
+
 ## v0.5.1 2016-09-03
 - remove log
 

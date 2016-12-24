@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.7.0 2016-12-24
+- back to `co-mocha`, if use cnpm, run `npm i co-mocha` again, see https://github.com/blakeembrey/co-mocha/issues/24
+
 ## v0.6.1 2016-11-12
 
 - add `test/.eslintrc.yml`

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.0 2017-01-26
+- totally rm `babel` / `.babelrc`
+- update LICENSE file to year@2017
+
 ## v0.7.0 2016-12-24
 - back to `co-mocha`, if use cnpm, run `npm i co-mocha` again, see https://github.com/blakeembrey/co-mocha/issues/24
 

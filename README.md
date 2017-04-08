@@ -1,4 +1,6 @@
 # generator-magicdawn
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/magicdawn/generator-magicdawn.svg)](https://greenkeeper.io/)
 Yeoman generator for self use
 
 ## Install

@@ -28,7 +28,7 @@
     "git-config": "^0.0.7",
     "lodash": "^4.16.6",
     "moment": "^2.16.0",
-    "yeoman-generator": "^0.24.1"
+    "yeoman-generator": "^1.1.1"
   },
   "devDependencies": {
     "eslint": "^3.10.0"

@@ -89,7 +89,7 @@ const Generator = module.exports = class Generator extends Base {
     // 原样复制
     const files = [
       '.eslintrc.yml', '.jsbeautifyrc',
-      'test/mocha.opts',
+      'test/mocha.opts', 'test/.eslintrc.yml',
       '.travis.yml', 'LICENSE',
     ]
 

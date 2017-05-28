@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.9.0 2017-05-29
+
+- update deps
+- rm co-mocha, just use async-await
+- add test/.eslintrc.yml for async-await ES8
+- add missing istanbul
+
 ## v0.8.0 2017-01-26
 - totally rm `babel` / `.babelrc`
 - update LICENSE file to year@2017

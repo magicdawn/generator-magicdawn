@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.9.1 2017-05-29
+
+- add copy behavior for `test/.eslintrc.yml`
+
 ## v0.9.0 2017-05-29
 
 - update deps

@@ -13,7 +13,7 @@ const gitconfig = require('git-config')
  * My Generator
  */
 
-const Generator = module.exports = class Generator extends Base {
+const Generator = (module.exports = class Generator extends Base {
   constructor($0, $1, $2) {
     debug('constructor arguments %j', arguments)
     super($0, $1, $2)
@@ -25,7 +25,7 @@ const Generator = module.exports = class Generator extends Base {
    * we starts here
    */
 
-  default () {
+  default() {
     const ok = this._checkPackageJson()
     if (!ok) return
 
@@ -53,7 +53,7 @@ const Generator = module.exports = class Generator extends Base {
 
     // warn
     if (!exists) {
-      console.error('\npackage.json not found, run \`npm init\` first')
+      console.error('\npackage.json not found, run `npm init` first')
       return false
     }
 
@@ -88,9 +88,12 @@ const Generator = module.exports = class Generator extends Base {
   _copyFiles() {
     // 原样复制
     const files = [
-      '.eslintrc.yml', '.jsbeautifyrc',
-      'test/mocha.opts', 'test/.eslintrc.yml',
-      '.travis.yml', 'LICENSE',
+      '.eslintrc.yml',
+      '.jsbeautifyrc',
+      'test/mocha.opts',
+      'test/.eslintrc.yml',
+      '.travis.yml',
+      'LICENSE',
     ]
 
     for (let f of files) {
@@ -113,24 +116,27 @@ const Generator = module.exports = class Generator extends Base {
     // 获取 repoName
     const config = gitconfig.sync(process.cwd() + '/.git/config')
     const giturl = config['remote "origin"'] && config['remote "origin"'].url
-    let repoName = (giturl && basename(giturl, '.git'))
+    let repoName = giturl && basename(giturl, '.git')
     debug('repoName = %s', repoName)
     if (!repoName) repoName = pkg.name
 
-    _.each({
-      'CHANGELOG.md': {
-        currentDate: moment().format('YYYY-MM-DD')
+    _.each(
+      {
+        'CHANGELOG.md': {
+          currentDate: moment().format('YYYY-MM-DD'),
+        },
+        'README.md': {
+          packageName: pkg.name,
+          repoName,
+          packageLocalName: _.camelCase(pkg.name), // 变量名
+          packageDescription: pkg.description, // 描述
+        },
       },
-      'README.md': {
-        packageName: pkg.name,
-        repoName,
-        packageLocalName: _.camelCase(pkg.name), // 变量名
-        packageDescription: pkg.description // 描述
+      (v, f) => {
+        const from = this.templatePath(f)
+        const to = this.destinationPath(f)
+        this.fs.copyTpl(from, to, v)
       }
-    }, (v, f) => {
-      const from = this.templatePath(f)
-      const to = this.destinationPath(f)
-      this.fs.copyTpl(from, to, v)
-    })
+    )
   }
-}
+})

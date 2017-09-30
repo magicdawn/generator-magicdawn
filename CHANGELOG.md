@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.10.1 2017-09-30
+
+- publish problems
+
 ## v0.10.0 2017-09-30
 
 - use prettier instead of jsbeautify

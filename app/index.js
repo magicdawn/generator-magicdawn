@@ -1,8 +1,6 @@
-'use strict'
-
 const fs = require('fs')
 const basename = require('path').basename
-const Base = require('yeoman-generator').Base
+const Base = require('yeoman-generator')
 const _ = require('lodash')
 const co = require('co')
 const moment = require('moment')
@@ -89,10 +87,10 @@ const Generator = (module.exports = class Generator extends Base {
     // 原样复制
     const files = [
       '.eslintrc.yml',
-      '.jsbeautifyrc',
-      'test/mocha.opts',
+      '.prettierrc',
       '.travis.yml',
       'LICENSE',
+      'test/mocha.opts',
     ]
 
     for (let f of files) {

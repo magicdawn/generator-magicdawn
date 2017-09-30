@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.10.0 2017-09-30
+
+- use prettier instead of jsbeautify
+- update eslint and other deps
+- update yeoman generator
+
 ## v0.9.1 2017-05-29
 
 - add copy behavior for `test/.eslintrc.yml`

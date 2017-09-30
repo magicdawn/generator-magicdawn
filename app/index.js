@@ -91,7 +91,6 @@ const Generator = (module.exports = class Generator extends Base {
       '.eslintrc.yml',
       '.jsbeautifyrc',
       'test/mocha.opts',
-      'test/.eslintrc.yml',
       '.travis.yml',
       'LICENSE',
     ]

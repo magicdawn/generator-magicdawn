@@ -1,6 +1,6 @@
 const fs = require('fs')
 const basename = require('path').basename
-const Base = require('yeoman-generator')
+const Generator = require('yeoman-generator')
 const _ = require('lodash')
 const co = require('co')
 const moment = require('moment')
@@ -11,10 +11,10 @@ const gitconfig = require('git-config')
  * My Generator
  */
 
-const Generator = (module.exports = class Generator extends Base {
-  constructor($0, $1, $2) {
+module.exports = class AppGenerator extends Generator {
+  constructor(args, opts) {
+    super(args, opts)
     debug('constructor arguments %j', arguments)
-    super($0, $1, $2)
 
     this.sourceRoot(__dirname + '/templates')
   }
@@ -136,4 +136,4 @@ const Generator = (module.exports = class Generator extends Base {
       }
     )
   }
-})
+}

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.11.1 2018-11-16
+
+- fix dot files
+
 ## v0.11.0 2018-11-16
 
 - 添加 yo magicdawn:add-config sub generator 可以添加 husky/lint-staged/prettier 开发依赖

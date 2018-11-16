@@ -1,6 +1,6 @@
 {
   "name": "generator-magicdawn",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Yeoman generator for self use",
   "main": "index.js",
   "scripts": {

@@ -1,15 +1,10 @@
 const fs = require('fs')
-const basename = require('path').basename
-const Generator = require('yeoman-generator')
+const {basename} = require('path')
 const _ = require('lodash')
-const co = require('co')
 const moment = require('moment')
+const Generator = require('yeoman-generator')
 const debug = require('debug')('yo:magicdawn:app')
 const gitconfig = require('git-config')
-
-/**
- * My Generator
- */
 
 module.exports = class AppGenerator extends Generator {
   constructor(args, opts) {
@@ -67,16 +62,9 @@ module.exports = class AppGenerator extends Generator {
    */
 
   _modifyPackageJson() {
-    const destPath = this.destinationPath('package.json')
-    let dest = this.fs.readJSON(destPath)
-    let src = this.fs.readJSON(this.templatePath('package.json'))
-    src = _.pick(src, 'dependencies', 'devDependencies', 'scripts')
-
-    // defaults
-    dest = _.defaultsDeep(dest, src)
-
-    // write
-    this.fs.writeJSON(destPath, dest)
+    let pkg = this.fs.readJSON(this.templatePath('package.json'))
+    pkg = _.pick(pkg, 'dependencies', 'devDependencies', 'scripts')
+    this.fs.extendJSON(this.destinationPath('package.json'), pkg)
   }
 
   /**

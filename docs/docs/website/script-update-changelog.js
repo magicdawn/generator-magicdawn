@@ -15,6 +15,6 @@ title: CHANGELOG
 
 const templatePath = path.join(__dirname, '../../CHANGELOG.md')
 const template = fs.readFileSync(templatePath, 'utf-8')
-const targetPath = path.join(__dirname, '../docs/changelog.md')
+const targetPath = path.join(__dirname, '../md/changelog.md')
 fs.writeFileSync(targetPath, prefix + template, 'utf-8')
 console.log('[CHANGELOG]: updated')

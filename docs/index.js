@@ -37,11 +37,23 @@ module.exports = class DocsGenerator extends Generator {
     // website
     const files = fg.sync(
       [
-        'website/**/*.*',
         '!**/node_modules',
+
+        // website
+        'website/**/*.*',
+        '!website/translated_docs',
+        '!website/build/',
+        '!website/yarn.lock',
+        '!website/node_modules',
+        '!website/i18n/*',
+
+        // md
         'md/*.md',
         '!md/changelog.md',
+
+        // .git
         '.gitignore',
+        'gitignore',
       ],
       {
         cwd: this.sourceRoot(),
@@ -61,6 +73,14 @@ module.exports = class DocsGenerator extends Generator {
       } else {
         this.fs.copy(this.templatePath(f), this.destinationPath('docs/' + f))
       }
+    }
+
+    // npm 发布会去除 .gitignore
+    if (!fs.existsSync(this.templatePath('.gitignore'))) {
+      this.fs.copy(
+        this.templatePath('gitignore'),
+        this.destinationPath('docs/.gitignore')
+      )
     }
   }
 }

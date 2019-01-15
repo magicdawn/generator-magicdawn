@@ -1,0 +1,4 @@
+{
+	"watch": ["sidebars.json", "siteConfig.js"],
+	"ignore": ["build", "i18n"]
+}

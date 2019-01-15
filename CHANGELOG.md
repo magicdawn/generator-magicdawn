@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.0 2019-01-15
+
+- 为项目本身添加 husky/lint-staged/prettier
+- 升级依赖
+- 增加一个 `yo magicdawn:docs` generator, 生成 [docusaurus](https://docusaurus.io/docs/en/installation) 基本结构
+
 ## v0.11.1 2018-11-16
 
 - fix dot files

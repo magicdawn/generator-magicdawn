@@ -23,15 +23,29 @@
   },
   "homepage": "https://github.com/magicdawn/generator-magicdawn#readme",
   "dependencies": {
-    "debug": "^4.1.0",
+    "debug": "^4.1.1",
     "fast-glob": "^2.2.6",
     "git-config": "^0.0.7",
     "lodash": "^4.17.11",
-    "moment": "^2.22.2",
-    "yeoman-generator": "^3.1.1"
+    "moment": "^2.23.0",
+    "yeoman-generator": "^3.2.0"
   },
   "devDependencies": {
     "@types/yeoman-generator": "^3.0.1",
-    "eslint": "^5.9.0"
+    "eslint": "^5.12.0",
+    "husky": "latest",
+    "lint-staged": "latest",
+    "prettier": "latest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,less,vue}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

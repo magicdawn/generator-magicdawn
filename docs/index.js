@@ -45,7 +45,7 @@ module.exports = class DocsGenerator extends Generator {
         '!website/build/',
         '!website/yarn.lock',
         '!website/node_modules',
-        '!website/i18n/*',
+        '!website/i18n/',
 
         // md
         'md/*.md',
@@ -53,7 +53,7 @@ module.exports = class DocsGenerator extends Generator {
 
         // .git
         '.gitignore',
-        'gitignore',
+        '!gitignore',
       ],
       {
         cwd: this.sourceRoot(),

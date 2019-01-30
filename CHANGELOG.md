@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.13.0 2019-01-30
+
+- mocha -> jest
+- .travis.yml 去除 node v7.6.0
+- `yo magicdawn` dep 更新
+
 ## v0.12.0 2019-01-15
 
 - 为项目本身添加 husky/lint-staged/prettier

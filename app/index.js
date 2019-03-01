@@ -78,7 +78,7 @@ module.exports = class AppGenerator extends Generator {
       '.prettierrc',
       '.travis.yml',
       'LICENSE',
-      'test/mocha.opts',
+      '__tests__/.gitkeep',
     ]
 
     for (let f of files) {

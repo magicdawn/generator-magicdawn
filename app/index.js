@@ -75,10 +75,11 @@ module.exports = class AppGenerator extends Generator {
     // 原样复制
     const files = [
       '.eslintrc.yml',
+      '.mocharc.yml',
       '.prettierrc',
       '.travis.yml',
       'LICENSE',
-      '__tests__/.gitkeep',
+      'test/.gitkeep',
     ]
 
     for (let f of files) {

@@ -24,16 +24,16 @@
   "homepage": "https://github.com/magicdawn/generator-magicdawn#readme",
   "dependencies": {
     "debug": "^4.1.1",
-    "eslint-plugin-magicdawn": "^0.0.3",
+    "eslint-plugin-magicdawn": "^0.0.5",
     "fast-glob": "^2.2.6",
     "git-config": "^0.0.7",
     "lodash": "^4.17.11",
-    "moment": "^2.23.0",
+    "moment": "^2.24.0",
     "yeoman-generator": "^3.2.0"
   },
   "devDependencies": {
-    "@types/yeoman-generator": "^3.0.1",
-    "eslint": "^5.12.0",
+    "@types/yeoman-generator": "^3.1.2",
+    "eslint": "^5.16.0",
     "husky": "latest",
     "lint-staged": "latest",
     "prettier": "latest"

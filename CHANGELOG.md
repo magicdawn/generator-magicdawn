@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.15.0 2019-06-27
+
+- 使用 `@magicdawn/prettier-config` & `@magicdawn/eslint-config`
+
 ## v0.14.0 2019-05-01
 
 - back to mocha

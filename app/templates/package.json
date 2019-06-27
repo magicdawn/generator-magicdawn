@@ -8,11 +8,26 @@
     "report-cover": "codecov"
   },
   "devDependencies": {
+    "@magicdawn/eslint-config": "^0.0.1",
+    "@magicdawn/prettier-config": "^0.0.1",
     "codecov": "^3.3.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-magicdawn": "^0.0.5",
     "mocha": "^6.1.4",
     "nyc": "^14.0.0",
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "eslint": "latest",
+    "prettier": "latest",
+    "husky": "latest",
+    "lint-staged": "latest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,less,vue}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.15.1 2019-06-27
+
+- fix 没有拷贝 `prettier.config.js` 问题
+
 ## v0.15.0 2019-06-27
 
 - 使用 `@magicdawn/prettier-config` & `@magicdawn/eslint-config`

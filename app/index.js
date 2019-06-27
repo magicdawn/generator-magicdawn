@@ -76,7 +76,7 @@ module.exports = class AppGenerator extends Generator {
     const files = [
       '.eslintrc.yml',
       '.mocharc.yml',
-      '.prettierrc',
+      'prettier.config.js',
       '.travis.yml',
       'LICENSE',
       'test/.gitkeep',
@@ -90,10 +90,7 @@ module.exports = class AppGenerator extends Generator {
 
     // .gitignore 特殊
     // https://github.com/npm/npm/issues/3763
-    this.fs.copy(
-      this.templatePath('gitignore'),
-      this.destinationPath('.gitignore')
-    )
+    this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'))
   }
 
   _copyTpl() {

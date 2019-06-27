@@ -65,11 +65,7 @@ module.exports = class DocsGenerator extends Generator {
 
     for (let f of files) {
       if (useTplFiles.includes(f)) {
-        this.fs.copyTpl(
-          this.templatePath(f),
-          this.destinationPath('docs/' + f),
-          data
-        )
+        this.fs.copyTpl(this.templatePath(f), this.destinationPath('docs/' + f), data)
       } else {
         this.fs.copy(this.templatePath(f), this.destinationPath('docs/' + f))
       }
@@ -77,10 +73,7 @@ module.exports = class DocsGenerator extends Generator {
 
     // npm 发布会去除 .gitignore
     if (!fs.existsSync(this.templatePath('.gitignore'))) {
-      this.fs.copy(
-        this.templatePath('gitignore'),
-        this.destinationPath('docs/.gitignore')
-      )
+      this.fs.copy(this.templatePath('gitignore'), this.destinationPath('docs/.gitignore'))
     }
   }
 }

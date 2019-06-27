@@ -45,12 +45,12 @@ module.exports = class AddConfigGenerator extends Generator {
     // if (!ok) return
 
     this.fs.extendJSON(this.destinationPath('package.json'), {
-      devDependencies: {
-        husky: 'latest',
-        prettier: 'latest',
+      'devDependencies': {
+        'husky': 'latest',
+        'prettier': 'latest',
         'lint-staged': 'latest',
       },
-      husky: {
+      'husky': {
         hooks: {
           'pre-commit': 'lint-staged',
         },

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.16.0 2019-06-28
+
+- 添加 `yo magicdawn:dot-files` 生成器
+
 ## v0.15.1 2019-06-27
 
 - fix 没有拷贝 `prettier.config.js` 问题

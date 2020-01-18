@@ -5,14 +5,21 @@ const OPTIONS = [
   {
     source: '',
     name: '.eslintrc.yml',
-    desc: '(use @magicdawn/eslint-config)',
+    desc: 'use @magicdawn/eslint-config',
   },
 
   // prettier
   {
     source: '',
     name: 'prettier.config.js',
-    desc: '(use @magicdawn/eslint-config)',
+    desc: 'use @magicdawn/prettier-config',
+  },
+
+  // mocha
+  {
+    source: '',
+    name: '.mocharc.yml',
+    desc: 'mocha config file',
   },
 
   // travis
@@ -51,7 +58,7 @@ module.exports = class extends Generator {
         name: 'dotfiles',
         choices: [
           ...OPTIONS.map(item => {
-            return {name: `${item.name} ${item.desc}`, value: item.name}
+            return {name: `${item.name} (${item.desc})`, value: item.name}
           }),
         ],
       },

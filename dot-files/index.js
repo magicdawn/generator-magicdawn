@@ -40,14 +40,7 @@ module.exports = class extends Generator {
 
   async default() {
     const {dotfiles} = await this._prompt()
-    // console.log(dotfiles)
-
-    const srcTpl = name => this.templatePath('app/templates/' + name)
-    for (let item of dotfiles) {
-      const src = srcTpl(item)
-      const dest = this.destinationPath(item)
-      this.fs.copy(src, dest)
-    }
+    this._copyFiles(dotfiles)
   }
 
   async _prompt() {
@@ -65,5 +58,14 @@ module.exports = class extends Generator {
     ])
 
     return answers
+  }
+
+  async _copyFiles(dotfiles) {
+    const srcTpl = name => this.templatePath('app/templates/' + name)
+    for (let item of dotfiles) {
+      const src = srcTpl(item)
+      const dest = this.destinationPath(item)
+      this.fs.copy(src, dest)
+    }
   }
 }

@@ -4,11 +4,15 @@ const {basename} = require('path')
 const moment = require('moment')
 const Generator = require('yeoman-generator')
 const debug = require('debug')('yo:magicdawn:add-config')
+const DotFilesGenerator = require('../dot-files/index.js')
+const PKG_TPL = require('../app/templates/package.json')
 
 module.exports = class AddConfigGenerator extends Generator {
   constructor(args, opts) {
     debug('constructor arguments %j', arguments)
     super(args, opts)
+
+    this.dotFilesGenwrator = new DotFilesGenerator(args, opts)
   }
 
   /**
@@ -17,8 +21,13 @@ module.exports = class AddConfigGenerator extends Generator {
 
   async default() {
     const {action} = await this._promptAction()
+
     if (action === 'add-prettier') {
       return this._addPrettier()
+    }
+
+    if (action === 'add-mocha') {
+      return this._addMocha()
     }
   }
 
@@ -33,6 +42,10 @@ module.exports = class AddConfigGenerator extends Generator {
             name: '添加 husky/lint-staged/prettier',
             value: 'add-prettier',
           },
+          {
+            name: '添加测试 mocha/nyc/codecov',
+            value: 'add-mocha',
+          },
         ],
       },
     ])
@@ -41,9 +54,7 @@ module.exports = class AddConfigGenerator extends Generator {
   }
 
   _addPrettier() {
-    // const ok = this._checkPackageJson()
-    // if (!ok) return
-
+    // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
       'devDependencies': {
         'husky': 'latest',
@@ -63,6 +74,20 @@ module.exports = class AddConfigGenerator extends Generator {
         ],
       },
     })
+
+    // config files
+    this.dotFilesGenwrator._copyFiles(['prettier.config.js'])
+  }
+
+  _addMocha() {
+    // deps
+    this.fs.extendJSON(this.destinationPath('package.json'), {
+      devDependencies: _.pick(PKG_TPL.devDependencies, ['codecov', 'mocha', 'nyc', 'should']),
+      scripts: _.pick(PKG_TPL.scripts, ['test', 'test-cover', 'report-cover']),
+    })
+
+    // mocha config
+    this.dotFilesGenwrator._copyFiles(['.mocharc.yml'])
   }
 
   /**

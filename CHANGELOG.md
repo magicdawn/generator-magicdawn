@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.17.0 2020-01-18
+
+- 完善 `yo magicdawn:add-config` 生成器
+
 ## v0.16.0 2019-06-28
 
 - 添加 `yo magicdawn:dot-files` 生成器

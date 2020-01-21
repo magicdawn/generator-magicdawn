@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.18.0 2020-01-21
+
+- 重命名 `yo magicdawn:add-config` -> `yo magicdawn:setup`
+- 新增 `yo magicdawn:setup --prettier --mocha --readme --eslint` 等
+
 ## v0.17.0 2020-01-18
 
 - 完善 `yo magicdawn:add-config` 生成器

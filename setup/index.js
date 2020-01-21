@@ -23,11 +23,15 @@ module.exports = class extends Generator {
         value: 'prettier',
       },
       {
+        name: 'eslint (pkg eslint/@magicdawn/eslint-config) (.eslintrc.yml)',
+        value: 'eslint',
+      },
+      {
         name: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
         value: 'mocha',
       },
       {
-        name: 'README',
+        name: 'README (readme/layout.md readme/api.md readme/)',
         value: 'readme',
       },
     ]
@@ -68,6 +72,10 @@ module.exports = class extends Generator {
       this._addPrettier()
     }
 
+    if (actions.includes('eslint')) {
+      this._addEslint()
+    }
+
     if (actions.includes('mocha')) {
       this._addMocha()
     }
@@ -97,6 +105,7 @@ module.exports = class extends Generator {
         'husky': 'latest',
         'prettier': 'latest',
         'lint-staged': 'latest',
+        '@magicdawn/prettier-config': 'latest',
       },
       'husky': {
         hooks: {
@@ -114,6 +123,19 @@ module.exports = class extends Generator {
 
     // config files
     this.dotFilesGenwrator._copyFiles(['prettier.config.js'])
+  }
+
+  _addEslint() {
+    // deps
+    this.fs.extendJSON(this.destinationPath('package.json'), {
+      devDependencies: {
+        '@magicdawn/eslint-config': 'latest',
+        'eslint': '^6.8.0',
+      },
+    })
+
+    // config files
+    this.dotFilesGenwrator._copyFiles(['.eslintrc.yml'])
   }
 
   _addMocha() {
@@ -160,7 +182,7 @@ module.exports = class extends Generator {
     // config
     this.fs.extendJSON(this.destinationPath('package.json'), {
       scripts: {
-        'gen-readme': 'swig render ./readme/readme.md > README.md',
+        'gen-readme': 'swig render ./readme/readme.md > README.md && prettier --write README.md',
       },
     })
   }

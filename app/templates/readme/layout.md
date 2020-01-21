@@ -1,3 +1,5 @@
+<!-- AUTO_GENERATED_UNTOUCHED_FLAG -->
+
 # {{ packageName }}
 
 > {{ packageDescription }}
@@ -11,14 +13,13 @@
 ## Install
 
 ```sh
-$ npm i {{ packageName }} --save
+$ npm i -S {{ packageName }}
 ```
 
-## API
-
-```js
-const {{ packageLocalName }} = require('{{ packageName }}');
-```
+{% raw %}
+{% block extra %}
+{% endblock %}
+{% endraw %}
 
 ## Changelog
 

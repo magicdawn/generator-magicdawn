@@ -6,6 +6,10 @@ const Generator = require('yeoman-generator')
 const debug = require('debug')('yo:magicdawn:app')
 const gitconfig = require('git-config')
 
+const pify = require('promise.ify')
+const swig = require('swig-templates')
+swig.renderFileAsync = pify(swig.renderFile, swig)
+
 module.exports = class AppGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts)
@@ -93,7 +97,7 @@ module.exports = class AppGenerator extends Generator {
     this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'))
   }
 
-  _copyTpl() {
+  _utilGetViewBag() {
     const pkg = this.fs.readJSON(this.destinationPath('package.json'))
 
     // 获取 repoName
@@ -103,22 +107,33 @@ module.exports = class AppGenerator extends Generator {
     debug('repoName = %s', repoName)
     if (!repoName) repoName = pkg.name
 
+    const currentDate = moment().format('YYYY-MM-DD')
+    const packageName = pkg.name
+    const packageLocalName = _.camelCase(pkg.name) // 变量名
+    const packageDescription = pkg.description // 描述
+
+    return {
+      currentDate,
+      packageName,
+      repoName,
+      packageLocalName,
+      packageDescription,
+    }
+  }
+
+  _copyTpl() {
+    const viewbag = this._utilGetViewBag()
+
     _.each(
       {
-        'CHANGELOG.md': {
-          currentDate: moment().format('YYYY-MM-DD'),
-        },
-        'README.md': {
-          packageName: pkg.name,
-          repoName,
-          packageLocalName: _.camelCase(pkg.name), // 变量名
-          packageDescription: pkg.description, // 描述
-        },
+        'CHANGELOG.md': viewbag,
+        'README.md': viewbag,
       },
       (v, f) => {
         const from = this.templatePath(f)
         const to = this.destinationPath(f)
-        this.fs.copyTpl(from, to, v)
+        const content = swig.renderFile(from, v)
+        this.fs.write(to, content)
       }
     )
   }

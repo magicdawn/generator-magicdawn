@@ -116,7 +116,6 @@ module.exports = class extends Generator {
         '*.{js,less,vue}': [
           // ignore
           'prettier --write',
-          'git add',
         ],
       },
     })

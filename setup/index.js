@@ -171,7 +171,7 @@ module.exports = class extends Generator {
       const from = this.templatePath(f)
       const to = this.destinationPath(f)
 
-      if (shouldGenerate(from)) {
+      if (shouldGenerate(to)) {
         const content = swig.renderFile(from, viewbag)
         this.fs.write(to, content)
       } else {

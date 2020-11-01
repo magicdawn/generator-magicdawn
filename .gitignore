@@ -33,4 +33,6 @@ yarn.lock
 
 # generated
 generators
-tsconfig.tsbuildinfo
+
+# all ts build file
+**/tsconfig.tsbuildinfo

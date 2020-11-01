@@ -4,10 +4,12 @@ import _ from 'lodash'
 import Generator from 'yeoman-generator'
 import fg from 'fast-glob'
 import debugFactory from 'debug'
-import pkg from '../../package.json'
+
+// @ts-ignore
+import type pkg from '../../package.json'
+type Pkg = typeof pkg
 
 const debug = debugFactory('yo:magicdawn:docs')
-type Pkg = typeof pkg
 
 export default class DocsGenerator extends Generator {
   constructor(args: string[], opts: {}) {

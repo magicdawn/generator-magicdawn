@@ -5,8 +5,8 @@ import debugFactory from 'debug'
 import swig from 'swig-templates'
 import DotFilesGenerator from '../dot-files/index.js'
 import AppGenerator from '../app/index'
-import PKG_TPL from '../app/templates/package.json'
 
+const PKG_TPL = require('../../templates/app/package.json')
 const debug = debugFactory('yo:magicdawn:add-config')
 
 export default class extends Generator {

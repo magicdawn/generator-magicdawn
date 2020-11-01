@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {basename} from 'path'
+import path from 'path'
 import _ from 'lodash'
 import moment from 'moment'
 import Generator from 'yeoman-generator'
@@ -20,7 +20,7 @@ export default class AppGenerator extends Generator {
   constructor(args: string | string[], opts: Options) {
     super(args, opts)
     debug('constructor arguments %j', arguments)
-    this.sourceRoot(__dirname + '../../templates/app/')
+    this.sourceRoot(path.join(__dirname, '../../templates/app/'))
   }
 
   /**
@@ -108,7 +108,7 @@ export default class AppGenerator extends Generator {
     // 获取 repoName
     const config = gitconfig.sync(process.cwd() + '/.git/config')
     const giturl = config['remote "origin"'] && config['remote "origin"'].url
-    let repoName = giturl && basename(giturl, '.git')
+    let repoName = giturl && path.basename(giturl, '.git')
     debug('repoName = %s', repoName)
     if (!repoName) repoName = pkg.name
 

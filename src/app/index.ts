@@ -115,7 +115,7 @@ export default class AppGenerator extends Generator {
     const currentDate = moment().format('YYYY-MM-DD')
     const packageName = pkg.name
     const packageLocalName = _.camelCase(pkg.name) // 变量名
-    const packageDescription = pkg.description // 描述
+    const packageDescription = <string>pkg.description // 描述
 
     return {
       currentDate,

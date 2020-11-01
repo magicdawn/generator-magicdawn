@@ -8,8 +8,7 @@ import gitconfig from 'git-config'
 import pify from 'promise.ify'
 import swig from 'swig-templates'
 
-// @ts-ignore
-import type pkg from '../../package.json'
+const pkg = require('../../package.json')
 type Pkg = typeof pkg
 
 const debug = debugFactory('yo:magicdawn:app')

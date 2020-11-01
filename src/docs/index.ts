@@ -5,8 +5,7 @@ import Generator from 'yeoman-generator'
 import fg from 'fast-glob'
 import debugFactory from 'debug'
 
-// @ts-ignore
-import type pkg from '../../package.json'
+const pkg = require('../../package.json')
 type Pkg = typeof pkg
 
 const debug = debugFactory('yo:magicdawn:docs')

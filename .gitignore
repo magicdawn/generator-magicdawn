@@ -30,3 +30,7 @@ node_modules
 
 package-lock.json
 yarn.lock
+
+# generated
+generators
+tsconfig.tsbuildinfo

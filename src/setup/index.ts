@@ -1,49 +1,55 @@
-const fs = require('fs')
-const _ = require('lodash')
-const {basename} = require('path')
-const moment = require('moment')
-const Generator = require('yeoman-generator')
-const debug = require('debug')('yo:magicdawn:add-config')
-const DotFilesGenerator = require('../dot-files/index.js')
-const AppGenerator = require('../app/index')
-const PKG_TPL = require('../app/templates/package.json')
-const swig = require('swig-templates')
+import fs from 'fs'
+import _ from 'lodash'
+import Generator from 'yeoman-generator'
+import debugFactory from 'debug'
+import swig from 'swig-templates'
+import DotFilesGenerator from '../dot-files/index.js'
+import AppGenerator from '../app/index'
+import PKG_TPL from '../app/templates/package.json'
 
-module.exports = class extends Generator {
-  constructor(args, opts) {
-    debug('constructor arguments %j', arguments)
+const debug = debugFactory('yo:magicdawn:add-config')
+
+export default class extends Generator {
+  dotFilesGenerator: DotFilesGenerator
+  appGenerator: AppGenerator
+
+  actions = [
+    {
+      name: '格式化 (pkg husky/lint-staged/prettier) (prettier.config.js)',
+      value: 'prettier',
+    },
+    {
+      name: 'eslint (pkg eslint/@magicdawn/eslint-config) (.eslintrc.yml)',
+      value: 'eslint',
+    },
+    {
+      name: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
+      value: 'mocha',
+    },
+    {
+      name: 'README (readme/layout.md readme/api.md readme/)',
+      value: 'readme',
+    },
+  ]
+
+  constructor(args: string[], opts: {}) {
     super(args, opts)
+    debug('constructor arguments %j', arguments)
 
     // templates root
     this.sourceRoot(__dirname + '/../app/templates')
 
-    this.actions = [
-      {
-        name: '格式化 (pkg husky/lint-staged/prettier) (prettier.config.js)',
-        value: 'prettier',
-      },
-      {
-        name: 'eslint (pkg eslint/@magicdawn/eslint-config) (.eslintrc.yml)',
-        value: 'eslint',
-      },
-      {
-        name: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
-        value: 'mocha',
-      },
-      {
-        name: 'README (readme/layout.md readme/api.md readme/)',
-        value: 'readme',
-      },
-    ]
-
     // select action use --flag
     for (let item of this.actions) {
       const {value} = item
-      this.option(value)
+      this.option(value, {
+        type: Boolean,
+        default: false,
+      })
     }
 
     // dotfiles
-    this.dotFilesGenwrator = new DotFilesGenerator(args, opts)
+    this.dotFilesGenerator = new DotFilesGenerator(args, opts)
 
     // app
     this.appGenerator = new AppGenerator(args, opts)
@@ -121,7 +127,7 @@ module.exports = class extends Generator {
     })
 
     // config files
-    this.dotFilesGenwrator._copyFiles(['prettier.config.js'])
+    this.dotFilesGenerator._copyFiles(['prettier.config.js'])
   }
 
   _addEslint() {
@@ -134,7 +140,7 @@ module.exports = class extends Generator {
     })
 
     // config files
-    this.dotFilesGenwrator._copyFiles(['.eslintrc.yml'])
+    this.dotFilesGenerator._copyFiles(['.eslintrc.yml'])
   }
 
   _addMocha() {
@@ -147,7 +153,7 @@ module.exports = class extends Generator {
     // config file
     // mocha config
     // travis config
-    this.dotFilesGenwrator._copyFiles(['.mocharc.yml', '.travis.yml'])
+    this.dotFilesGenerator._copyFiles(['.mocharc.yml', '.travis.yml'])
   }
 
   _addReadme() {

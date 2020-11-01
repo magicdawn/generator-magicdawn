@@ -1,4 +1,4 @@
-const Generator = require('yeoman-generator')
+import Generator from 'yeoman-generator'
 
 const OPTIONS = [
   // eslint
@@ -30,10 +30,9 @@ const OPTIONS = [
   },
 ]
 
-module.exports = class extends Generator {
-  constructor(...args) {
+export default class extends Generator {
+  constructor(...args: [args: string[], opts: {}]) {
     super(...args)
-
     // project root
     this.sourceRoot(__dirname + '/../')
   }
@@ -44,7 +43,7 @@ module.exports = class extends Generator {
   }
 
   async _prompt() {
-    const answers = await this.prompt([
+    const answers = await this.prompt<{ dotfiles: string[] }>([
       {
         type: 'checkbox',
         message: '选择 dot-files',
@@ -60,7 +59,7 @@ module.exports = class extends Generator {
     return answers
   }
 
-  async _copyFiles(dotfiles) {
+  async _copyFiles(dotfiles: string[]) {
     const srcTpl = name => this.templatePath('app/templates/' + name)
     for (let item of dotfiles) {
       const src = srcTpl(item)

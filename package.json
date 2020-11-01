@@ -4,6 +4,8 @@
   "description": "Yeoman generator for self use",
   "main": "index.js",
   "scripts": {
+    "dev": "tsc -w --incremental",
+    "prepublishOnly": "rm -rf generators; rm tsconfig.tsbuildinfo; tsc",
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
     "report-cover": "codecov"
@@ -25,27 +27,35 @@
   },
   "homepage": "https://github.com/magicdawn/generator-magicdawn#readme",
   "dependencies": {
-    "debug": "^4.1.1",
-    "fast-glob": "^2.2.6",
+    "debug": "^4.2.0",
+    "fast-glob": "^3.2.4",
     "git-config": "^0.0.7",
-    "lodash": "^4.17.11",
-    "moment": "^2.24.0",
-    "promise.ify": "^0.3.0",
+    "globby": "^11.0.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "promise.ify": "^0.4.0",
     "swig-templates": "^2.0.3",
-    "yeoman-generator": "^3.2.0"
+    "yeoman-generator": "^4.12.0"
   },
   "devDependencies": {
-    "@magicdawn/eslint-config": "^0.0.1",
+    "@magicdawn/eslint-config": "^0.0.4",
     "@magicdawn/prettier-config": "^0.0.1",
-    "@types/yeoman-generator": "^3.1.2",
-    "eslint": "^5.16.0",
+    "@types/debug": "^4.1.5",
+    "@types/eslint": "^7.2.4",
+    "@types/git-config": "^0.0.29",
+    "@types/lodash": "^4.14.164",
+    "@types/mocha": "^8.0.3",
+    "@types/prettier": "2.1.5",
+    "@types/yeoman-generator": "^4.11.3",
+    "codecov": "^3.8.0",
+    "eslint": "^7.12.1",
     "husky": "latest",
     "lint-staged": "latest",
+    "mocha": "^8.2.0",
+    "nyc": "^15.1.0",
     "prettier": "latest",
-    "codecov": "^3.3.0",
-    "mocha": "^6.1.4",
-    "nyc": "^14.0.0",
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "typescript": "^4.0.5"
   },
   "husky": {
     "hooks": {

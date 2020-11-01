@@ -1,20 +1,25 @@
-const fs = require('fs')
-const {basename} = require('path')
-const _ = require('lodash')
-const moment = require('moment')
-const Generator = require('yeoman-generator')
-const debug = require('debug')('yo:magicdawn:app')
-const gitconfig = require('git-config')
+import fs from 'fs'
+import {basename} from 'path'
+import _ from 'lodash'
+import moment from 'moment'
+import Generator from 'yeoman-generator'
+import debugFactory from 'debug'
+import gitconfig from 'git-config'
+import pify from 'promise.ify'
+import swig from 'swig-templates'
+// @ts-ignore
+import pkg = require('../../package.json')
+type Pkg = typeof pkg
 
-const pify = require('promise.ify')
-const swig = require('swig-templates')
+const debug = debugFactory('yo:magicdawn:app')
 swig.renderFileAsync = pify(swig.renderFile, swig)
 
-module.exports = class AppGenerator extends Generator {
-  constructor(args, opts) {
+interface Options {}
+
+export default class AppGenerator extends Generator {
+  constructor(args: string | string[], opts: Options) {
     super(args, opts)
     debug('constructor arguments %j', arguments)
-
     this.sourceRoot(__dirname + '/templates')
   }
 
@@ -44,7 +49,7 @@ module.exports = class AppGenerator extends Generator {
    * 检查 `package.json` 文件
    */
 
-  _checkPackageJson() {
+  private _checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fs.existsSync(destPackageJsonPath)
 
@@ -65,10 +70,10 @@ module.exports = class AppGenerator extends Generator {
    * 	- scripts.{ test, test-cover }
    */
 
-  _modifyPackageJson() {
-    let pkg = this.fs.readJSON(this.templatePath('package.json'))
-    pkg = _.pick(pkg, 'dependencies', 'devDependencies', 'scripts')
-    this.fs.extendJSON(this.destinationPath('package.json'), pkg)
+  private _modifyPackageJson() {
+    const pkg = this.fs.readJSON(this.templatePath('package.json'))
+    const pkgPartial = _.pick(pkg, 'dependencies', 'devDependencies', 'scripts')
+    this.fs.extendJSON(this.destinationPath('package.json'), pkgPartial)
   }
 
   /**
@@ -98,7 +103,7 @@ module.exports = class AppGenerator extends Generator {
   }
 
   _utilGetViewBag() {
-    const pkg = this.fs.readJSON(this.destinationPath('package.json'))
+    const pkg = this.fs.readJSON(this.destinationPath('package.json')) as Pkg
 
     // 获取 repoName
     const config = gitconfig.sync(process.cwd() + '/.git/config')

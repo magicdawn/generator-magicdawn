@@ -20,7 +20,7 @@ export default class AppGenerator extends Generator {
   constructor(args: string | string[], opts: Options) {
     super(args, opts)
     debug('constructor arguments %j', arguments)
-    this.sourceRoot(__dirname + '/templates')
+    this.sourceRoot(__dirname + '../../templates/app/')
   }
 
   /**

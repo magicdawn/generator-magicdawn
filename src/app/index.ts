@@ -5,14 +5,10 @@ import moment from 'moment'
 import Generator from 'yeoman-generator'
 import debugFactory from 'debug'
 import gitconfig from 'git-config'
-import pify from 'promise.ify'
 import swig from 'swig-templates'
-
-const pkg = require('../../package.json')
-type Pkg = typeof pkg
+import {PackageJson} from 'type-fest'
 
 const debug = debugFactory('yo:magicdawn:app')
-swig.renderFileAsync = pify(swig.renderFile, swig)
 
 interface Options {}
 
@@ -103,7 +99,7 @@ export default class AppGenerator extends Generator {
   }
 
   _utilGetViewBag() {
-    const pkg = this.fs.readJSON(this.destinationPath('package.json')) as Pkg
+    const pkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
 
     // 获取 repoName
     const config = gitconfig.sync(process.cwd() + '/.git/config')

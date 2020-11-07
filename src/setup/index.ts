@@ -6,6 +6,7 @@ import swig from 'swig-templates'
 import DotFilesGenerator from '../dot-files/index.js'
 import AppGenerator from '../app/index'
 
+// @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
 const debug = debugFactory('yo:magicdawn:add-config')
 
@@ -62,7 +63,7 @@ export default class extends Generator {
   async default() {
     // check flag
     if (this.actions.some(({value}) => this.options[value])) {
-      const actions = this.actions.map(i => i.value).filter(value => this.options[value])
+      const actions = this.actions.map((i) => i.value).filter((value) => this.options[value])
       return this._run(actions)
     }
 
@@ -161,7 +162,7 @@ export default class extends Generator {
     const viewbag = this.appGenerator._utilGetViewBag()
 
     // should generate file
-    const shouldGenerate = file => {
+    const shouldGenerate = (file) => {
       if (!fs.existsSync(file)) return true
 
       const content = fs.readFileSync(file, 'utf8')

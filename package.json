@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc -w --incremental",
-    "prepublishOnly": "rm -rf generators; rm tsconfig.tsbuildinfo; tsc",
+    "build": "rm -rf generators; tsc",
+    "prepublishOnly": "npm run build",
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
     "report-cover": "codecov"
@@ -55,6 +56,7 @@
     "nyc": "^15.1.0",
     "prettier": "latest",
     "should": "^13.2.3",
+    "type-fest": "^0.18.0",
     "typescript": "^4.0.5"
   },
   "husky": {

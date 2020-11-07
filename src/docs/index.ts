@@ -4,9 +4,7 @@ import _ from 'lodash'
 import Generator from 'yeoman-generator'
 import fg from 'fast-glob'
 import debugFactory from 'debug'
-
-const pkg = require('../../package.json')
-type Pkg = typeof pkg
+import {PackageJson} from 'type-fest'
 
 const debug = debugFactory('yo:magicdawn:docs')
 
@@ -28,9 +26,9 @@ export default class DocsGenerator extends Generator {
     this.sourceRoot(__dirname + '/docs')
 
     const destDirName = path.basename(this.destinationRoot())
-    let pkg: Pkg
+    let pkg: PackageJson
     if (fs.existsSync(this.destinationPath('package.json'))) {
-      pkg = this.fs.readJSON(this.destinationPath('package.json')) as Pkg
+      pkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
     }
     const data = {
       name: pkg.name || destDirName,

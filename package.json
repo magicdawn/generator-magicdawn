@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "tsc -w --incremental",
     "build": "rm -rf generators; tsc",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "yarn run build",
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
     "report-cover": "codecov"

@@ -1,10 +1,12 @@
-import fs from 'fs'
+import fse from 'fs-extra'
 import _ from 'lodash'
 import Generator from 'yeoman-generator'
 import debugFactory from 'debug'
 import swig from 'swig-templates'
+import JSON5 from 'json5'
 import DotFilesGenerator from '../dot-files/index.js'
 import AppGenerator from '../app/index'
+import {TsConfigJson} from 'type-fest'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
@@ -30,6 +32,10 @@ export default class extends Generator {
     {
       name: 'README (readme/layout.md readme/api.md readme/)',
       value: 'readme',
+    },
+    {
+      name: 'TypeScript (tsconfig.json / package.json ...)',
+      value: 'ts',
     },
   ]
 
@@ -74,7 +80,7 @@ export default class extends Generator {
     }
   }
 
-  async _run(actions) {
+  async _run(actions: string[]) {
     if (actions.includes('prettier')) {
       this._addPrettier()
     }
@@ -89,6 +95,10 @@ export default class extends Generator {
 
     if (actions.includes('readme')) {
       this._addReadme()
+    }
+
+    if (actions.includes('ts')) {
+      this._addTs()
     }
   }
 
@@ -163,9 +173,9 @@ export default class extends Generator {
 
     // should generate file
     const shouldGenerate = (file) => {
-      if (!fs.existsSync(file)) return true
+      if (!fse.existsSync(file)) return true
 
-      const content = fs.readFileSync(file, 'utf8')
+      const content = fse.readFileSync(file, 'utf8')
       if (/<!-- AUTO_GENERATED_UNTOUCHED_FLAG -->/.exec(content)) {
         return true
       }
@@ -194,12 +204,45 @@ export default class extends Generator {
   }
 
   /**
+   * 添加 ts 支持
+   */
+
+  _addTs() {
+    const tsconfig = this.destinationPath('tsconfig.json')
+
+    // copy when needed
+    if (!fse.existsSync(tsconfig)) {
+      this.dotFilesGenerator._copyFiles(['tsconfig.json'])
+    }
+
+    let outdir = 'lib'
+    if (fse.existsSync(tsconfig)) {
+      const content = fse.readFileSync(tsconfig, 'utf8')
+      const currentConfig = JSON5.parse(content) as TsConfigJson
+      outdir = currentConfig.compilerOptions.outDir
+      outdir = _.trimEnd(outdir, '/')
+    }
+
+    // scripts
+    this.fs.extendJSON(this.destinationPath('package.json'), {
+      scripts: {
+        dev: 'tsc -w --incremental',
+        build: `rm -rf ${outdir}; tsc`,
+        prepublishOnly: 'npm run build',
+      },
+      devDependencies: {
+        typescript: '^4',
+      },
+    })
+  }
+
+  /**
    * 检查 `package.json` 文件
    */
 
   _checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
-    const exists = fs.existsSync(destPackageJsonPath)
+    const exists = fse.existsSync(destPackageJsonPath)
 
     // warn
     if (!exists) {

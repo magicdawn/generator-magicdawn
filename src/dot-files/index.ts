@@ -1,32 +1,38 @@
 import Generator from 'yeoman-generator'
+import fse from 'fs-extra'
+import debugFactory from 'debug'
+
+const debug = debugFactory('yo:magicdawn:dot-files')
 
 const OPTIONS = [
   // eslint
   {
-    source: '',
     name: '.eslintrc.yml',
     desc: 'use @magicdawn/eslint-config',
   },
 
   // prettier
   {
-    source: '',
     name: 'prettier.config.js',
     desc: 'use @magicdawn/prettier-config',
   },
 
   // mocha
   {
-    source: '',
     name: '.mocharc.yml',
     desc: 'mocha config file',
   },
 
   // travis
   {
-    source: '',
     name: '.travis.yml',
     desc: 'Travis ci config file',
+  },
+
+  // ts
+  {
+    name: 'tsconfig.json',
+    desc: 'TypeScript config',
   },
 ]
 
@@ -34,7 +40,7 @@ export default class extends Generator {
   constructor(...args: [args: string[], opts: {}]) {
     super(...args)
     // project root
-    this.sourceRoot(__dirname + '/../')
+    this.sourceRoot(__dirname + '/../../')
   }
 
   async default() {
@@ -43,13 +49,13 @@ export default class extends Generator {
   }
 
   async _prompt() {
-    const answers = await this.prompt<{ dotfiles: string[] }>([
+    const answers = await this.prompt<{dotfiles: string[]}>([
       {
         type: 'checkbox',
         message: '选择 dot-files',
         name: 'dotfiles',
         choices: [
-          ...OPTIONS.map(item => {
+          ...OPTIONS.map((item) => {
             return {name: `${item.name} (${item.desc})`, value: item.name}
           }),
         ],
@@ -59,10 +65,27 @@ export default class extends Generator {
     return answers
   }
 
+  _getDotFilePath(name: string) {
+    let file = this.templatePath('templates/app/' + name)
+    if (fse.existsSync(file)) {
+      return file
+    } else {
+      debug('not exists: %s', file)
+    }
+
+    file = this.templatePath('templates/dotfiles/' + name)
+    if (fse.existsSync(file)) {
+      return file
+    } else {
+      debug('not exists: %s', file)
+    }
+
+    throw new Error(`can not find dotfile name = ${name}`)
+  }
+
   async _copyFiles(dotfiles: string[]) {
-    const srcTpl = name => this.templatePath('app/templates/' + name)
     for (let item of dotfiles) {
-      const src = srcTpl(item)
+      const src = this._getDotFilePath(item)
       const dest = this.destinationPath(item)
       this.fs.copy(src, dest)
     }

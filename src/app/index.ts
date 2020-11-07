@@ -51,7 +51,7 @@ export default class AppGenerator extends Generator {
 
     // warn
     if (!exists) {
-      console.error('\npackage.json not found, run `npm init` first')
+      console.error('\n[error]: package.json not found, run `npm init` first')
       return false
     }
 

@@ -3,6 +3,14 @@
   "version": "0.18.0",
   "description": "Yeoman generator for self use",
   "main": "index.js",
+  "files": [
+    "generators",
+    "templates",
+    "package.json",
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "scripts": {
     "dev": "tsc -w --incremental",
     "build": "rm -rf generators; tsc",

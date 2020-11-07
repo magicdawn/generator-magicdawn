@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.19.0 2020-11-07
+
+- 使用 TypeScript 重构
+- 新增 `yo magicdawn:setup --ts`, 新增 `tsconfig.json` dot file
+
 ## v0.18.0 2020-01-21
 
 - 重命名 `yo magicdawn:add-config` -> `yo magicdawn:setup`

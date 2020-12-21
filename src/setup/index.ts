@@ -172,7 +172,7 @@ export default class extends Generator {
     const viewbag = this.appGenerator._utilGetViewBag()
 
     // should generate file
-    const shouldGenerate = (file) => {
+    const shouldGenerate = (file: string) => {
       if (!fse.existsSync(file)) return true
 
       const content = fse.readFileSync(file, 'utf8')

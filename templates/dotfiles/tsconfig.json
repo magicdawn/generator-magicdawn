@@ -10,7 +10,6 @@
     "target": "es2019",
     "module": "CommonJS",
     "skipLibCheck": true,
-    "incremental": true,
-    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
+    "incremental": true
   }
 }

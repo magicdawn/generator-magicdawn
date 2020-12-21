@@ -4,9 +4,9 @@ import Generator from 'yeoman-generator'
 import debugFactory from 'debug'
 import swig from 'swig-templates'
 import JSON5 from 'json5'
+import {TsConfigJson} from 'type-fest'
 import DotFilesGenerator from '../dot-files/index.js'
 import AppGenerator from '../app/index'
-import {TsConfigJson} from 'type-fest'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
@@ -227,7 +227,7 @@ export default class extends Generator {
     this.fs.extendJSON(this.destinationPath('package.json'), {
       scripts: {
         dev: 'tsc -w --incremental',
-        build: `rm -rf ${outdir}; tsc`,
+        build: `rm -rf ${outdir}; rm tsconfig.tsbuildinfo; tsc`,
         prepublishOnly: 'npm run build',
       },
       devDependencies: {

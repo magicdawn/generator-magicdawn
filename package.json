@@ -14,10 +14,12 @@
   "scripts": {
     "dev": "tsc -w --incremental",
     "build": "rm -rf generators; tsc",
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "yarn run build && pinst --disable",
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
-    "report-cover": "codecov"
+    "report-cover": "codecov",
+    "postinstall": "husky install",
+    "postpublish": "pinst --enable"
   },
   "repository": {
     "type": "git",
@@ -49,7 +51,7 @@
     "yeoman-generator": "^4.12.0"
   },
   "devDependencies": {
-    "@magicdawn/eslint-config": "^0.0.4",
+    "@magicdawn/eslint-config": "0",
     "@magicdawn/prettier-config": "^0.0.1",
     "@types/debug": "^4.1.5",
     "@types/eslint": "^7.2.4",
@@ -62,10 +64,11 @@
     "@types/yeoman-generator": "^4.11.3",
     "codecov": "^3.8.0",
     "eslint": "^7.12.1",
-    "husky": "latest",
+    "husky": "^7.0.0",
     "lint-staged": "latest",
     "mocha": "^8.2.0",
     "nyc": "^15.1.0",
+    "pinst": "^2.0.0",
     "prettier": "latest",
     "should": "^13.2.3",
     "type-fest": "^0.18.0",
@@ -80,5 +83,6 @@
     "*.{js,less,vue}": [
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "yarn@3.0.0"
 }

@@ -12,9 +12,13 @@ import AppGenerator from '../app/index'
 const PKG_TPL = require('../../templates/app/package.json')
 const debug = debugFactory('yo:magicdawn:add-config')
 
+import {_addElectron, _addYarn2} from './stuff'
 export default class extends Generator {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
+
+  _addElectron = _addElectron
+  _addYarn2 = _addYarn2
 
   actions = [
     {

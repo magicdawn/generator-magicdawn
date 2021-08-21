@@ -36,3 +36,12 @@ generators
 
 # all ts build file
 **/tsconfig.tsbuildinfo
+
+# yarn2
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

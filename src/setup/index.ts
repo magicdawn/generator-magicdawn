@@ -10,15 +10,16 @@ import AppGenerator from '../app/index'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
-const debug = debugFactory('yo:magicdawn:add-config')
+const debug = debugFactory('yo:magicdawn:setup')
 
-import {_addElectron, _addYarn2} from './stuff'
+import {_addElectron, _addTs, _addYarn2} from './stuff'
 export default class extends Generator {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
   _addElectron = _addElectron
   _addYarn2 = _addYarn2
+  _addTs = _addTs
 
   actions = [
     {
@@ -208,39 +209,6 @@ export default class extends Generator {
   }
 
   /**
-   * 添加 ts 支持
-   */
-
-  _addTs() {
-    const tsconfig = this.destinationPath('tsconfig.json')
-
-    // copy when needed
-    if (!fse.existsSync(tsconfig)) {
-      this.dotFilesGenerator._copyFiles(['tsconfig.json'])
-    }
-
-    let outdir = 'lib'
-    if (fse.existsSync(tsconfig)) {
-      const content = fse.readFileSync(tsconfig, 'utf8')
-      const currentConfig = JSON5.parse(content) as TsConfigJson
-      outdir = currentConfig.compilerOptions.outDir
-      outdir = _.trimEnd(outdir, '/')
-    }
-
-    // scripts
-    this.fs.extendJSON(this.destinationPath('package.json'), {
-      scripts: {
-        dev: 'tsc -w --incremental',
-        build: `rm -rf ${outdir}; rm tsconfig.tsbuildinfo; tsc`,
-        prepublishOnly: 'npm run build',
-      },
-      devDependencies: {
-        typescript: '^4',
-      },
-    })
-  }
-
-  /**
    * 检查 `package.json` 文件
    */
 
@@ -256,5 +224,65 @@ export default class extends Generator {
 
     // ok
     return true
+  }
+
+  /**
+   * 添加项目到 .gitignore 中
+   */
+  _ensureGitIgnore(label: 'ts' | 'yarn2' | string, ...items: Array<string | string[]>) {
+    const gitignoreFile = this.destinationPath('.gitignore')
+    if (!this.fs.exists(gitignoreFile)) {
+      this.dotFilesGenerator._copyFiles(['.gitignore'])
+    }
+
+    const currentContent = this.fs.read(gitignoreFile) || ''
+    let currentLines = currentContent.split('\n').map((line) => line.trim())
+
+    // ensure a blank line before a block label
+    currentLines = currentLines.reduce((ret, line, index, arr) => {
+      if (line.startsWith('#')) {
+        if (index > 0) {
+          const prevLine = arr[index - 1]
+          if (prevLine && !prevLine.startsWith('#')) {
+            ret.push('') // add blank line before comment line
+          }
+        }
+      }
+      ret.push(line)
+      return ret
+    }, [])
+
+    let newLines: string[] = []
+    let ignores = _.uniq(_.flattenDeep(items))
+
+    const labelContent = `# ${label}`
+    if (currentLines.includes(labelContent)) {
+      let labelIndex = currentLines.indexOf(labelContent)
+      let index = labelIndex
+      do {
+        index++
+      } while (currentLines[index] && !currentLines[index].startsWith('#'))
+
+      const labelItems = currentLines.slice(labelIndex, index)
+      ignores = ignores.filter((item) => !labelItems.includes(item))
+
+      const forwardCount = (newLines = [
+        ...currentLines.slice(0, index),
+        ...ignores,
+        '',
+        ...currentLines.slice(index),
+      ])
+    } else {
+      newLines = [...currentLines, '', labelContent, ...ignores, '']
+    }
+
+    let newContent = newLines.join('\n')
+
+    newContent = newContent
+      .replace(/\n{3,}/g, '\n\n') // 清理多余空行
+      .replace(/\n{2,}$/g, '\n') // 末尾只留一个 \n
+
+    debug('ensureGitIgnore: newContent=%s', newContent)
+    this.fs.write(gitignoreFile, newContent)
   }
 }

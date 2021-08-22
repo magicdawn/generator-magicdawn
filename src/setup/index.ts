@@ -12,14 +12,22 @@ import AppGenerator from '../app/index'
 const PKG_TPL = require('../../templates/app/package.json')
 const debug = debugFactory('yo:magicdawn:setup')
 
-import {_addElectron, _addTs, _addYarn2} from './stuff'
-export default class extends Generator {
+import addTs from './stuff/ts'
+import addYarn2 from './stuff/yarn2'
+
+export interface ISetupAction {
+  label: string
+  desc: string
+  fn: (this: Setup) => void | Promise<void>
+}
+
+export default class Setup extends Generator {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
-  _addElectron = _addElectron
-  _addYarn2 = _addYarn2
-  _addTs = _addTs
+  // _addElectron = _addElectron
+  _addYarn2 = addYarn2.fn
+  _addTs = addTs.fn
 
   actions = [
     {
@@ -38,10 +46,11 @@ export default class extends Generator {
       name: 'README (readme/layout.md readme/api.md readme/)',
       value: 'readme',
     },
-    {
-      name: 'TypeScript (tsconfig.json / package.json ...)',
-      value: 'ts',
-    },
+
+    ...[addTs, addYarn2].map((action) => ({
+      name: action.desc,
+      value: action.label,
+    })),
   ]
 
   constructor(args: string[], opts: {}) {
@@ -86,24 +95,13 @@ export default class extends Generator {
   }
 
   async _run(actions: string[]) {
-    if (actions.includes('prettier')) {
-      this._addPrettier()
-    }
+    for (let action of actions) {
+      const method = `_add${_.upperFirst(action)}`
+      if (this[method]) {
+        await this[method]()
+      }
 
-    if (actions.includes('eslint')) {
-      this._addEslint()
-    }
-
-    if (actions.includes('mocha')) {
-      this._addMocha()
-    }
-
-    if (actions.includes('readme')) {
-      this._addReadme()
-    }
-
-    if (actions.includes('ts')) {
-      this._addTs()
+      // more
     }
   }
 

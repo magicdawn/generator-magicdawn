@@ -2,9 +2,15 @@ import fse from 'fs-extra'
 import JSON5 from 'json5'
 import {TsConfigJson} from 'type-fest'
 import _ from 'lodash'
-import BaseGenerator from '../'
+import Setup, {ISetupAction} from '../'
 
-export function _addTs(this: BaseGenerator) {
+export default {
+  label: 'ts',
+  desc: 'TypeScript (tsconfig.json / package.json ...)',
+  fn,
+} as ISetupAction
+
+function fn(this: Setup) {
   const tsconfig = this.destinationPath('tsconfig.json')
 
   // copy when needed

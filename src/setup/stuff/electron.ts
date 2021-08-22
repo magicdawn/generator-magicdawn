@@ -1,5 +1,12 @@
-import BaseGenerator from '../'
+import _ from 'lodash'
+import Setup, {ISetupAction} from '../'
 
-export function _addElectron(this: BaseGenerator) {
+export default {
+  label: 'electron',
+  desc: 'Electron stuff',
+  fn,
+} as ISetupAction
+
+async function fn(this: Setup) {
   //
 }

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Setup, {ISetupAction} from '../'
+import SetupGenerator, {ISetupAction} from '../'
 
 export default {
   label: 'electron',
@@ -7,6 +7,6 @@ export default {
   fn,
 } as ISetupAction
 
-async function fn(this: Setup) {
+async function fn(this: SetupGenerator) {
   //
 }

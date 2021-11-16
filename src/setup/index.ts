@@ -18,10 +18,10 @@ import addYarn2 from './stuff/yarn2'
 export interface ISetupAction {
   label: string
   desc: string
-  fn: (this: Setup) => void | Promise<void>
+  fn: (this: SetupGenerator) => void | Promise<void>
 }
 
-export default class Setup extends Generator {
+export default class SetupGenerator extends Generator {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 

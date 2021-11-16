@@ -12,5 +12,9 @@
     "skipLibCheck": true,
     "incremental": true,
     "tsBuildInfoFile": "generators/tsconfig.tsbuildinfo"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental"
   }
 }

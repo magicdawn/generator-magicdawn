@@ -3,10 +3,9 @@ import _ from 'lodash'
 import Generator from 'yeoman-generator'
 import debugFactory from 'debug'
 import swig from 'swig-templates'
-import JSON5 from 'json5'
-import {TsConfigJson} from 'type-fest'
 import DotFilesGenerator from '../dot-files/index.js'
 import AppGenerator from '../app/index'
+import {getLatestVersion} from '../utility'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
@@ -14,6 +13,7 @@ const debug = debugFactory('yo:magicdawn:setup')
 
 import addTs from './stuff/ts'
 import addYarn2 from './stuff/yarn2'
+import execa from 'execa'
 
 export interface ISetupAction {
   label: string
@@ -130,14 +130,23 @@ export default class SetupGenerator extends Generator {
     return answers
   }
 
-  _addPrettier() {
+  async _addPrettier() {
+    const versions = await Promise.all([
+      // getLatestVersion('husky'),
+      getLatestVersion('lint-staged'),
+      getLatestVersion('prettier'),
+      getLatestVersion('@magicdawn/prettier-config'),
+    ])
+
+    const [v2, v3, v4] = versions.map((v) => `^${v}`)
+
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
       'devDependencies': {
-        'husky': 'latest',
-        'prettier': 'latest',
-        'lint-staged': 'latest',
-        '@magicdawn/prettier-config': 'latest',
+        'husky': '^4',
+        'lint-staged': v2,
+        'prettier': v3,
+        '@magicdawn/prettier-config': v4,
       },
       'husky': {
         hooks: {
@@ -145,10 +154,7 @@ export default class SetupGenerator extends Generator {
         },
       },
       'lint-staged': {
-        '*.{js,less,vue}': [
-          // ignore
-          'prettier --write',
-        ],
+        '*.{js,less,jsx,ts,tsx}': ['prettier --write'],
       },
     })
 

@@ -1,5 +1,6 @@
 import BaseGenerator, {ISetupAction} from '../'
 import execa from 'execa'
+import {handleEmptyLines} from '../../utility/text-process'
 
 export default {
   label: 'yarn2',
@@ -30,8 +31,9 @@ export default {
         'nodeLinker: node-modules',
         'npmRegistryServer: https://registry.npm.taobao.org/',
       ]
-      const newLines = [...lines, '', toadd.filter((add) => !lines.includes(add))]
-      const newContent = newLines.join('\n')
+      const newLines = [...lines, '', ...toadd.filter((add) => !lines.includes(add))]
+      let newContent = newLines.join('\n')
+      newContent = handleEmptyLines(newContent)
       this.fs.write(file, newContent)
     }
 

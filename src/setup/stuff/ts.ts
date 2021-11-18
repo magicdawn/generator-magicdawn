@@ -15,16 +15,21 @@ async function fn(this: SetupGenerator) {
   const tsconfig = this.destinationPath('tsconfig.json')
 
   // copy when needed
-  if (!fse.existsSync(tsconfig)) {
+  if (!this.fs.exists(tsconfig)) {
     this.dotFilesGenerator._copyFiles(['tsconfig.json'])
   }
 
   let outdir = 'lib'
-  if (fse.existsSync(tsconfig)) {
+  if (this.fs.exists(tsconfig)) {
     const content = fse.readFileSync(tsconfig, 'utf8')
     const currentConfig = JSON5.parse(content) as TsConfigJson
     outdir = currentConfig.compilerOptions?.outDir || outdir
     outdir = _.trimEnd(outdir, '/')
+  }
+
+  // src/index.ts
+  if (!this.fs.exists(this.destinationPath('src/index.ts'))) {
+    this.fs.write(this.destinationPath('src/index.ts'), `console.log('Hello TypeScript ~')`)
   }
 
   // latest tsc version

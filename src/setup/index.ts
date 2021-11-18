@@ -58,7 +58,7 @@ export default class SetupGenerator extends Generator {
     debug('constructor arguments %j', arguments)
 
     // templates root
-    this.sourceRoot(__dirname + '/../app/templates')
+    this.sourceRoot(__dirname + '/../../templates/app')
 
     // select action use --flag
     for (let item of this.actions) {
@@ -68,6 +68,12 @@ export default class SetupGenerator extends Generator {
         default: false,
       })
     }
+
+    // --all
+    this.option('all', {
+      type: Boolean,
+      default: false,
+    })
 
     // dotfiles
     this.dotFilesGenerator = new DotFilesGenerator(args, opts)
@@ -81,6 +87,12 @@ export default class SetupGenerator extends Generator {
    */
 
   async default() {
+    // --all flag
+    if (this.options.all) {
+      const actions = this.actions.map((i) => i.value)
+      return this._run(actions)
+    }
+
     // check flag
     if (this.actions.some(({value}) => this.options[value])) {
       const actions = this.actions.map((i) => i.value).filter((value) => this.options[value])
@@ -176,7 +188,7 @@ export default class SetupGenerator extends Generator {
 
     // should generate file
     const shouldGenerate = (file: string) => {
-      if (!fse.existsSync(file)) return true
+      if (!this.fs.exists(file)) return true
 
       const content = fse.readFileSync(file, 'utf8')
       if (/<!-- AUTO_GENERATED_UNTOUCHED_FLAG -->/.exec(content)) {

@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "dev": "tsc -w --incremental",
-    "build": "rm -rf generators; tsc",
+    "build": "rm -rf generators; rm tsconfig.tsbuildinfo; tsc",
     "prepublishOnly": "yarn run build && pinst --disable",
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",

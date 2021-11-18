@@ -66,19 +66,27 @@ export default class extends Generator {
   }
 
   _getDotFilePath(name: string) {
-    let file = this.templatePath('templates/app/' + name)
-    if (fse.existsSync(file)) {
-      return file
-    } else {
-      debug('not exists: %s', file)
+    let file: string
+
+    let tryFile = () => {
+      if (file && fse.existsSync(file)) {
+        return file
+      } else {
+        debug('not exists: %s', file)
+      }
     }
 
-    file = this.templatePath('templates/dotfiles/' + name)
-    if (fse.existsSync(file)) {
-      return file
-    } else {
-      debug('not exists: %s', file)
+    // patch .gitignore
+    if (name === '.gitignore') {
+      file = this.templatePath('templates/app/' + name.slice(1))
+      if (tryFile()) return file
     }
+
+    file = this.templatePath('templates/app/' + name)
+    if (tryFile()) return file
+
+    file = this.templatePath('templates/dotfiles/' + name)
+    if (tryFile()) return file
 
     throw new Error(`can not find dotfile name = ${name}`)
   }

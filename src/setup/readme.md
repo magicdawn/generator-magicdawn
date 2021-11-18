@@ -3,7 +3,8 @@
 - [x] mocha
 - [x] prettier
 - [x] readme
-- [ ] yarn2
+- [x] ts
+- [x] yarn2
 - [ ] eslint
 - [ ] electron
 - [ ]

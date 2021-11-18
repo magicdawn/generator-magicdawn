@@ -13,7 +13,6 @@ const debug = debugFactory('yo:magicdawn:setup')
 
 import addTs from './stuff/ts'
 import addYarn2 from './stuff/yarn2'
-import execa from 'execa'
 
 export interface ISetupAction {
   label: string

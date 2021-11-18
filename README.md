@@ -24,6 +24,13 @@ cnpm i -g yo generator-magicdawn
 
 > 添加 dotfiles
 
+### `yo magicdawn:setup`
+
+> 添加配置
+
+--flag, 通过 flag 选择
+--all, 所有的 setup 项目
+
 ## Changelog
 
 [CHANGELOG.md](CHANGELOG.md)

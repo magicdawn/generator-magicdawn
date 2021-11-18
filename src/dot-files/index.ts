@@ -69,7 +69,7 @@ export default class extends Generator {
     let file: string
 
     let tryFile = () => {
-      if (file && fse.existsSync(file)) {
+      if (file && this.fs.exists(file)) {
         return file
       } else {
         debug('not exists: %s', file)
@@ -94,6 +94,7 @@ export default class extends Generator {
   async _copyFiles(dotfiles: string[]) {
     for (let item of dotfiles) {
       const src = this._getDotFilePath(item)
+      debug('resolved %s -> %s', item, src)
       const dest = this.destinationPath(item)
       this.fs.copy(src, dest)
     }

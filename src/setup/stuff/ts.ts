@@ -21,8 +21,7 @@ async function fn(this: SetupGenerator) {
 
   let outdir = 'lib'
   if (this.fs.exists(tsconfig)) {
-    const content = fse.readFileSync(tsconfig, 'utf8')
-    const currentConfig = JSON5.parse(content) as TsConfigJson
+    const currentConfig = this.fs.readJSON(tsconfig) as TsConfigJson
     outdir = currentConfig.compilerOptions?.outDir || outdir
     outdir = _.trimEnd(outdir, '/')
   }

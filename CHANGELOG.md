@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.20.0 2021-11-18
+
+- fix ts & yarn2 setup
+
 ## v0.19.0 2020-11-07
 
 - 使用 TypeScript 重构

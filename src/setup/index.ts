@@ -112,7 +112,10 @@ export default class SetupGenerator extends Generator {
         type: 'checkbox',
         name: 'actions',
         message: 'Setup Actions',
-        choices: [...this.subSetups],
+        choices: this.subSetups.map((setup) => ({
+          name: setup.desc,
+          value: setup.label,
+        })),
       },
     ])
 

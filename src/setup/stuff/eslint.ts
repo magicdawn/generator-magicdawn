@@ -1,4 +1,5 @@
 import SetupGenerator, { SubSetup } from '..'
+import { toLatest } from '../../utility'
 
 export const addEslint: SubSetup = {
   fn,
@@ -7,14 +8,16 @@ export const addEslint: SubSetup = {
 }
 
 async function fn(this: SetupGenerator) {
+  // config files
+  this.dotFilesGenerator._copyFiles(['.eslintrc.yml', '.eslintignore'])
+
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {
-    devDependencies: {
-      '@magicdawn/eslint-config': 'latest',
-      'eslint': '^6.8.0',
-    },
+    devDependencies: await toLatest({
+      'eslint': '',
+      '@typescript-eslint/parser': '',
+      '@typescript-eslint/eslint-plugin': '',
+      'eslint-config-prettier': '',
+    }),
   })
-
-  // config files
-  this.dotFilesGenerator._copyFiles(['.eslintrc.yml'])
 }

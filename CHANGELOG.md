@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.21.0 2022-06-30
+
+- fix husky / prettier / eslint TypeScript support
+
 ## v0.20.0 2021-11-18
 
 - fix ts & yarn2 setup

@@ -1,15 +1,13 @@
-import fse from 'fs-extra'
-import JSON5 from 'json5'
-import {TsConfigJson} from 'type-fest'
+import { TsConfigJson } from 'type-fest'
 import _ from 'lodash'
-import SetupGenerator, {ISetupAction} from '../'
-import {getLatestVersion} from '../../utility'
+import SetupGenerator, { SubSetup } from '../'
+import { getLatestVersion } from '../../utility'
 
-export default {
+export const addTs: SubSetup = {
   label: 'ts',
   desc: 'TypeScript (tsconfig.json / package.json ...)',
   fn,
-} as ISetupAction
+}
 
 async function fn(this: SetupGenerator) {
   const tsconfig = this.destinationPath('tsconfig.json')
@@ -35,7 +33,7 @@ async function fn(this: SetupGenerator) {
   const latestTsVersion = await getLatestVersion('typescript')
 
   // ts-node or not
-  const {tstype} = await this.prompt<{tstype: 'ts-node' | 'tsc-watch'}>([
+  const { tstype } = await this.prompt<{ tstype: 'ts-node' | 'tsc-watch' }>([
     {
       type: 'list',
       name: 'tstype',

@@ -2,14 +2,13 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "generators",
+    "outDir": "lib",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "target": "es2019",
-    "module": "CommonJS",
-    "incremental": true
+    "module": "CommonJS"
   },
   "ts-node": {
     "transpileOnly": true,

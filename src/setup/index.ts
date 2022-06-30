@@ -1,56 +1,43 @@
+import debugFactory from 'debug'
 import fse from 'fs-extra'
 import _ from 'lodash'
-import Generator from 'yeoman-generator'
-import debugFactory from 'debug'
 import swig from 'swig-templates'
-import DotFilesGenerator from '../dot-files/index.js'
+import Generator from 'yeoman-generator'
 import AppGenerator from '../app/index'
-import {getLatestVersion} from '../utility'
+import DotFilesGenerator from '../dot-files/index.js'
+import { addTs, addPrettier, addEslint } from './stuff'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
 const debug = debugFactory('yo:magicdawn:setup')
 
-import addTs from './stuff/ts'
-import addYarn2 from './stuff/yarn2'
-
-export interface ISetupAction {
+export interface SubSetup {
   label: string
   desc: string
   fn: (this: SetupGenerator) => void | Promise<void>
 }
 
+const MORE_SETUPS: SubSetup[] = [addPrettier, addTs, addEslint]
+
 export default class SetupGenerator extends Generator {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
-  // _addElectron = _addElectron
-  _addYarn2 = addYarn2.fn
-  _addTs = addTs.fn
-
-  actions = [
-    {
-      name: '格式化 (pkg husky/lint-staged/prettier) (prettier.config.js)',
-      value: 'prettier',
-    },
-    {
-      name: 'eslint (pkg eslint/@magicdawn/eslint-config) (.eslintrc.yml)',
-      value: 'eslint',
-    },
-    {
-      name: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
-      value: 'mocha',
-    },
-    {
-      name: 'README (readme/layout.md readme/api.md readme/)',
-      value: 'readme',
-    },
-
-    ...[addTs, addYarn2].map((action) => ({
-      name: action.desc,
-      value: action.label,
-    })),
-  ]
+  get subSetups(): SubSetup[] {
+    return [
+      ...MORE_SETUPS,
+      {
+        label: 'mocha',
+        desc: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
+        fn: this._addMocha,
+      },
+      {
+        label: 'readme',
+        desc: 'README (readme/layout.md readme/api.md readme/)',
+        fn: this._addReadme,
+      },
+    ]
+  }
 
   constructor(args: string[], opts: {}) {
     super(args, opts)
@@ -60,9 +47,9 @@ export default class SetupGenerator extends Generator {
     this.sourceRoot(__dirname + '/../../templates/app')
 
     // select action use --flag
-    for (let item of this.actions) {
-      const {value} = item
-      this.option(value, {
+    for (let item of this.subSetups) {
+      const { label } = item
+      this.option(label, {
         type: Boolean,
         default: false,
       })
@@ -88,31 +75,34 @@ export default class SetupGenerator extends Generator {
   async default() {
     // --all flag
     if (this.options.all) {
-      const actions = this.actions.map((i) => i.value)
+      const actions = this.subSetups.map((i) => i.label)
       return this._run(actions)
     }
 
     // check flag
-    if (this.actions.some(({value}) => this.options[value])) {
-      const actions = this.actions.map((i) => i.value).filter((value) => this.options[value])
+    if (this.subSetups.some(({ label: value }) => this.options[value])) {
+      const actions = this.subSetups.map((i) => i.label).filter((value) => this.options[value])
       return this._run(actions)
     }
 
     // prompt
     {
-      const {actions} = await this._promptAction()
+      const { actions } = await this._promptAction()
       return this._run(actions)
     }
   }
 
   async _run(actions: string[]) {
     for (let action of actions) {
-      const method = `_add${_.upperFirst(action)}`
-      if (this[method]) {
-        await this[method]()
+      // find in subSetups
+      const sub = this.subSetups.find((setup) => setup.label === action)
+      if (sub) {
+        await sub.fn.call(this)
+        continue
       }
 
       // more
+      throw new Error(`unexpected action ${action}`)
     }
   }
 
@@ -122,56 +112,11 @@ export default class SetupGenerator extends Generator {
         type: 'checkbox',
         name: 'actions',
         message: 'Setup Actions',
-        choices: [...this.actions],
+        choices: [...this.subSetups],
       },
     ])
 
     return answers
-  }
-
-  async _addPrettier() {
-    const versions = await Promise.all([
-      // getLatestVersion('husky'),
-      getLatestVersion('lint-staged'),
-      getLatestVersion('prettier'),
-      getLatestVersion('@magicdawn/prettier-config'),
-    ])
-
-    const [v2, v3, v4] = versions.map((v) => `^${v}`)
-
-    // deps
-    this.fs.extendJSON(this.destinationPath('package.json'), {
-      'devDependencies': {
-        'husky': '^4',
-        'lint-staged': v2,
-        'prettier': v3,
-        '@magicdawn/prettier-config': v4,
-      },
-      'husky': {
-        hooks: {
-          'pre-commit': 'lint-staged',
-        },
-      },
-      'lint-staged': {
-        '*.{js,less,jsx,ts,tsx}': ['prettier --write'],
-      },
-    })
-
-    // config files
-    this.dotFilesGenerator._copyFiles(['prettier.config.js'])
-  }
-
-  _addEslint() {
-    // deps
-    this.fs.extendJSON(this.destinationPath('package.json'), {
-      devDependencies: {
-        '@magicdawn/eslint-config': 'latest',
-        'eslint': '^6.8.0',
-      },
-    })
-
-    // config files
-    this.dotFilesGenerator._copyFiles(['.eslintrc.yml'])
   }
 
   _addMocha() {
@@ -223,10 +168,7 @@ export default class SetupGenerator extends Generator {
     })
   }
 
-  /**
-   * 检查 `package.json` 文件
-   */
-
+  // 检查 `package.json` 文件
   _checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fse.existsSync(destPackageJsonPath)
@@ -241,9 +183,7 @@ export default class SetupGenerator extends Generator {
     return true
   }
 
-  /**
-   * 添加项目到 .gitignore 中
-   */
+  /** 添加项目到 .gitignore 中 */
   _ensureGitIgnore(label: 'ts' | 'yarn2' | string, ...items: Array<string | string[]>) {
     const gitignoreFile = this.destinationPath('.gitignore')
     if (!this.fs.exists(gitignoreFile)) {

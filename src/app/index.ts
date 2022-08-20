@@ -1,51 +1,48 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
+import makeDebug from 'debug'
 import fs from 'fs'
-import path from 'path'
+import gitconfig from 'git-config'
 import _ from 'lodash'
 import moment from 'moment'
-import Generator from 'yeoman-generator'
-import debugFactory from 'debug'
-import gitconfig from 'git-config'
+import path from 'path'
 import swig from 'swig-templates'
-import {PackageJson} from 'type-fest'
+import { PackageJson } from 'type-fest'
+import Generator from 'yeoman-generator'
 
-const debug = debugFactory('yo:magicdawn:app')
+const debug = makeDebug('yo:magicdawn:app')
 
-interface Options {}
-
-export default class AppGenerator extends Generator {
-  constructor(args: string | string[], opts: Options) {
+class AppGeneratorLogic extends Generator {
+  constructor(args: string | string[], opts: {}) {
     super(args, opts)
+    // eslint-disable-next-line prefer-rest-params
     debug('constructor arguments %j', arguments)
     this.sourceRoot(path.join(__dirname, '../../templates/app/'))
   }
 
-  /**
-   * we starts here
-   */
-
   default() {
-    const ok = this._checkPackageJson()
+    const ok = this.checkPackageJson()
     if (!ok) return
 
     // 复制文件
     // .eslintrc.yml .jsbeautifyrc .travis.yml .gitignore test/mocha.opts CHANGELOG.md
-    this._copyFiles()
+    this.copyFiles()
 
     // 生成package.json
     //    deps
     //    scripts test / test-cover
-    this._modifyPackageJson()
+    this.modifyPackageJson()
 
     // README.md 读 package.json name
     // CHANGELOG.md
-    this._copyTpl()
+    this.copyTpl()
   }
 
   /**
    * 检查 `package.json` 文件
    */
 
-  private _checkPackageJson() {
+  checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fs.existsSync(destPackageJsonPath)
 
@@ -66,7 +63,7 @@ export default class AppGenerator extends Generator {
    * 	- scripts.{ test, test-cover }
    */
 
-  private _modifyPackageJson() {
+  modifyPackageJson() {
     const pkg = this.fs.readJSON(this.templatePath('package.json'))
     const pkgPartial = _.pick(pkg, 'dependencies', 'devDependencies', 'scripts')
     this.fs.extendJSON(this.destinationPath('package.json'), pkgPartial)
@@ -76,7 +73,7 @@ export default class AppGenerator extends Generator {
    * 复制文件
    */
 
-  _copyFiles() {
+  copyFiles() {
     // 原样复制
     const files = [
       '.eslintrc.yml',
@@ -87,7 +84,7 @@ export default class AppGenerator extends Generator {
       'test/.gitkeep',
     ]
 
-    for (let f of files) {
+    for (const f of files) {
       const from = this.templatePath(f)
       const to = this.destinationPath(f)
       this.fs.copy(from, to)
@@ -98,7 +95,7 @@ export default class AppGenerator extends Generator {
     this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'))
   }
 
-  _utilGetViewBag() {
+  utilGetViewBag() {
     const pkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
 
     // 获取 repoName
@@ -122,8 +119,8 @@ export default class AppGenerator extends Generator {
     }
   }
 
-  _copyTpl() {
-    const viewbag = this._utilGetViewBag()
+  copyTpl() {
+    const viewbag = this.utilGetViewBag()
 
     _.each(
       {
@@ -137,5 +134,11 @@ export default class AppGenerator extends Generator {
         this.fs.write(to, content)
       }
     )
+  }
+}
+
+export default class AppGenerator extends AppGeneratorLogic {
+  default() {
+    return super.default()
   }
 }

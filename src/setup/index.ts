@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import debugFactory from 'debug'
 import fse from 'fs-extra'
 import _ from 'lodash'
@@ -41,13 +44,14 @@ export default class SetupGenerator extends Generator {
 
   constructor(args: string[], opts: {}) {
     super(args, opts)
+    // eslint-disable-next-line prefer-rest-params
     debug('constructor arguments %j', arguments)
 
     // templates root
     this.sourceRoot(__dirname + '/../../templates/app')
 
     // select action use --flag
-    for (let item of this.subSetups) {
+    for (const item of this.subSetups) {
       const { label } = item
       this.option(label, {
         type: Boolean,
@@ -93,7 +97,7 @@ export default class SetupGenerator extends Generator {
   }
 
   async _run(actions: string[]) {
-    for (let action of actions) {
+    for (const action of actions) {
       // find in subSetups
       const sub = this.subSetups.find((setup) => setup.label === action)
       if (sub) {
@@ -137,7 +141,7 @@ export default class SetupGenerator extends Generator {
 
   _addReadme() {
     const files = ['readme/readme.md', 'readme/layout.md', 'readme/api.md']
-    const viewbag = this.appGenerator._utilGetViewBag()
+    const viewbag = this.appGenerator.utilGetViewBag()
 
     // should generate file
     const shouldGenerate = (file: string) => {
@@ -151,7 +155,7 @@ export default class SetupGenerator extends Generator {
       return false
     }
 
-    for (let f of files) {
+    for (const f of files) {
       const from = this.templatePath(f)
       const to = this.destinationPath(f)
 
@@ -215,7 +219,7 @@ export default class SetupGenerator extends Generator {
 
     const labelContent = `# ${label}`
     if (currentLines.includes(labelContent)) {
-      let labelIndex = currentLines.indexOf(labelContent)
+      const labelIndex = currentLines.indexOf(labelContent)
       let index = labelIndex
       do {
         index++

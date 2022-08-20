@@ -1,10 +1,13 @@
+/* eslint-disable prefer-rest-params */
+/* eslint-disable @typescript-eslint/ban-types */
+
 import path from 'path'
 import fs from 'fs'
 import _ from 'lodash'
 import Generator from 'yeoman-generator'
 import fg from 'fast-glob'
 import debugFactory from 'debug'
-import {PackageJson} from 'type-fest'
+import { PackageJson } from 'type-fest'
 
 const debug = debugFactory('yo:magicdawn:docs')
 
@@ -64,7 +67,7 @@ export default class DocsGenerator extends Generator {
     // 要使用 copyTpl
     const useTplFiles = ['md/index.md', 'website/siteConfig.js']
 
-    for (let f of files) {
+    for (const f of files) {
       if (useTplFiles.includes(f)) {
         this.fs.copyTpl(this.templatePath(f), this.destinationPath('docs/' + f), data)
       } else {

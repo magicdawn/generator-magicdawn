@@ -6,5 +6,3 @@
 - [x] ts
 - [x] yarn2
 - [ ] eslint
-- [ ] electron
-- [ ]

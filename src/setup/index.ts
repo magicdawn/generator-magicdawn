@@ -22,7 +22,7 @@ export interface SubSetup {
 
 const MORE_SETUPS: SubSetup[] = [addPrettier, addTs, addEslint]
 
-export default class SetupGenerator extends Generator {
+class SetupGenerator extends Generator {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
@@ -32,12 +32,12 @@ export default class SetupGenerator extends Generator {
       {
         label: 'mocha',
         desc: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
-        fn: this._addMocha,
+        fn: this.addMocha,
       },
       {
         label: 'readme',
         desc: 'README (readme/layout.md readme/api.md readme/)',
-        fn: this._addReadme,
+        fn: this.addReadme,
       },
     ]
   }
@@ -91,7 +91,7 @@ export default class SetupGenerator extends Generator {
 
     // prompt
     {
-      const { actions } = await this._promptAction()
+      const { actions } = await this.promptAction()
       return this._run(actions)
     }
   }
@@ -110,7 +110,7 @@ export default class SetupGenerator extends Generator {
     }
   }
 
-  async _promptAction() {
+  async promptAction() {
     const answers = await this.prompt([
       {
         type: 'checkbox',
@@ -126,7 +126,7 @@ export default class SetupGenerator extends Generator {
     return answers
   }
 
-  _addMocha() {
+  addMocha() {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
       devDependencies: _.pick(PKG_TPL.devDependencies, ['codecov', 'mocha', 'nyc', 'should']),
@@ -139,7 +139,7 @@ export default class SetupGenerator extends Generator {
     this.dotFilesGenerator._copyFiles(['.mocharc.yml', '.travis.yml'])
   }
 
-  _addReadme() {
+  addReadme() {
     const files = ['readme/readme.md', 'readme/layout.md', 'readme/api.md']
     const viewbag = this.appGenerator.utilGetViewBag()
 
@@ -176,7 +176,7 @@ export default class SetupGenerator extends Generator {
   }
 
   // 检查 `package.json` 文件
-  _checkPackageJson() {
+  checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fse.existsSync(destPackageJsonPath)
 
@@ -191,7 +191,7 @@ export default class SetupGenerator extends Generator {
   }
 
   /** 添加项目到 .gitignore 中 */
-  _ensureGitIgnore(label: 'ts' | 'yarn2' | string, ...items: Array<string | string[]>) {
+  ensureGitIgnore(label: 'ts' | 'yarn2' | string, ...items: Array<string | string[]>) {
     const gitignoreFile = this.destinationPath('.gitignore')
     if (!this.fs.exists(gitignoreFile)) {
       this.dotFilesGenerator._copyFiles(['.gitignore'])
@@ -246,5 +246,11 @@ export default class SetupGenerator extends Generator {
 
     debug('ensureGitIgnore: newContent=%s', newContent)
     this.fs.write(gitignoreFile, newContent)
+  }
+}
+
+export default class SetupGeneratorWrapper extends SetupGenerator {
+  default() {
+    return super.default()
   }
 }

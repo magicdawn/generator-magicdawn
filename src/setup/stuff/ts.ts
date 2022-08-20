@@ -102,5 +102,5 @@ async function fn(this: SetupGenerator) {
   }
 
   // .gitignore
-  this._ensureGitIgnore('ts', '**/*.tsbuildinfo', `/${outdir}`)
+  this.ensureGitIgnore('ts', '**/*.tsbuildinfo', `/${outdir}`)
 }

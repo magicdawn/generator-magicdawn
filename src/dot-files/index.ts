@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import Generator from 'yeoman-generator'
 import fse from 'fs-extra'
 import debugFactory from 'debug'
@@ -44,19 +45,19 @@ export default class extends Generator {
   }
 
   async default() {
-    const {dotfiles} = await this._prompt()
+    const { dotfiles } = await this._prompt()
     this._copyFiles(dotfiles)
   }
 
   async _prompt() {
-    const answers = await this.prompt<{dotfiles: string[]}>([
+    const answers = await this.prompt<{ dotfiles: string[] }>([
       {
         type: 'checkbox',
         message: '选择 dot-files',
         name: 'dotfiles',
         choices: [
           ...OPTIONS.map((item) => {
-            return {name: `${item.name} (${item.desc})`, value: item.name}
+            return { name: `${item.name} (${item.desc})`, value: item.name }
           }),
         ],
       },
@@ -68,7 +69,7 @@ export default class extends Generator {
   _getDotFilePath(name: string) {
     let file: string
 
-    let tryFile = () => {
+    const tryFile = () => {
       if (file && this.fs.exists(file)) {
         return file
       } else {
@@ -92,7 +93,7 @@ export default class extends Generator {
   }
 
   async _copyFiles(dotfiles: string[]) {
-    for (let item of dotfiles) {
+    for (const item of dotfiles) {
       const src = this._getDotFilePath(item)
       debug('resolved %s -> %s', item, src)
       const dest = this.destinationPath(item)

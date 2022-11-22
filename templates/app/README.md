@@ -2,7 +2,7 @@
 
 > {{ packageDescription }}
 
-[![Build Status](https://img.shields.io/travis/magicdawn/{{ repoName }}.svg?style=flat-square)](https://travis-ci.org/magicdawn/{{ repoName }})
+[![Build Status](https://img.shields.io/github/workflow/status/magicdawn/{{ repoName }}/ci/master.svg?style=flat-square)](https://github.com/magicdawn/{{ repoName }}/actions/workflows/ci.yml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/magicdawn/{{ repoName }}.svg?style=flat-square)](https://codecov.io/gh/magicdawn/{{ repoName }})
 [![npm version](https://img.shields.io/npm/v/{{ packageName }}.svg?style=flat-square)](https://www.npmjs.com/package/{{ packageName }})
 [![npm downloads](https://img.shields.io/npm/dm/{{ packageName }}.svg?style=flat-square)](https://www.npmjs.com/package/{{ packageName }})
@@ -11,7 +11,7 @@
 ## Install
 
 ```sh
-$ npm i {{ packageName }} --save
+$ pnpm add {{ packageName }}
 ```
 
 ## API

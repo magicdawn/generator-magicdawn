@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.22.0 2022-11-22
+
+- fix ts
+- add .github workflow
+
 ## v0.21.0 2022-06-30
 
 - fix husky / prettier / eslint TypeScript support

@@ -80,8 +80,7 @@ async function fn(this: SetupGenerator) {
 
     this.fs.extendJSON(tsconfig, {
       'ts-node': {
-        transpileOnly: true,
-        transpiler: 'ts-node/transpilers/swc-experimental',
+        swc: true,
       },
     })
   }

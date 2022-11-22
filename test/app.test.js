@@ -2,10 +2,10 @@ const yeoman = require('yeoman-environment')
 const env = yeoman.createEnv()
 const AppGenerator = require('../app/index')
 
-describe('AppGenerator', function() {
+describe('AppGenerator', function () {
   let g
-  beforeEach(done => {
-    env.lookup(function() {
+  beforeEach((done) => {
+    env.lookup(function () {
       g = env.create('magicdawn:app')
       done()
     })

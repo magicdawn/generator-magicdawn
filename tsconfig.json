@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "target": "es2019",
+    "target": "ES2022",
     "module": "CommonJS"
   },
   "ts-node": {

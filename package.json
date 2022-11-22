@@ -17,7 +17,6 @@
     "build": "rm -rf generators; rm tsconfig.tsbuildinfo; tsc",
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
-    "report-cover": "codecov",
     "prepublishOnly": "pnpm build"
   },
   "repository": {
@@ -62,11 +61,14 @@
     "@types/json5": "^0.0.30",
     "@types/lodash": "^4.14.189",
     "@types/mocha": "^10.0.0",
+    "@types/node": "^18.11.9",
     "@types/prettier": "2.7.1",
     "@types/swig": "^0.0.30",
     "@types/yeoman-generator": "^5.2.11",
-    "codecov": "^3.8.2",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
     "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
     "husky": "^8.0.2",
     "lint-staged": "latest",
     "mocha": "^10.1.0",
@@ -74,10 +76,7 @@
     "prettier": "latest",
     "should": "^13.2.3",
     "type-fest": "^3.2.0",
-    "typescript": "^4.9.3",
-    "@typescript-eslint/parser": "^5.44.0",
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "eslint-config-prettier": "^8.5.0"
+    "typescript": "^4.9.3"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md}": [

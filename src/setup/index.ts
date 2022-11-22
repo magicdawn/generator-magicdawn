@@ -141,7 +141,7 @@ class SetupGenerator extends Generator {
 
   addReadme() {
     const files = ['readme/readme.md', 'readme/layout.md', 'readme/api.md']
-    const viewbag = this.appGenerator.utilGetViewBag()
+    const viewbag = this.appGenerator.getTemplateLocals()
 
     // should generate file
     const shouldGenerate = (file: string) => {

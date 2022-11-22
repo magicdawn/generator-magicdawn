@@ -10,7 +10,7 @@ specifiers:
   '@types/git-config': ^0.0.30
   '@types/json5': ^0.0.30
   '@types/lodash': ^4.14.189
-  '@types/mocha': ^9.1.1
+  '@types/mocha': ^10.0.0
   '@types/prettier': 2.7.1
   '@types/swig': ^0.0.30
   '@types/yeoman-generator': ^5.2.11
@@ -36,7 +36,7 @@ specifiers:
   promise.ify: ^0.4.0
   should: ^13.2.3
   swig-templates: ^2.0.3
-  type-fest: ^2.19.0
+  type-fest: ^3.2.0
   typescript: ^4.9.3
   umi-request: ^1.4.0
   yeoman-generator: ^5.7.0
@@ -66,7 +66,7 @@ devDependencies:
   '@types/git-config': 0.0.30
   '@types/json5': 0.0.30
   '@types/lodash': 4.14.189
-  '@types/mocha': 9.1.1
+  '@types/mocha': 10.0.0
   '@types/prettier': 2.7.1
   '@types/swig': 0.0.30
   '@types/yeoman-generator': 5.2.11
@@ -81,7 +81,7 @@ devDependencies:
   nyc: 15.1.0
   prettier: 2.7.1
   should: 13.2.3
-  type-fest: 2.19.0
+  type-fest: 3.2.0
   typescript: 4.9.3
 
 packages:
@@ -714,8 +714,8 @@ packages:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
     dev: true
 
-  /@types/mocha/9.1.1:
-    resolution: {integrity: sha512-Z61JK7DKDtdKTWwLeElSEBcWGRLY8g95ic5FoQqI9CMx0ns/Ghep3B4DfcEimiKMvtamNVULVNKEsiwV3aQmXw==}
+  /@types/mocha/10.0.0:
+    resolution: {integrity: sha512-rADY+HtTOA52l9VZWtgQfn4p+UDVM2eDVkMZT1I6syp0YKxW2F9v+0pbRZLsvskhQv/vMb6ZfCay81GHbz5SHg==}
     dev: true
 
   /@types/ms/0.7.31:
@@ -3636,9 +3636,9 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  /type-fest/2.19.0:
-    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
-    engines: {node: '>=12.20'}
+  /type-fest/3.2.0:
+    resolution: {integrity: sha512-Il3wdLRzWvbAEtocgxGQA9YOoRVeVUGOMBtel5LdEpNeEAol6GJTLw8GbX6Z8EIMfvfhoOXs2bwOijtAZdK5og==}
+    engines: {node: '>=14.16'}
     dev: true
 
   /typedarray-to-buffer/3.1.5:

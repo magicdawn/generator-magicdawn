@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.22.1 2022-11-22
+
+- chore: prevent pnpm lock file from publish
+
 ## v0.22.0 2022-11-22
 
 - fix ts

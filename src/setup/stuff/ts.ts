@@ -1,4 +1,4 @@
-import { TsConfigJson } from 'type-fest'
+import { PackageJson, TsConfigJson } from 'type-fest'
 import _ from 'lodash'
 import SetupGenerator, { SubSetup } from '../'
 import { getLatestVersion } from '../../utility'
@@ -29,76 +29,72 @@ async function fn(this: SetupGenerator) {
     this.fs.write(this.destinationPath('src/index.ts'), `console.log('Hello TypeScript ~')`)
   }
 
-  // latest tsc version
-  const latestTsVersion = await getLatestVersion('typescript')
+  const currentPkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
+  const currentConfigHasBin =
+    (typeof currentPkg.bin === 'string' && currentPkg.bin) ||
+    (typeof currentPkg.bin === 'object' && Object.keys(currentPkg.bin).length)
 
-  // ts-node or not
-  const { tstype } = await this.prompt<{ tstype: 'ts-node' | 'tsc-watch' }>([
+  const { actions } = await this.prompt<{ actions: ('add-bin' | 'add-tsc-watch')[] }>([
     {
-      type: 'list',
-      name: 'tstype',
-      message: 'Select TypeScript dev type',
+      type: 'checkbox',
+      name: 'actions',
+      message: '选择操作',
       choices: [
-        {
-          name: 'ts-node',
-          checked: true,
-        },
-        {
-          name: 'tsc-watch',
+        !currentConfigHasBin && {
+          value: 'add-bin',
           checked: false,
+          name: 'add-bin: 添加 bin/.dev bin ts-node etc',
         },
-      ],
+        {
+          value: 'add-tsc-watch',
+          checked: false,
+          name: 'add-tsc-watch: 添加 scripts.dev = `tsc -w` etc',
+        },
+      ].filter(Boolean),
     },
   ])
 
-  const scripts = {
-    build: `rm -rf ${outdir}; rm tsconfig.tsbuildinfo; tsc`,
-    prepublishOnly: 'npm run build',
-  }
+  console.log(actions)
 
-  // ts-node
-  if (tstype === 'ts-node') {
-    Object.assign(scripts, {
-      'start': 'ts-node ./src/index.ts',
-      'start:debug': 'node --inspect-brk -r ts-node/register ./src/index.ts',
-    })
+  if (actions.includes('add-bin')) {
+    // bin/.dev
+    await this.dotFilesGenerator._copyFiles(['bin/.dev'])
 
-    const [latestTsNodeVersion, latestSwcCoreVersion, latestSwcHelpersVersion] = await Promise.all([
-      getLatestVersion('ts-node'),
-      getLatestVersion('@swc/core'),
-      getLatestVersion('@swc/helpers'),
-    ])
+    // bin/[bin-name]
+    let binName = currentPkg.name
+    if (binName.includes('@') && binName.includes('/')) binName = binName.split('/')[1]
+    binName = _.kebabCase(currentPkg.name)
+    const binFile = this.destinationPath(`bin/${binName}`)
+    const binTplFile = this.dotFilesGenerator._getDotFilePath('bin/bin.js')
+    this.fs.copy(binTplFile, binFile)
+
+    // pkg.bin
     this.fs.extendJSON(this.destinationPath('package.json'), {
-      scripts,
-      devDependencies: {
-        '@swc/core': `^${latestSwcCoreVersion}`,
-        '@swc/helpers': `^${latestSwcHelpersVersion}`,
-        'ts-node': `^${latestTsNodeVersion}`,
-        'typescript': `^${latestTsVersion}`,
-      },
-    })
-
-    this.fs.extendJSON(tsconfig, {
-      'ts-node': {
-        swc: true,
+      bin: {
+        [binName]: `bin/${binName}`,
       },
     })
   }
 
-  // tsc-watch
-  else {
-    Object.assign(scripts, {
+  if (actions.includes('add-tsc-watch')) {
+    const scripts = {
       dev: 'tsc -w --incremental',
-    })
-
+      build: `rm -rf ${outdir}; rm tsconfig.tsbuildinfo; tsc`,
+      prepublishOnly: 'npm run build',
+    }
     // scripts
     this.fs.extendJSON(this.destinationPath('package.json'), {
       scripts,
-      devDependencies: {
-        typescript: `^${latestTsVersion}`,
-      },
     })
   }
+
+  // latest tsc version
+  const latestTsVersion = await getLatestVersion('typescript')
+  this.fs.extendJSON(this.destinationPath('package.json'), {
+    devDependencies: {
+      typescript: `^${latestTsVersion}`,
+    },
+  })
 
   // .gitignore
   this.ensureGitIgnore('ts', '**/*.tsbuildinfo', `/${outdir}`)

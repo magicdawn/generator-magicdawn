@@ -129,14 +129,14 @@ class SetupGenerator extends Generator {
   addMocha() {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
-      devDependencies: _.pick(PKG_TPL.devDependencies, ['codecov', 'mocha', 'nyc', 'should']),
-      scripts: _.pick(PKG_TPL.scripts, ['test', 'test-cover', 'report-cover']),
+      devDependencies: _.pick(PKG_TPL.devDependencies, ['mocha', 'nyc', 'should']),
+      scripts: _.pick(PKG_TPL.scripts, ['test', 'test-cover']),
     })
 
     // config file
     // mocha config
     // travis config
-    this.dotFilesGenerator._copyFiles(['.mocharc.yml', '.travis.yml'])
+    this.dotFilesGenerator._copyFiles(['.mocharc.yml', '.github'])
   }
 
   addReadme() {

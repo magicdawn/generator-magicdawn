@@ -41,6 +41,7 @@
     "fs-extra": "^10.1.0",
     "git-config": "^0.0.7",
     "globby": "^11.1.0",
+    "got": "11",
     "json5": "^2.2.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -82,5 +83,8 @@
     "*.{js,jsx,ts,tsx,md}": [
       "prettier --write"
     ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }

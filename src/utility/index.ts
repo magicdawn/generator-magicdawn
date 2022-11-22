@@ -2,8 +2,8 @@
  * 获取最新版本
  */
 
+import request from 'got'
 import pProps from 'p-props'
-import request from 'umi-request'
 
 interface PkgInfo {
   [k: string]: any
@@ -20,13 +20,14 @@ interface PkgInfo {
 export async function getLatestVersion(pkgname: string) {
   const res = (await request.get(`https://registry.npmmirror.com/${pkgname}`, {
     responseType: 'json',
+    resolveBodyOnly: true,
   })) as PkgInfo
   return res?.['dist-tags'].latest
 }
 
 export async function toLatest(deps: Record<string, string>) {
   const input: Record<string, Promise<string>> = {}
-  for (let key of Object.keys(deps)) {
+  for (const key of Object.keys(deps)) {
     input[key] = getLatestVersion(key).then((version) => `^${version}`)
   }
   return pProps(input)

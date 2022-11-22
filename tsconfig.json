@@ -8,10 +8,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "target": "ES2022",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "skipLibCheck": true
   },
   "ts-node": {
-    "transpileOnly": true,
     "swc": true
   }
 }

@@ -72,14 +72,33 @@ class AppGeneratorLogic extends Generator {
     const locals = this.getTemplateLocals()
 
     const files: (string | { name: string; locals?: object })[] = [
+      // eslint
       '.eslintrc.yml',
-      '.mocharc.yml',
+      '.eslintignore',
+
+      // edit
+      '.editorconfig',
+
+      // prettier
+      '.prettierignore',
       'prettier.config.js',
+      '.husky',
+
+      // test
+      '.mocharc.yml',
       'test/.gitkeep',
+
+      // ci
       '.github',
+
+      // package related
       { name: 'LICENSE' },
       { name: 'CHANGELOG.md' },
       { name: 'README.md' },
+
+      // ts
+      'src',
+      'tsconfig.json',
     ]
 
     for (const f of files) {

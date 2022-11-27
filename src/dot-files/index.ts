@@ -70,7 +70,8 @@ export default class extends Generator {
     let file: string
 
     const tryFile = () => {
-      if (file && this.fs.exists(file)) {
+      // this.fs.exists 不能判断 .github 文件夹
+      if (file && fse.existsSync(file)) {
         return file
       } else {
         debug('not exists: %s', file)

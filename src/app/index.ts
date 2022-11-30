@@ -144,8 +144,8 @@ class AppGeneratorLogic extends Generator {
       return repoName
     }
 
+    const currentYear = moment().format('YYYY')
     const currentDate = moment().format('YYYY-MM-DD')
-    const currentYear = moment().format('YYYY-MM-DD')
     const packageName = pkg.name
     const packageLocalName = _.camelCase(pkg.name) // 变量名
     const packageDescription = <string>pkg.description || '' // 描述

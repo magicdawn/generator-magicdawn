@@ -31,7 +31,7 @@ class SetupGenerator extends Generator {
       ...MORE_SETUPS,
       {
         label: 'Unit Test (vitest)',
-        desc: ' 单测 (pkg scripts) (github ci.yml)',
+        desc: '单测 (package.json: scripts & deps)',
         fn: this.addUnitTest,
       },
       {
@@ -130,11 +130,11 @@ class SetupGenerator extends Generator {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
       devDependencies: _.pick(PKG_TPL.devDependencies, ['vitest', '@vitest/coverage-v8']),
-      scripts: _.pick(PKG_TPL.scripts, ['test', 'test-cover']),
+      scripts: _.pick(PKG_TPL.scripts, ['test', 'test:dev', 'test-cover']),
     })
 
     // github CI
-    this.dotFilesGenerator._copyFiles(['.github'])
+    // this.dotFilesGenerator._copyFiles(['.github'])
   }
 
   addReadme() {

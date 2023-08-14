@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import Generator from 'yeoman-generator'
-import fse from 'fs-extra'
 import debugFactory from 'debug'
+import fse from 'fs-extra'
+import Generator from 'yeoman-generator'
 
 const debug = debugFactory('yo:magicdawn:dot-files')
 
@@ -18,22 +18,16 @@ const OPTIONS = [
     desc: 'use @magicdawn/prettier-config',
   },
 
-  // mocha
-  {
-    name: '.mocharc.yml',
-    desc: 'mocha config file',
-  },
-
-  // travis
-  {
-    name: '.travis.yml',
-    desc: 'Travis ci config file',
-  },
-
   // ts
   {
     name: 'tsconfig.json',
     desc: 'TypeScript config',
+  },
+
+  // .github
+  {
+    name: '.github/workflows/ci.yml',
+    desc: 'GitHub Actions config',
   },
 ]
 

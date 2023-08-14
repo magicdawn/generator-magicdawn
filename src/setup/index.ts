@@ -8,7 +8,7 @@ import swig from 'swig-templates'
 import Generator from 'yeoman-generator'
 import AppGenerator from '../app/index'
 import DotFilesGenerator from '../dot-files/index.js'
-import { addTs, addPrettier, addEslint } from './stuff'
+import { addEslint, addPrettier, addTs } from './stuff'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
@@ -30,9 +30,9 @@ class SetupGenerator extends Generator {
     return [
       ...MORE_SETUPS,
       {
-        label: 'mocha',
-        desc: '测试 (pkg mocha/nyc/codecov) (.mocharc.yml .travis.yml)',
-        fn: this.addMocha,
+        label: 'Unit Test (vitest)',
+        desc: ' 单测 (pkg scripts) (github ci.yml)',
+        fn: this.addUnitTest,
       },
       {
         label: 'readme',
@@ -126,17 +126,15 @@ class SetupGenerator extends Generator {
     return answers
   }
 
-  addMocha() {
+  addUnitTest() {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
-      devDependencies: _.pick(PKG_TPL.devDependencies, ['mocha', 'nyc', 'should']),
+      devDependencies: _.pick(PKG_TPL.devDependencies, ['vitest', '@vitest/coverage-v8']),
       scripts: _.pick(PKG_TPL.scripts, ['test', 'test-cover']),
     })
 
-    // config file
-    // mocha config
-    // travis config
-    this.dotFilesGenerator._copyFiles(['.mocharc.yml', '.github'])
+    // github CI
+    this.dotFilesGenerator._copyFiles(['.github'])
   }
 
   addReadme() {

@@ -85,7 +85,6 @@ class AppGeneratorLogic extends Generator {
       '.husky',
 
       // test
-      '.mocharc.yml',
       'test/.gitkeep',
 
       // ci

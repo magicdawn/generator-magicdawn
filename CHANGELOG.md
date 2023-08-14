@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.23.0 2023-08-15
+
+- use vitest, rm mocha/nyc
+
 ## v0.22.1 2022-11-22
 
 - chore: prevent pnpm lock file from publish

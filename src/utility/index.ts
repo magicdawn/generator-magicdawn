@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * 获取最新版本
  */
 
 import request from 'got'
-import pProps from 'p-props'
+import pobj from 'promise.obj'
 
 interface PkgInfo {
   [k: string]: any
@@ -30,5 +32,5 @@ export async function toLatest(deps: Record<string, string>) {
   for (const key of Object.keys(deps)) {
     input[key] = getLatestVersion(key).then((version) => `^${version}`)
   }
-  return pProps(input)
+  return pobj(input)
 }

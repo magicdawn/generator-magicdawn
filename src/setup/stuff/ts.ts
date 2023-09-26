@@ -1,5 +1,6 @@
-import { PackageJson, TsConfigJson } from 'type-fest'
+import fg from 'fast-glob'
 import _ from 'lodash'
+import { PackageJson, TsConfigJson } from 'type-fest'
 import SetupGenerator, { SubSetup } from '../'
 import { getLatestVersion } from '../../utility'
 
@@ -25,7 +26,9 @@ async function fn(this: SetupGenerator) {
   }
 
   // src/index.ts
-  if (!this.fs.exists(this.destinationPath('src/index.ts'))) {
+  const dir = this.destinationPath('src')
+  const srcTsCount = fg.sync('./**/*.{ts,tsx}', { cwd: dir, suppressErrors: true }).length
+  if (!srcTsCount) {
     this.fs.write(this.destinationPath('src/index.ts'), `console.log('Hello TypeScript ~')`)
   }
 
@@ -34,7 +37,8 @@ async function fn(this: SetupGenerator) {
     (typeof currentPkg.bin === 'string' && currentPkg.bin) ||
     (typeof currentPkg.bin === 'object' && Object.keys(currentPkg.bin).length)
 
-  const { actions } = await this.prompt<{ actions: ('add-bin' | 'add-tsc-watch')[] }>([
+  type Action = 'add-bin' | 'add-tsc-watch' | 'add-tsup'
+  const { actions } = await this.prompt<{ actions: Action[] }>([
     {
       type: 'checkbox',
       name: 'actions',
@@ -50,11 +54,16 @@ async function fn(this: SetupGenerator) {
           checked: false,
           name: 'add-tsc-watch: 添加 scripts.dev = `tsc -w` etc',
         },
+        {
+          value: 'add-tsup',
+          checked: false,
+          name: 'tsup: dep, tsup.config.ts, scripts.dev & build',
+        },
       ].filter(Boolean),
     },
   ])
 
-  console.log(actions)
+  console.log('selected actions = ', actions)
 
   if (actions.includes('add-bin')) {
     // bin/.dev
@@ -76,26 +85,48 @@ async function fn(this: SetupGenerator) {
     })
   }
 
+  const extendPkgjson = (payload: Partial<PackageJson>) => {
+    this.fs.extendJSON(this.destinationPath('package.json'), payload)
+  }
+
   if (actions.includes('add-tsc-watch')) {
-    const scripts = {
-      dev: 'tsc -w --incremental',
-      build: `rm -rf ${outdir}; rm tsconfig.tsbuildinfo; tsc`,
-      prepublishOnly: 'npm run build',
-    }
-    // scripts
-    this.fs.extendJSON(this.destinationPath('package.json'), {
-      scripts,
+    extendPkgjson({
+      scripts: {
+        dev: 'tsc -w --incremental',
+        build: `rm -rf ${outdir}; rm tsconfig.tsbuildinfo; tsc`,
+        prepublishOnly: 'npm run build',
+      },
     })
+  }
+
+  if (actions.includes('add-tsup')) {
+    extendPkgjson({
+      scripts: {
+        dev: 'tsup --watch',
+        build: `tsup`,
+        prepublishOnly: 'npm run build',
+      },
+      devDependencies: {
+        tsup: `^${await getLatestVersion('tsup')}`,
+      },
+    })
+
+    this.dotFilesGenerator._copyFiles(['tsup.config.ts'])
   }
 
   // latest tsc version
   const latestTsVersion = await getLatestVersion('typescript')
-  this.fs.extendJSON(this.destinationPath('package.json'), {
+  extendPkgjson({
     devDependencies: {
       typescript: `^${latestTsVersion}`,
     },
   })
 
   // .gitignore
-  this.ensureGitIgnore('ts', '**/*.tsbuildinfo', `/${outdir}`)
+  this.ensureGitIgnore(
+    'ts',
+    ...['**/*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsup') ? '/dist' : ''].filter(
+      Boolean
+    )
+  )
 }

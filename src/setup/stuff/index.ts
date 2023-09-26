@@ -1,3 +1,4 @@
 export * from './eslint'
-export * from './ts'
+export * from './package'
 export * from './prettier'
+export * from './ts'

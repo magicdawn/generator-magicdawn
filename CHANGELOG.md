@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.24.0 2023-09-26
+
+- add tsup related
+
 ## v0.23.0 2023-08-15
 
 - use vitest, rm mocha/nyc

@@ -8,7 +8,7 @@ import swig from 'swig-templates'
 import Generator from 'yeoman-generator'
 import AppGenerator from '../app/index'
 import DotFilesGenerator from '../dot-files/index.js'
-import { addEslint, addPrettier, addTs } from './stuff'
+import { addEslint, addPackage, addPrettier, addTs } from './stuff'
 
 // @ts-ignore
 const PKG_TPL = require('../../templates/app/package.json')
@@ -20,7 +20,7 @@ export interface SubSetup {
   fn: (this: SetupGenerator) => void | Promise<void>
 }
 
-const MORE_SETUPS: SubSetup[] = [addPrettier, addTs, addEslint]
+const MORE_SETUPS: SubSetup[] = [addPrettier, addEslint, addTs, addPackage]
 
 class SetupGenerator extends Generator {
   dotFilesGenerator: DotFilesGenerator

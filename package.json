@@ -46,8 +46,8 @@
     "json5": "^2.2.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "p-props": "4",
     "promise.ify": "^0.4.0",
+    "promise.obj": "^0.3.1",
     "swig-templates": "^2.0.3",
     "umi-request": "^1.4.0",
     "yeoman-generator": "^5.9.0"

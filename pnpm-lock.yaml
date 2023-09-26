@@ -32,12 +32,12 @@ dependencies:
   moment:
     specifier: ^2.29.4
     version: 2.29.4
-  p-props:
-    specifier: '4'
-    version: 4.0.0
   promise.ify:
     specifier: ^0.4.0
     version: 0.4.0
+  promise.obj:
+    specifier: ^0.3.1
+    version: 0.3.1
   swig-templates:
     specifier: ^2.0.3
     version: 2.0.3
@@ -4694,13 +4694,6 @@ packages:
     dependencies:
       aggregate-error: 3.1.0
 
-  /p-props@4.0.0:
-    resolution: {integrity: sha512-3iKFbPdoPG7Ne3cMA53JnjPsTMaIzE9gxKZnvKJJivTAeqLEZPBu6zfi6DYq9AsH1nYycWmo3sWCNI8Kz6T2Zg==}
-    engines: {node: '>=10'}
-    dependencies:
-      p-map: 4.0.0
-    dev: false
-
   /p-queue@6.6.2:
     resolution: {integrity: sha512-RwFpb72c/BhQLEXIZ5K2e+AhgNVmIejGlTgiB9MzZ0e93GRvqZ7uSi0dvRF7/XIXDeNkra2fNHBxTyPDGySpjQ==}
     engines: {node: '>=8'}
@@ -4974,6 +4967,10 @@ packages:
 
   /promise.ify@0.4.0:
     resolution: {integrity: sha512-Snqh/idcyY6jFa1cYukaUmsbPd0QB6jCLoxpcL6fHPEeKz2ygSH5RACKhvA/u/dZU3sYQS78f5FzRo+4gL1zwg==}
+    dev: false
+
+  /promise.obj@0.3.1:
+    resolution: {integrity: sha512-PbW4bevs+6r6FVK61haGR9B1i2shS0AWGcK3PDYSzJcWjNhZqAREv9oEQyHQ+ITFnStTzaVKJodNcFjxDAhc+w==}
     dev: false
 
   /prop-types@15.8.1:

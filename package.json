@@ -81,8 +81,8 @@
     "yeoman-environment": "^3.19.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,md}": [
-      "prettier --write"
+    "**/*": [
+      "prettier --write --ignore-unknown"
     ]
   },
   "publishConfig": {

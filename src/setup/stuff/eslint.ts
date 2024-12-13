@@ -1,5 +1,5 @@
-import SetupGenerator, { SubSetup } from '..'
-import { toLatest } from '../../utility'
+import SetupGenerator, { SubSetup } from '../index.js'
+import { toLatest } from '../../utility/index.js'
 
 export const addEslint: SubSetup = {
   fn,

@@ -5,12 +5,13 @@ import debugFactory from 'debug'
 import fse from 'fs-extra'
 import _ from 'lodash'
 import swig from 'swig-templates'
-import Generator from 'yeoman-generator'
-import AppGenerator from '../app/index'
+import Generator, { type BaseOptions } from 'yeoman-generator'
+import AppGenerator from '../app/index.js'
 import DotFilesGenerator from '../dot-files/index.js'
-import { addEslint, addPackage, addPrettier, addTs } from './stuff'
+import { addEslint, addPackage, addPrettier, addTs } from './stuff/index.js'
+import { createRequire } from 'module'
 
-// @ts-ignore
+const require = createRequire(import.meta.url)
 const PKG_TPL = require('../../templates/app/package.json')
 const debug = debugFactory('yo:magicdawn:setup')
 
@@ -22,7 +23,7 @@ export interface SubSetup {
 
 const MORE_SETUPS: SubSetup[] = [addPrettier, addEslint, addTs, addPackage]
 
-class SetupGenerator extends Generator {
+class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
@@ -47,8 +48,10 @@ class SetupGenerator extends Generator {
     // eslint-disable-next-line prefer-rest-params
     debug('constructor arguments %j', arguments)
 
+    this.options.skipInstall = true
+
     // templates root
-    this.sourceRoot(__dirname + '/../../templates/app')
+    this.sourceRoot(import.meta.dirname + '/../../templates/app')
 
     // select action use --flag
     for (const item of this.subSetups) {
@@ -189,7 +192,7 @@ class SetupGenerator extends Generator {
   }
 
   /** 添加项目到 .gitignore 中 */
-  ensureGitIgnore(label: 'ts' | 'yarn2' | string, ...items: Array<string | string[]>) {
+  ensureGitIgnore(label: 'ts', ...items: Array<string | string[]>) {
     const gitignoreFile = this.destinationPath('.gitignore')
     if (!this.fs.exists(gitignoreFile)) {
       this.dotFilesGenerator._copyFiles(['.gitignore'])

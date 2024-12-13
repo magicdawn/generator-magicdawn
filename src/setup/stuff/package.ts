@@ -1,5 +1,5 @@
 import { PackageJson } from 'type-fest'
-import SetupGenerator, { SubSetup } from '../'
+import SetupGenerator, { SubSetup } from '../index.js'
 
 // yo magicdawn:setup --package
 export const addPackage: SubSetup = {

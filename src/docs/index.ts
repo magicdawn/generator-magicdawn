@@ -26,7 +26,7 @@ export default class DocsGenerator extends Generator {
   }
 
   _addDocs() {
-    this.sourceRoot(__dirname + '/docs')
+    this.sourceRoot(import.meta.dirname + '/docs')
 
     const destDirName = path.basename(this.destinationRoot())
     let pkg: PackageJson
@@ -61,7 +61,7 @@ export default class DocsGenerator extends Generator {
       ],
       {
         cwd: this.sourceRoot(),
-      }
+      },
     )
 
     // 要使用 copyTpl

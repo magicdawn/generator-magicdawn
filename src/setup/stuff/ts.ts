@@ -1,8 +1,8 @@
 import fg from 'fast-glob'
 import _ from 'lodash'
 import { PackageJson, TsConfigJson } from 'type-fest'
-import SetupGenerator, { SubSetup } from '../'
-import { getLatestVersion } from '../../utility'
+import SetupGenerator, { SubSetup } from '../index.js'
+import { getLatestVersion } from '../../utility/index.js'
 
 export const addTs: SubSetup = {
   label: 'ts',
@@ -126,7 +126,7 @@ async function fn(this: SetupGenerator) {
   this.ensureGitIgnore(
     'ts',
     ...['**/*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsup') ? '/dist' : ''].filter(
-      Boolean
-    )
+      Boolean,
+    ),
   )
 }

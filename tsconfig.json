@@ -3,15 +3,13 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "generators",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "target": "ES2022",
-    "module": "CommonJS",
-    "skipLibCheck": true
-  },
-  "ts-node": {
-    "swc": true
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "generators/tsconfig.tsbuildinfo"
   }
 }

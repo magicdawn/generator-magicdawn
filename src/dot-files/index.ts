@@ -35,7 +35,7 @@ export default class extends Generator {
   constructor(...args: [args: string[], opts: {}]) {
     super(...args)
     // project root
-    this.sourceRoot(__dirname + '/../../')
+    this.sourceRoot(import.meta.dirname + '/../../')
   }
 
   async default() {

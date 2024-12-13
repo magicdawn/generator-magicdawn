@@ -15,9 +15,13 @@ const debug = makeDebug('yo:magicdawn:app')
 class AppGeneratorLogic extends Generator {
   constructor(args: string | string[], opts: {}) {
     super(args, opts)
+
+    // set skip install
+    this.options.skipInstall = true
+
     // eslint-disable-next-line prefer-rest-params
     debug('constructor arguments %j', arguments)
-    this.sourceRoot(path.join(__dirname, '../../templates/app/'))
+    this.sourceRoot(path.join(import.meta.dirname, '../../templates/app/'))
   }
 
   default() {

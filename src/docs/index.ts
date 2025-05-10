@@ -29,13 +29,13 @@ export default class DocsGenerator extends Generator {
     this.sourceRoot(import.meta.dirname + '/docs')
 
     const destDirName = path.basename(this.destinationRoot())
-    let pkg: PackageJson
+    let pkg: PackageJson | undefined
     if (fs.existsSync(this.destinationPath('package.json'))) {
       pkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
     }
     const data = {
-      name: pkg.name || destDirName,
-      description: pkg.description || 'An awesome project',
+      name: pkg?.name || destDirName,
+      description: pkg?.description || 'An awesome project',
     }
 
     // website

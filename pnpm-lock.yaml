@@ -62,6 +62,9 @@ importers:
       '@swc/core':
         specifier: ^1.11.24
         version: 1.11.24
+      '@total-typescript/ts-reset':
+        specifier: ^0.6.1
+        version: 0.6.1
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -84,14 +87,11 @@ importers:
         specifier: ^22.15.17
         version: 22.15.17
       '@types/prettier':
-        specifier: 3.0.0
+        specifier: ^3.0.0
         version: 3.0.0
       '@types/swig':
         specifier: ^0.0.34
         version: 0.0.34
-      '@types/yeoman-environment':
-        specifier: ^4.0.0
-        version: 4.0.0(@types/node@22.15.17)(@yeoman/types@1.5.0(@types/node@22.15.17)(@yeoman/adapter@1.6.0)(mem-fs@4.1.2))(mem-fs@4.1.2)
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.32.0
         version: 8.32.0(@typescript-eslint/parser@8.32.0(eslint@9.26.0)(typescript@5.8.3))(eslint@9.26.0)(typescript@5.8.3)
@@ -111,10 +111,10 @@ importers:
         specifier: ^9.1.7
         version: 9.1.7
       lint-staged:
-        specifier: latest
+        specifier: ^15.5.2
         version: 15.5.2
       prettier:
-        specifier: latest
+        specifier: ^3.5.3
         version: 3.5.3
       type-fest:
         specifier: ^4.41.0
@@ -1002,6 +1002,10 @@ packages:
       { integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw== }
     engines: { node: '>=14.16' }
 
+  '@total-typescript/ts-reset@0.6.1':
+    resolution:
+      { integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg== }
+
   '@tufjs/canonical-json@2.0.0':
     resolution:
       { integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA== }
@@ -1101,11 +1105,6 @@ packages:
   '@types/vinyl@2.0.12':
     resolution:
       { integrity: sha512-Sr2fYMBUVGYq8kj3UthXFAu5UN6ZW+rYr4NACjZQJvHvj+c8lYv0CahmZ2P/r7iUkN44gGUBwqxZkrKXYPb7cw== }
-
-  '@types/yeoman-environment@4.0.0':
-    resolution:
-      { integrity: sha512-9R9WgizreQ0gy13H/NjCJap6eD0pO8JMqHUqH8cPu+rw8QKuLNAKOixSpKU6608wVKqakzwweTEIenP30idIVg== }
-    deprecated: This is a stub types definition. yeoman-environment provides its own type definitions, so you do not need this installed.
 
   '@typescript-eslint/eslint-plugin@8.32.0':
     resolution:
@@ -5150,6 +5149,8 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
+  '@total-typescript/ts-reset@0.6.1': {}
+
   '@tufjs/canonical-json@2.0.0': {}
 
   '@tufjs/models@2.0.1':
@@ -5226,16 +5227,6 @@ snapshots:
     dependencies:
       '@types/expect': 1.20.4
       '@types/node': 22.15.17
-
-  '@types/yeoman-environment@4.0.0(@types/node@22.15.17)(@yeoman/types@1.5.0(@types/node@22.15.17)(@yeoman/adapter@1.6.0)(mem-fs@4.1.2))(mem-fs@4.1.2)':
-    dependencies:
-      yeoman-environment: 4.4.3(@types/node@22.15.17)(@yeoman/types@1.5.0(@types/node@22.15.17)(@yeoman/adapter@1.6.0)(mem-fs@4.1.2))(mem-fs@4.1.2)
-    transitivePeerDependencies:
-      - '@types/node'
-      - '@yeoman/types'
-      - bluebird
-      - mem-fs
-      - supports-color
 
   '@typescript-eslint/eslint-plugin@8.32.0(@typescript-eslint/parser@8.32.0(eslint@9.26.0)(typescript@5.8.3))(eslint@9.26.0)(typescript@5.8.3)':
     dependencies:

@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import yeoman from 'yeoman-environment'
 import AppGenerator from '../src/app'
 
+// @ts-ignore
 const env = yeoman.createEnv()
 
 describe('AppGenerator', function () {

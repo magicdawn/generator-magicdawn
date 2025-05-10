@@ -70,7 +70,7 @@ async function fn(this: SetupGenerator) {
     await this.dotFilesGenerator._copyFiles(['bin/.dev'])
 
     // bin/[bin-name]
-    let binName = currentPkg.name
+    let binName = currentPkg.name!
     if (binName.includes('@') && binName.includes('/')) binName = binName.split('/')[1]
     binName = _.kebabCase(currentPkg.name)
     const binFile = this.destinationPath(`bin/${binName}`)
@@ -125,8 +125,6 @@ async function fn(this: SetupGenerator) {
   // .gitignore
   this.ensureGitIgnore(
     'ts',
-    ...['**/*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsup') ? '/dist' : ''].filter(
-      Boolean,
-    ),
+    ...['**/*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsup') ? '/dist' : ''].filter(Boolean),
   )
 }

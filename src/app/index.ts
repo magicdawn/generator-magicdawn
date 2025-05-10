@@ -7,7 +7,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import path from 'path'
 import swig from 'swig-templates'
-import { PackageJson } from 'type-fest'
+import type { PackageJson } from 'type-fest'
 import Generator from 'yeoman-generator'
 
 const debug = makeDebug('yo:magicdawn:app')
@@ -142,7 +142,7 @@ class AppGeneratorLogic extends Generator {
       }
 
       // pkg.name as fallback
-      repoName = pkg.name
+      repoName = pkg.name!
       debug('repoName from pkg.name: %s', repoName)
       return repoName
     }

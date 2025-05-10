@@ -213,7 +213,7 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
       }
       ret.push(line)
       return ret
-    }, [])
+    }, [] as string[])
 
     let newLines: string[] = []
     let ignores = _.uniq(_.flattenDeep(items))
@@ -229,12 +229,7 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
       const labelItems = currentLines.slice(labelIndex, index)
       ignores = ignores.filter((item) => !labelItems.includes(item))
 
-      const forwardCount = (newLines = [
-        ...currentLines.slice(0, index),
-        ...ignores,
-        '',
-        ...currentLines.slice(index),
-      ])
+      const forwardCount = (newLines = [...currentLines.slice(0, index), ...ignores, '', ...currentLines.slice(index)])
     } else {
       newLines = [...currentLines, '', labelContent, ...ignores, '']
     }

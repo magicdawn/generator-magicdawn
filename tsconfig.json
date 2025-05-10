@@ -13,6 +13,7 @@
 
     "tsBuildInfoFile": "generators/tsconfig.tsbuildinfo",
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": ["node", "@total-typescript/ts-reset"]
   }
 }

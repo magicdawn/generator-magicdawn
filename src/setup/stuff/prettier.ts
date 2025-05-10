@@ -1,5 +1,5 @@
-import SetupGenerator, { SubSetup } from '../index.js'
 import { getLatestVersion } from '../../utility/index.js'
+import SetupGenerator, { SubSetup } from '../index.js'
 
 export const addPrettier: SubSetup = {
   fn,
@@ -20,7 +20,7 @@ async function fn(this: SetupGenerator) {
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {
     'scripts': {
-      prepare: 'husky install',
+      prepare: 'husky',
     },
     'devDependencies': {
       '@magicdawn/prettier-config': prettierConfigV,

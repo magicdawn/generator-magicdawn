@@ -18,7 +18,6 @@ export default class DocsGenerator extends Generator {
   /**
    * we starts here
    */
-
   default() {
     this._addDocs()
   }

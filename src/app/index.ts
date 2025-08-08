@@ -72,8 +72,7 @@ class AppGeneratorLogic extends Generator {
 
     const files: (string | { name: string; locals?: object })[] = [
       // eslint
-      '.eslintrc.yml',
-      '.eslintignore',
+      'eslint.config.js',
 
       // edit
       '.editorconfig',
@@ -129,7 +128,7 @@ class AppGeneratorLogic extends Generator {
     const getRepoName = () => {
       let repoName: string
 
-      const giturl = gitconfig.sync(process.cwd() + '/.git/config')?.['remote "origin"']?.url
+      const giturl = (gitconfig.sync(process.cwd() + '/.git/config') as any)?.['remote "origin"']?.url
       repoName = giturl && path.basename(giturl, '.git')
       if (repoName) {
         debug('repoName from git url: %s', repoName)
@@ -160,7 +159,7 @@ class AppGeneratorLogic extends Generator {
 }
 
 export default class AppGenerator extends AppGeneratorLogic {
-  default() {
+  override default() {
     return super.default()
   }
 }

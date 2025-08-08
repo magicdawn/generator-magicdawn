@@ -84,8 +84,9 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
     }
 
     // check flag
-    if (this.subSetups.some(({ label: value }) => this.options[value])) {
-      const actions = this.subSetups.map((i) => i.label).filter((value) => this.options[value])
+    const thisOpts = this.options as unknown as Record<string, boolean>
+    if (this.subSetups.some(({ label: value }) => thisOpts[value])) {
+      const actions = this.subSetups.map((i) => i.label).filter((value) => thisOpts[value])
       return this._run(actions)
     }
 
@@ -241,7 +242,7 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
 }
 
 export default class SetupGeneratorWrapper extends SetupGenerator {
-  default() {
+  override default() {
     return super.default()
   }
 }

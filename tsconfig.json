@@ -4,15 +4,14 @@
     "tsBuildInfoFile": "generators/tsconfig.tsbuildinfo",
     "rootDir": "src",
     "outDir": "generators",
-
     "target": "ES2024",
-    "module": "NodeNext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitOverride": true,
     "skipLibCheck": true,
-    "types": ["node", "@total-typescript/ts-reset"],
-    "resolveJsonModule": true,
-    "strictNullChecks": true
+    "types": ["node", "@total-typescript/ts-reset"]
   }
 }

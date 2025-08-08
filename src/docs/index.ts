@@ -1,13 +1,11 @@
 /* eslint-disable prefer-rest-params */
-/* eslint-disable @typescript-eslint/ban-types */
 
-import path from 'path'
-import fs from 'fs'
-import _ from 'lodash'
-import Generator from 'yeoman-generator'
-import fg from 'fast-glob'
+import fs from 'node:fs'
+import path from 'node:path'
 import debugFactory from 'debug'
-import { PackageJson } from 'type-fest'
+import fg from 'fast-glob'
+import Generator from 'yeoman-generator'
+import type { PackageJson } from 'type-fest'
 
 const debug = debugFactory('yo:magicdawn:docs')
 
@@ -21,7 +19,7 @@ export default class DocsGenerator extends Generator {
    * we starts here
    */
 
-  async default() {
+  default() {
     this._addDocs()
   }
 

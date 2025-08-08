@@ -1,5 +1,6 @@
-import { PackageJson } from 'type-fest'
-import SetupGenerator, { SubSetup } from '../index.js'
+import type { SubSetup } from '../index.js'
+import type SetupGenerator from '../index.js'
+import type { PackageJson } from 'type-fest'
 
 // yo magicdawn:setup --package
 export const addPackage: SubSetup = {
@@ -29,7 +30,7 @@ async function fn(this: SetupGenerator) {
     this.fs.extendJSON(this.destinationPath('package.json'), payload)
   }
 
-  console.log('selected actions = ', actions)
+  console.log('selected actions =', actions)
 
   if (actions.includes('publishConfig.registry')) {
     extendPkgjson({

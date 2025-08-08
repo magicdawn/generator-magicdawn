@@ -1,5 +1,6 @@
 import { getLatestVersion } from '../../utility/index.js'
-import SetupGenerator, { SubSetup } from '../index.js'
+import type { SubSetup } from '../index.js'
+import type SetupGenerator from '../index.js'
 
 export const addPrettier: SubSetup = {
   fn,

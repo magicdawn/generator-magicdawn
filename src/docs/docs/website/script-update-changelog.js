@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 require('shelljs/global')
-const path = require('path')
-const _ = require('lodash')
+const path = require('node:path')
 const fs = require('fs-extra')
+const _ = require('lodash')
 
 const prefix = _.trimStart(`
 ---

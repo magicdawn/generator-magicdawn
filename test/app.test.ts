@@ -1,16 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import path from 'path'
+import path from 'node:path'
 import { beforeEach, describe, expect, it } from 'vitest'
 import yeoman from 'yeoman-environment'
-import AppGenerator from '../src/app'
+import type AppGenerator from '../src/app'
 
 // @ts-ignore
 const env = yeoman.createEnv()
 
 describe('AppGenerator', function () {
   let g: AppGenerator | undefined = undefined
-  beforeEach(async () => {
+  beforeEach(() => {
     env.register(path.join(__dirname, '../'))
     g = env.create('magicdawn:app', []) as AppGenerator
   })

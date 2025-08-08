@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import debugFactory from 'debug'
 import fse from 'fs-extra'
 import Generator from 'yeoman-generator'
@@ -87,7 +86,7 @@ export default class extends Generator {
     throw new Error(`can not find dotfile name = ${name}`)
   }
 
-  async _copyFiles(dotfiles: string[]) {
+  _copyFiles(dotfiles: string[]) {
     for (const item of dotfiles) {
       const src = this._getDotFilePath(item)
       debug('resolved %s -> %s', item, src)

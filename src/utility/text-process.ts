@@ -11,7 +11,7 @@ export function handleEmptyLines(content: string) {
   }
 
   // 最多保留一个空行(两个连续的\n)
-  content = content.replace(/\n{3,}/g, '\n\n')
+  content = content.replaceAll(/\n{3,}/g, '\n\n')
 
   return content
 }

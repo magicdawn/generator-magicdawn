@@ -10,7 +10,7 @@ env:
 extends:
   - 'eslint:recommended'
   - 'plugin:@typescript-eslint/recommended'
-  - 'prettier'
+  - prettier
 
 rules:
   '@typescript-eslint/ban-ts-comment': off

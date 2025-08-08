@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 /**
  * 获取最新版本
  */
@@ -27,7 +25,7 @@ export async function getLatestVersion(pkgname: string) {
   return res?.['dist-tags'].latest
 }
 
-export async function toLatest(deps: Record<string, string>) {
+export function toLatest(deps: Record<string, string>) {
   const input: Record<string, Promise<string>> = {}
   for (const key of Object.keys(deps)) {
     input[key] = getLatestVersion(key).then((version) => `^${version}`)

@@ -1,8 +1,9 @@
 import fg from 'fast-glob'
 import _ from 'lodash'
-import { PackageJson, TsConfigJson } from 'type-fest'
-import SetupGenerator, { SubSetup } from '../index.js'
 import { getLatestVersion } from '../../utility/index.js'
+import type { SubSetup } from '../index.js'
+import type SetupGenerator from '../index.js'
+import type { PackageJson, TsConfigJson } from 'type-fest'
 
 export const addTs: SubSetup = {
   label: 'ts',
@@ -63,7 +64,7 @@ async function fn(this: SetupGenerator) {
     },
   ])
 
-  console.log('selected actions = ', actions)
+  console.log('selected actions =', actions)
 
   if (actions.includes('add-bin')) {
     // bin/.dev

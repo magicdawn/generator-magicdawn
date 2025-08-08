@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
+import fs from 'node:fs'
+import path from 'node:path'
 import makeDebug from 'debug'
-import fs from 'fs'
 import gitconfig from 'git-config'
 import _ from 'lodash'
 import moment from 'moment'
-import path from 'path'
 import swig from 'swig-templates'
-import type { PackageJson } from 'type-fest'
 import Generator from 'yeoman-generator'
+import type { PackageJson } from 'type-fest'
 
 const debug = makeDebug('yo:magicdawn:app')
 
@@ -151,7 +149,7 @@ class AppGeneratorLogic extends Generator {
     const currentDate = moment().format('YYYY-MM-DD')
     const packageName = pkg.name
     const packageLocalName = _.camelCase(pkg.name) // 变量名
-    const packageDescription = <string>pkg.description || '' // 描述
+    const packageDescription = (pkg.description as string) || '' // 描述
 
     return {
       currentYear,

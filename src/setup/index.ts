@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-var-requires */
-
+import { createRequire } from 'node:module'
 import debugFactory from 'debug'
 import fse from 'fs-extra'
 import _ from 'lodash'
@@ -9,7 +7,6 @@ import Generator, { type BaseOptions } from 'yeoman-generator'
 import AppGenerator from '../app/index.js'
 import DotFilesGenerator from '../dot-files/index.js'
 import { addEslint, addPackage, addPrettier, addTs } from './stuff/index.js'
-import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
 const PKG_TPL = require('../../templates/app/package.json')
@@ -149,7 +146,7 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
       if (!this.fs.exists(file)) return true
 
       const content = fse.readFileSync(file, 'utf8')
-      if (/<!-- AUTO_GENERATED_UNTOUCHED_FLAG -->/.exec(content)) {
+      if (/<!-- AUTO_GENERATED_UNTOUCHED_FLAG -->/.test(content)) {
         return true
       }
 
@@ -203,12 +200,10 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
 
     // ensure a blank line before a block label
     currentLines = currentLines.reduce((ret, line, index, arr) => {
-      if (line.startsWith('#')) {
-        if (index > 0) {
-          const prevLine = arr[index - 1]
-          if (prevLine && !prevLine.startsWith('#')) {
-            ret.push('') // add blank line before comment line
-          }
+      if (line.startsWith('#') && index > 0) {
+        const prevLine = arr[index - 1]
+        if (prevLine && !prevLine.startsWith('#')) {
+          ret.push('') // add blank line before comment line
         }
       }
       ret.push(line)
@@ -237,8 +232,8 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
     let newContent = newLines.join('\n')
 
     newContent = newContent
-      .replace(/\n{3,}/g, '\n\n') // 清理多余空行
-      .replace(/\n{2,}$/g, '\n') // 末尾只留一个 \n
+      .replaceAll(/\n{3,}/g, '\n\n') // 清理多余空行
+      .replaceAll(/\n{2,}$/g, '\n') // 末尾只留一个 \n
 
     debug('ensureGitIgnore: newContent=%s', newContent)
     this.fs.write(gitignoreFile, newContent)

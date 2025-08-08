@@ -20,18 +20,40 @@ async function fn(this: SetupGenerator) {
     }),
   })
 
-  // vscode settings
-  this.fs.extendJSON(this.destinationPath('.vscode/settings.json'), {
-    'editor.codeActionsOnSave': {
-      'source.fixAll.eslint': 'explicit',
+  const { extraActions } = await this.prompt<{ extraActions: string[] }>([
+    {
+      name: 'extraActions',
+      message: 'extra actions',
+      type: 'checkbox',
+      choices: [
+        {
+          name: 'add vscode settings to .vscode/settings.json',
+          value: 'vscode',
+        },
+        {
+          name: 'add lint-staged config to package.json',
+          value: 'lint-staged',
+        },
+      ],
     },
-  })
+  ])
+
+  // vscode settings
+  if (extraActions.includes('vscode')) {
+    this.fs.extendJSON(this.destinationPath('.vscode/settings.json'), {
+      'editor.codeActionsOnSave': {
+        'source.fixAll.eslint': 'explicit',
+      },
+    })
+  }
 
   // package.json lint-staged config
-  this.fs.extendJSON(this.destinationPath('package.json'), {
-    'lint-staged': {
-      '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'prettier --write'],
-      '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['prettier --write --ignore-unknown'],
-    },
-  })
+  if (extraActions.includes('lint-staged')) {
+    this.fs.extendJSON(this.destinationPath('package.json'), {
+      'lint-staged': {
+        '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'prettier --write'],
+        '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['prettier --write --ignore-unknown'],
+      },
+    })
+  }
 }

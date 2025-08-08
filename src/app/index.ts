@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import consola from 'consola'
 import makeDebug from 'debug'
 import { camelCase, omit } from 'es-toolkit'
 import gitconfig from 'git-config'
@@ -44,7 +45,7 @@ class AppGeneratorLogic extends Generator {
 
     // warn
     if (!exists) {
-      console.error('\n[error]: package.json not found, run `npm init` first')
+      consola.error('package.json not found, run `npm init` first')
       return false
     }
 

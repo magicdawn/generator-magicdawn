@@ -3,7 +3,7 @@
  */
 
 import request from 'got'
-import pobj from 'promise.obj'
+import pProps from 'p-props'
 
 interface PkgInfo {
   [k: string]: any
@@ -30,5 +30,5 @@ export function toLatest(deps: Record<string, string>) {
   for (const key of Object.keys(deps)) {
     input[key] = getLatestVersion(key).then((version) => `^${version}`)
   }
-  return pobj(input)
+  return pProps(input)
 }

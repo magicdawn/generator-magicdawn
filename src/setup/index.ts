@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
 import debugFactory from 'debug'
+import { flattenDeep, pick, uniq } from 'es-toolkit'
 import fse from 'fs-extra'
-import _ from 'lodash'
 import swig from 'swig-templates'
 import Generator, { type BaseOptions } from 'yeoman-generator'
 import AppGenerator from '../app/index.js'
@@ -129,8 +129,8 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
   addUnitTest() {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
-      devDependencies: _.pick(PKG_TPL.devDependencies, ['vitest', '@vitest/coverage-v8']),
-      scripts: _.pick(PKG_TPL.scripts, ['test', 'test:dev', 'test-cover']),
+      devDependencies: pick(PKG_TPL.devDependencies, ['vitest', '@vitest/coverage-v8']),
+      scripts: pick(PKG_TPL.scripts, ['test', 'test:dev', 'test-cover']),
     })
 
     // github CI
@@ -211,7 +211,7 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
     }, [] as string[])
 
     let newLines: string[] = []
-    let ignores = _.uniq(_.flattenDeep(items))
+    let ignores = uniq(flattenDeep(items))
 
     const labelContent = `# ${label}`
     if (currentLines.includes(labelContent)) {

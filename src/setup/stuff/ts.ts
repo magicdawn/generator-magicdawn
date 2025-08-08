@@ -1,5 +1,5 @@
+import { kebabCase, trimEnd } from 'es-toolkit'
 import fg from 'fast-glob'
-import _ from 'lodash'
 import { getLatestVersion } from '../../utility/index.js'
 import type { SubSetup } from '../index.js'
 import type SetupGenerator from '../index.js'
@@ -23,7 +23,7 @@ async function fn(this: SetupGenerator) {
   if (this.fs.exists(tsconfig)) {
     const currentConfig = this.fs.readJSON(tsconfig) as TsConfigJson
     outdir = currentConfig.compilerOptions?.outDir || outdir
-    outdir = _.trimEnd(outdir, '/')
+    outdir = trimEnd(outdir, '/')
   }
 
   // src/index.ts
@@ -73,7 +73,7 @@ async function fn(this: SetupGenerator) {
     // bin/[bin-name]
     let binName = currentPkg.name!
     if (binName.includes('@') && binName.includes('/')) binName = binName.split('/')[1]
-    binName = _.kebabCase(currentPkg.name)
+    binName = kebabCase(currentPkg.name || '')
     const binFile = this.destinationPath(`bin/${binName}`)
     const binTplFile = this.dotFilesGenerator._getDotFilePath('bin/bin.js')
     this.fs.copy(binTplFile, binFile)

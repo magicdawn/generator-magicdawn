@@ -1,8 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import makeDebug from 'debug'
+import { camelCase, omit } from 'es-toolkit'
 import gitconfig from 'git-config'
-import _ from 'lodash'
 import moment from 'moment'
 import swig from 'swig-templates'
 import Generator from 'yeoman-generator'
@@ -38,7 +38,6 @@ class AppGeneratorLogic extends Generator {
   /**
    * 检查 `package.json` 文件
    */
-
   checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fs.existsSync(destPackageJsonPath)
@@ -55,21 +54,18 @@ class AppGeneratorLogic extends Generator {
 
   /**
    * 修改 package.json
-   *
    * 	- deps
    * 	- scripts.{ test, test-cover }
    */
-
   modifyPackageJson() {
     const pkg = this.fs.readJSON(this.templatePath('package.json')) as PackageJson
-    const pkgPartial = _.omit(pkg, ['name', 'version', 'private'])
+    const pkgPartial = omit(pkg, ['name', 'version', 'private'])
     this.fs.extendJSON(this.destinationPath('package.json'), pkgPartial)
   }
 
   /**
    * 复制文件
    */
-
   copyFiles() {
     const locals = this.getTemplateLocals()
 
@@ -148,7 +144,7 @@ class AppGeneratorLogic extends Generator {
     const currentYear = moment().format('YYYY')
     const currentDate = moment().format('YYYY-MM-DD')
     const packageName = pkg.name
-    const packageLocalName = _.camelCase(pkg.name) // 变量名
+    const packageLocalName = camelCase(pkg.name || '') // 变量名
     const packageDescription = (pkg.description as string) || '' // 描述
 
     return {

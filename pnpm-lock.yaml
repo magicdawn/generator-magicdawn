@@ -11,6 +11,9 @@ importers:
       debug:
         specifier: ^4.4.1
         version: 4.4.1
+      es-toolkit:
+        specifier: ^1.39.8
+        version: 1.39.8
       fast-glob:
         specifier: ^3.3.3
         version: 3.3.3
@@ -29,9 +32,6 @@ importers:
       json5:
         specifier: ^2.2.3
         version: 2.2.3
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       mem-fs:
         specifier: ^4.1.2
         version: 4.1.2
@@ -78,9 +78,6 @@ importers:
       '@types/git-config':
         specifier: ^0.0.32
         version: 0.0.32
-      '@types/lodash':
-        specifier: ^4.17.20
-        version: 4.17.20
       '@types/node':
         specifier: ^24.2.0
         version: 24.2.0
@@ -2423,9 +2420,6 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
   log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -6084,8 +6078,6 @@ snapshots:
   lodash-es@4.17.21: {}
 
   lodash.merge@4.6.2: {}
-
-  lodash@4.17.21: {}
 
   log-symbols@4.1.0:
     dependencies:

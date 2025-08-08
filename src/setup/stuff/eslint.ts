@@ -5,20 +5,33 @@ import type SetupGenerator from '../index.js'
 export const addEslint: SubSetup = {
   fn,
   label: 'eslint',
-  desc: 'eslint (pkg eslint/@magicdawn/eslint-config) (.eslintrc.yml)',
+  desc: 'eslint (use @magicdawn/eslint-config flat config)',
 }
 
 async function fn(this: SetupGenerator) {
   // config files
-  this.dotFilesGenerator._copyFiles(['.eslintrc.yml', '.eslintignore'])
+  this.dotFilesGenerator._copyFiles(['eslint.config.js'])
 
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {
     devDependencies: await toLatest({
       'eslint': '',
-      '@typescript-eslint/parser': '',
-      '@typescript-eslint/eslint-plugin': '',
-      'eslint-config-prettier': '',
+      '@magicdawn/eslint-config': '',
     }),
+  })
+
+  // vscode settings
+  this.fs.extendJSON(this.destinationPath('.vscode/settings.json'), {
+    'editor.codeActionsOnSave': {
+      'source.fixAll.eslint': 'explicit',
+    },
+  })
+
+  // package.json lint-staged config
+  this.fs.extendJSON(this.destinationPath('package.json'), {
+    'lint-staged': {
+      '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'prettier --write'],
+      '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['prettier --write --ignore-unknown'],
+    },
   })
 }

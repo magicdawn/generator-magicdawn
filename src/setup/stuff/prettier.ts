@@ -30,7 +30,8 @@ async function fn(this: SetupGenerator) {
       'prettier': prettierV,
     },
     'lint-staged': {
-      '*.{js,jsx,ts,tsx,less,md}': ['prettier --write'],
+      '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'prettier --write'],
+      '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['prettier --write --ignore-unknown'],
     },
   })
 

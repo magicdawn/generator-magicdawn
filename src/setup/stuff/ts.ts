@@ -1,4 +1,4 @@
-import { kebabCase, trimEnd } from 'es-toolkit'
+import { trimEnd } from 'es-toolkit'
 import fg from 'fast-glob'
 import { getLatestVersion } from '../../utility/index.js'
 import type { SubSetup } from '../index.js'
@@ -33,23 +33,13 @@ async function fn(this: SetupGenerator) {
     this.fs.write(this.destinationPath('src/index.ts'), `console.log('Hello TypeScript ~')`)
   }
 
-  const currentPkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
-  const currentConfigHasBin =
-    (typeof currentPkg.bin === 'string' && currentPkg.bin) ||
-    (typeof currentPkg.bin === 'object' && Object.keys(currentPkg.bin).length)
-
-  type Action = 'add-bin' | 'add-tsc-watch' | 'add-tsup'
+  type Action = 'add-tsc-watch' | 'add-tsup'
   const { actions } = await this.prompt<{ actions: Action[] }>([
     {
       type: 'checkbox',
       name: 'actions',
       message: '选择操作',
       choices: [
-        !currentConfigHasBin && {
-          value: 'add-bin',
-          checked: false,
-          name: 'add-bin: 添加 bin/.dev bin ts-node etc',
-        },
         {
           value: 'add-tsc-watch',
           checked: false,
@@ -65,26 +55,6 @@ async function fn(this: SetupGenerator) {
   ])
 
   console.log('selected actions =', actions)
-
-  if (actions.includes('add-bin')) {
-    // bin/.dev
-    await this.dotFilesGenerator._copyFiles(['bin/.dev'])
-
-    // bin/[bin-name]
-    let binName = currentPkg.name!
-    if (binName.includes('@') && binName.includes('/')) binName = binName.split('/')[1]
-    binName = kebabCase(currentPkg.name || '')
-    const binFile = this.destinationPath(`bin/${binName}`)
-    const binTplFile = this.dotFilesGenerator._getDotFilePath('bin/bin.js')
-    this.fs.copy(binTplFile, binFile)
-
-    // pkg.bin
-    this.fs.extendJSON(this.destinationPath('package.json'), {
-      bin: {
-        [binName]: `bin/${binName}`,
-      },
-    })
-  }
 
   const extendPkgjson = (payload: Partial<PackageJson>) => {
     this.fs.extendJSON(this.destinationPath('package.json'), payload)

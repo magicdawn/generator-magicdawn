@@ -2,8 +2,12 @@
  * 获取最新版本
  */
 
-import request from 'got'
+import axios from 'axios'
 import pProps from 'p-props'
+
+export const request = axios.create({
+  adapter: 'fetch',
+})
 
 interface PkgInfo {
   [k: string]: any
@@ -18,11 +22,10 @@ interface PkgInfo {
  */
 
 export async function getLatestVersion(pkgname: string) {
-  const res = (await request.get(`https://registry.npmmirror.com/${pkgname}`, {
-    responseType: 'json',
-    resolveBodyOnly: true,
-  })) as PkgInfo
-  return res?.['dist-tags'].latest
+  const registryNpmMirror = 'https://registry.npmmirror.com/'
+  const registryTencentMirror = 'http://mirrors.tencent.com/npm/'
+  const res = await request.get<PkgInfo>(`${registryNpmMirror}${pkgname}`)
+  return res.data?.['dist-tags'].latest
 }
 
 export function toLatest(deps: Record<string, string>) {

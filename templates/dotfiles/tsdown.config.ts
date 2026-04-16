@@ -1,14 +1,12 @@
-import { defineConfig } from 'tsup'
+import { defineConfig } from 'tsdown'
 
 export default defineConfig((options) => {
   return {
     entry: ['src/index.ts'],
     outDir: 'dist',
     format: 'esm',
-    target: 'node16',
+    target: 'node20',
     clean: true,
-    esbuildOptions(options, context) {
-      options.charset = 'utf8'
-    },
+    fixedExtension: false,
   }
 })

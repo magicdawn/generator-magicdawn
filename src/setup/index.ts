@@ -2,7 +2,6 @@ import { createRequire } from 'node:module'
 import debugFactory from 'debug'
 import { flattenDeep, pick, uniq } from 'es-toolkit'
 import fse from 'fs-extra'
-import swig from 'swig-templates'
 import Generator, { type BaseOptions } from 'yeoman-generator'
 import AppGenerator from '../app/index.js'
 import DotFilesGenerator from '../dot-files/index.js'
@@ -20,7 +19,7 @@ export interface SubSetup {
 
 const MORE_SETUPS: SubSetup[] = [addPrettier, addEslint, addTs, addPackage]
 
-class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
+class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
@@ -31,11 +30,6 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
         label: 'Unit Test (vitest)',
         desc: '单测 (package.json: scripts & deps)',
         fn: this.addUnitTest,
-      },
-      {
-        label: 'readme',
-        desc: 'README (readme/layout.md readme/api.md readme/)',
-        fn: this.addReadme,
       },
     ]
   }
@@ -138,42 +132,6 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
     // this.dotFilesGenerator._copyFiles(['.github'])
   }
 
-  addReadme() {
-    const files = ['readme/readme.md', 'readme/layout.md', 'readme/api.md']
-    const viewbag = this.appGenerator.getTemplateLocals()
-
-    // should generate file
-    const shouldGenerate = (file: string) => {
-      if (!this.fs.exists(file)) return true
-
-      const content = fse.readFileSync(file, 'utf8')
-      if (/<!-- AUTO_GENERATED_UNTOUCHED_FLAG -->/.test(content)) {
-        return true
-      }
-
-      return false
-    }
-
-    for (const f of files) {
-      const from = this.templatePath(f)
-      const to = this.destinationPath(f)
-
-      if (shouldGenerate(to)) {
-        const content = swig.renderFile(from, viewbag)
-        this.fs.write(to, content)
-      } else {
-        console.log('[setup-readme]: skip %s because modified', f)
-      }
-    }
-
-    // config
-    this.fs.extendJSON(this.destinationPath('package.json'), {
-      scripts: {
-        'gen-readme': 'swig render ./readme/readme.md > README.md && prettier --write README.md',
-      },
-    })
-  }
-
   // 检查 `package.json` 文件
   checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
@@ -211,7 +169,7 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
       return ret
     }, [] as string[])
 
-    let newLines: string[] = []
+    let newLines: string[]
     let ignores = uniq(flattenDeep(items))
 
     const labelContent = `# ${label}`
@@ -222,8 +180,8 @@ class SetupGenerator extends Generator<BaseOptions & { all: boolean }> {
         index++
       } while (currentLines[index] && !currentLines[index].startsWith('#'))
 
-      const labelItems = currentLines.slice(labelIndex, index)
-      ignores = ignores.filter((item) => !labelItems.includes(item))
+      const labelItems = new Set(currentLines.slice(labelIndex, index))
+      ignores = ignores.filter((item) => !labelItems.has(item))
 
       const forwardCount = (newLines = [...currentLines.slice(0, index), ...ignores, '', ...currentLines.slice(index)])
     } else {

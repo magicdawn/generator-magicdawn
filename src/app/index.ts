@@ -4,12 +4,14 @@ import consola from 'consola'
 import makeDebug from 'debug'
 import { camelCase, omit } from 'es-toolkit'
 import gitconfig from 'git-config'
+import { Liquid } from 'liquidjs'
 import moment from 'moment'
-import swig from 'swig-templates'
 import Generator from 'yeoman-generator'
 import type { PackageJson } from 'type-fest'
 
 const debug = makeDebug('yo:magicdawn:app')
+
+const liquid = new Liquid({})
 
 class AppGeneratorLogic extends Generator {
   constructor(args: string | string[], opts: {}) {
@@ -72,14 +74,14 @@ class AppGeneratorLogic extends Generator {
 
     const files: (string | { name: string; locals?: object })[] = [
       // eslint
-      'eslint.config.js',
+      'eslint.config.mjs',
 
       // edit
       '.editorconfig',
 
       // prettier
       '.prettierignore',
-      'prettier.config.js',
+      'prettier.config.cjs',
       '.husky',
 
       // test
@@ -111,7 +113,7 @@ class AppGeneratorLogic extends Generator {
         const { name, locals: currentLocals } = f
         const from = this.templatePath(name)
         const to = this.destinationPath(name)
-        const content = swig.renderFile(from, currentLocals ?? locals)
+        const content = liquid.renderFileSync(from, currentLocals ?? locals)
         this.fs.write(to, content)
       }
     }

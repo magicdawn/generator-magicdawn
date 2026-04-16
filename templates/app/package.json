@@ -2,7 +2,7 @@
   "name": "generator-magicdawn-template",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
+  "packageManager": "pnpm@10.33.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
@@ -14,16 +14,16 @@
     "test-cover": "vitest run --coverage"
   },
   "devDependencies": {
-    "@magicdawn/eslint-config": "^1.5.9",
+    "@magicdawn/eslint-config": "^1.6.3",
     "@magicdawn/prettier-config": "^0.1.0",
-    "@types/node": "^24.2.0",
-    "@vitest/coverage-v8": "^3.2.4",
-    "eslint": "^9.32.0",
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.4",
+    "eslint": "^10.2.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.4",
-    "prettier": "^3.6.2",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

@@ -1,9 +1,9 @@
 import { trimEnd } from 'es-toolkit'
 import fg from 'fast-glob'
 import { getLatestVersion } from '../../utility/index.js'
+import type { PackageJson, TsConfigJson } from 'type-fest'
 import type { SubSetup } from '../index.js'
 import type SetupGenerator from '../index.js'
-import type { PackageJson, TsConfigJson } from 'type-fest'
 
 export const addTs: SubSetup = {
   label: 'ts',
@@ -33,7 +33,7 @@ async function fn(this: SetupGenerator) {
     this.fs.write(this.destinationPath('src/index.ts'), `console.log('Hello TypeScript ~')`)
   }
 
-  type Action = 'add-tsc-watch' | 'add-tsup'
+  type Action = 'add-tsc-watch' | 'add-tsdown'
   const { actions } = await this.prompt<{ actions: Action[] }>([
     {
       type: 'checkbox',
@@ -46,9 +46,9 @@ async function fn(this: SetupGenerator) {
           name: 'add-tsc-watch: 添加 scripts.dev = `tsc -w` etc',
         },
         {
-          value: 'add-tsup',
+          value: 'add-tsdown',
           checked: false,
-          name: 'tsup: dep, tsup.config.ts, scripts.dev & build',
+          name: 'tsdown: dep, tsdown.config.ts, scripts.dev & build',
         },
       ].filter(Boolean),
     },
@@ -70,19 +70,19 @@ async function fn(this: SetupGenerator) {
     })
   }
 
-  if (actions.includes('add-tsup')) {
+  if (actions.includes('add-tsdown')) {
     extendPkgjson({
       scripts: {
-        dev: 'tsup --watch',
-        build: `tsup`,
+        dev: 'tsdown --watch',
+        build: `tsdown`,
         prepublishOnly: 'npm run build',
       },
       devDependencies: {
-        tsup: `^${await getLatestVersion('tsup')}`,
+        tsdown: `^${await getLatestVersion('tsdown')}`,
       },
     })
 
-    this.dotFilesGenerator._copyFiles(['tsup.config.ts'])
+    this.dotFilesGenerator._copyFiles(['tsdown.config.ts'])
   }
 
   // latest tsc version
@@ -96,6 +96,6 @@ async function fn(this: SetupGenerator) {
   // .gitignore
   this.ensureGitIgnore(
     'ts',
-    ...['**/*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsup') ? '/dist' : ''].filter(Boolean),
+    ...['*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsdown') ? '/dist' : ''].filter(Boolean),
   )
 }

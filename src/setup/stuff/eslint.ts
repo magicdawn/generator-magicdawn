@@ -10,7 +10,7 @@ export const addEslint: SubSetup = {
 
 async function fn(this: SetupGenerator) {
   // config files
-  this.dotFilesGenerator._copyFiles(['eslint.config.js'])
+  this.dotFilesGenerator._copyFiles(['eslint.config.mjs'])
 
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {

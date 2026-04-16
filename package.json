@@ -34,13 +34,13 @@
   },
   "scripts": {
     "prepare": "husky",
-    "dev": "tsc -w --incremental",
-    "build": "rm -rf generators; tsc",
+    "typecheck": "tsgo --noEmit",
+    "dev": "tsgo -w --incremental",
+    "build": "tsgo",
     "test": "vitest run",
-    "test-cover": "vitest run --coverage",
-    "prepublishOnly": "pnpm build",
     "test:dev": "vitest",
-    "typecheck": "tsc --noEmit"
+    "test-cover": "vitest run --coverage",
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {
     "axios": "^1.15.0",
@@ -70,6 +70,7 @@
     "@types/git-config": "^0.0.32",
     "@types/node": "^25.6.0",
     "@types/swig": "^0.0.34",
+    "@typescript/native-preview": "7.0.0-dev.20260415.1",
     "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^10.2.0",
     "husky": "^9.1.7",

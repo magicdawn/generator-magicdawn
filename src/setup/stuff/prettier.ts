@@ -40,6 +40,6 @@ async function fn(this: SetupGenerator) {
     '.husky/pre-commit',
 
     // config files
-    'prettier.config.js',
+    'prettier.config.cjs',
   ])
 }

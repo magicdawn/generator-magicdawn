@@ -1,8 +1,8 @@
-import debugFactory from 'debug'
 import fse from 'fs-extra'
+import { createDebug } from 'obug'
 import Generator from 'yeoman-generator'
 
-const debug = debugFactory('yo:magicdawn:dot-files')
+const debug = createDebug('yo:magicdawn:dot-files')
 
 const OPTIONS = [
   // eslint
@@ -30,19 +30,19 @@ const OPTIONS = [
   },
 ]
 
-export default class extends Generator {
-  constructor(...args: [args: string[], opts: {}]) {
+export default class DotFilesGenerator extends Generator {
+  constructor(...args: ConstructorParameters<typeof Generator>) {
     super(...args)
     // project root
     this.sourceRoot(import.meta.dirname + '/../../')
   }
 
   async default() {
-    const { dotfiles } = await this._prompt()
+    const { dotfiles } = await this.#prompt()
     this._copyFiles(dotfiles)
   }
 
-  async _prompt() {
+  async #prompt() {
     const answers = await this.prompt<{ dotfiles: string[] }>([
       {
         type: 'checkbox',
@@ -59,7 +59,7 @@ export default class extends Generator {
     return answers
   }
 
-  _getDotFilePath(name: string) {
+  #getDotFilePath(name: string) {
     let file: string
 
     const tryFile = () => {
@@ -88,7 +88,7 @@ export default class extends Generator {
 
   _copyFiles(dotfiles: string[]) {
     for (const item of dotfiles) {
-      const src = this._getDotFilePath(item)
+      const src = this.#getDotFilePath(item)
       debug('resolved %s -> %s', item, src)
       const dest = this.destinationPath(item)
       this.fs.copy(src, dest)

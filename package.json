@@ -2,7 +2,7 @@
   "name": "generator-magicdawn",
   "type": "module",
   "version": "0.25.1",
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
+  "packageManager": "pnpm@12.21.0+sha512.66fd8278ee28935ce951792d34367ff3af5c432a2756445823029533835b8da529bbe0be5130afd56ed0713fb8789e47bad82d93bd5ae2fe54b15562d6276ef0",
   "description": "Yeoman generator for self use",
   "author": "magicdawn",
   "license": "MIT",
@@ -17,7 +17,7 @@
   "keywords": [
     "yeoman-generator"
   ],
-  "main": "generators/app/index.js",
+  "main": "./generators/app/index.js",
   "files": [
     "CHANGELOG.md",
     "LICENSE",
@@ -34,60 +34,46 @@
   },
   "scripts": {
     "prepare": "husky",
-    "typecheck": "tsgo --noEmit",
-    "dev": "tsgo -w --incremental",
-    "build": "tsgo",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsc -w --incremental",
+    "build": "tsc",
     "test": "vitest run",
     "test:dev": "vitest",
     "test-cover": "vitest run --coverage",
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "axios": "^1.15.0",
+    "axios": "^1.21.1",
     "consola": "^3.4.2",
-    "debug": "^4.4.3",
-    "es-toolkit": "^1.45.1",
+    "dayjs": "^1.11.23",
+    "es-toolkit": "^1.53.2",
     "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.4",
+    "fs-extra": "^11.4.1",
     "git-config": "^0.0.7",
-    "globby": "^16.2.0",
-    "json5": "^2.2.3",
-    "liquidjs": "^10.25.5",
-    "mem-fs": "^4.1.4",
-    "moment": "^2.30.1",
-    "p-props": "^6.1.0",
+    "liquidjs": "^10.30.1",
+    "obug": "^3.0.0",
     "promise.ify": "^0.4.0",
-    "umi-request": "^1.4.0",
-    "yeoman-generator": "^8.1.2"
+    "yeoman-generator": "^10.3.0"
   },
   "devDependencies": {
-    "@magicdawn/eslint-config": "^1.6.3",
+    "@magicdawn/eslint-config": "^1.6.18",
     "@magicdawn/prettier-config": "^0.1.0",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/debug": "^4.1.13",
-    "@types/eslint": "^9.6.1",
     "@types/fs-extra": "^11.0.4",
     "@types/git-config": "^0.0.32",
-    "@types/node": "^25.6.0",
-    "@types/swig": "^0.0.34",
-    "@typescript/native-preview": "7.0.0-dev.20260415.1",
-    "@vitest/coverage-v8": "^4.1.4",
-    "eslint": "^10.2.0",
+    "@types/node": "^26.6.6",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.15.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
-    "prettier": "^3.8.3",
-    "tsdown": "^0.21.8",
-    "type-fest": "^5.5.0",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.8",
-    "vitest": "^4.1.4",
-    "yeoman-environment": "^6.0.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "unrs-resolver"
-    ]
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.10.1",
+    "tsdown": "^0.23.7",
+    "type-fest": "^5.10.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-native": "npm:typescript@beta",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0",
+    "yeoman-environment": "^8.5.1"
   },
   "lint-staged": {
     "*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [

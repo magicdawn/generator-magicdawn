@@ -1,47 +1,46 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import consola from 'consola'
-import makeDebug from 'debug'
+import dayjs from 'dayjs'
 import { camelCase, omit } from 'es-toolkit'
 import gitconfig from 'git-config'
 import { Liquid } from 'liquidjs'
-import moment from 'moment'
+import { createDebug } from 'obug'
 import Generator from 'yeoman-generator'
 import type { PackageJson } from 'type-fest'
 
-const debug = makeDebug('yo:magicdawn:app')
+const debug = createDebug('yo:magicdawn:app')
+const APP_TEMPLATES_DIR = path.join(import.meta.dirname, '../../templates/app/')
+const liquid = new Liquid({ root: APP_TEMPLATES_DIR })
 
-const liquid = new Liquid({})
-
-class AppGeneratorLogic extends Generator {
-  constructor(args: string | string[], opts: {}) {
-    super(args, opts)
+export default class AppGenerator extends Generator {
+  constructor(...args: ConstructorParameters<typeof Generator>) {
+    super(...args)
 
     // set skip install
     this.options.skipInstall = true
 
-    // eslint-disable-next-line prefer-rest-params
-    debug('constructor arguments %j', arguments)
-    this.sourceRoot(path.join(import.meta.dirname, '../../templates/app/'))
+    debug('constructor arguments %O', args)
+    this.sourceRoot(APP_TEMPLATES_DIR)
   }
 
   default() {
-    const ok = this.checkPackageJson()
+    const ok = this.#checkPackageJson()
     if (!ok) return
 
     // 生成package.json
     //    deps
     //    scripts test / test-cover
-    this.modifyPackageJson()
+    this.#modifyPackageJson()
 
     // 复制文件
-    this.copyFiles()
+    this.#copyFiles()
   }
 
   /**
    * 检查 `package.json` 文件
    */
-  checkPackageJson() {
+  #checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fs.existsSync(destPackageJsonPath)
 
@@ -60,7 +59,7 @@ class AppGeneratorLogic extends Generator {
    * 	- deps
    * 	- scripts.{ test, test-cover }
    */
-  modifyPackageJson() {
+  #modifyPackageJson() {
     const pkg = this.fs.readJSON(this.templatePath('package.json')) as PackageJson
     const pkgPartial = omit(pkg, ['name', 'version', 'private'])
     this.fs.extendJSON(this.destinationPath('package.json'), pkgPartial)
@@ -69,8 +68,8 @@ class AppGeneratorLogic extends Generator {
   /**
    * 复制文件
    */
-  copyFiles() {
-    const locals = this.getTemplateLocals()
+  #copyFiles() {
+    const locals = this.#getTemplateLocals()
 
     const files: (string | { name: string; locals?: object })[] = [
       // eslint
@@ -106,14 +105,14 @@ class AppGeneratorLogic extends Generator {
         const from = this.templatePath(f)
         const to = this.destinationPath(f)
         this.fs.copy(from, to)
+        continue
       }
 
       // render & write
       else {
         const { name, locals: currentLocals } = f
-        const from = this.templatePath(name)
         const to = this.destinationPath(name)
-        const content = liquid.renderFileSync(from, currentLocals ?? locals)
+        const content = liquid.renderFileSync(name, currentLocals ?? locals)
         this.fs.write(to, content)
       }
     }
@@ -123,7 +122,7 @@ class AppGeneratorLogic extends Generator {
     this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'))
   }
 
-  getTemplateLocals() {
+  #getTemplateLocals() {
     const pkg = this.fs.readJSON(this.destinationPath('package.json')) as PackageJson
 
     // 获取 repoName
@@ -143,8 +142,8 @@ class AppGeneratorLogic extends Generator {
       return repoName
     }
 
-    const currentYear = moment().format('YYYY')
-    const currentDate = moment().format('YYYY-MM-DD')
+    const currentYear = dayjs().format('YYYY')
+    const currentDate = dayjs().format('YYYY-MM-DD')
     const packageName = pkg.name
     const packageLocalName = camelCase(pkg.name || '') // 变量名
     const packageDescription = (pkg.description as string) || '' // 描述
@@ -157,11 +156,5 @@ class AppGeneratorLogic extends Generator {
       packageLocalName,
       packageDescription,
     }
-  }
-}
-
-export default class AppGenerator extends AppGeneratorLogic {
-  override default() {
-    return super.default()
   }
 }

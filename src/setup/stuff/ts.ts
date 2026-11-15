@@ -94,7 +94,7 @@ async function fn(this: SetupGenerator) {
   })
 
   // .gitignore
-  this.ensureGitIgnore(
+  this._ensureGitIgnore(
     'ts',
     ...['*.tsbuildinfo', `/${outdir}`, actions.includes('add-tsdown') ? '/dist' : ''].filter(Boolean),
   )

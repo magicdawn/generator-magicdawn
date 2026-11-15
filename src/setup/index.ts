@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
-import debugFactory from 'debug'
 import { flattenDeep, pick, uniq } from 'es-toolkit'
 import fse from 'fs-extra'
+import { createDebug } from 'obug'
 import Generator, { type BaseOptions } from 'yeoman-generator'
 import AppGenerator from '../app/index.js'
 import DotFilesGenerator from '../dot-files/index.js'
@@ -9,7 +9,7 @@ import { addEslint, addPackage, addPrettier, addTs } from './stuff/index.js'
 
 const require = createRequire(import.meta.url)
 const PKG_TPL = require('../../templates/app/package.json')
-const debug = debugFactory('yo:magicdawn:setup')
+const debug = createDebug('yo:magicdawn:setup')
 
 export interface SubSetup {
   label: string
@@ -19,7 +19,7 @@ export interface SubSetup {
 
 const MORE_SETUPS: SubSetup[] = [addPrettier, addEslint, addTs, addPackage]
 
-class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
+export default class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
   dotFilesGenerator: DotFilesGenerator
   appGenerator: AppGenerator
 
@@ -29,12 +29,12 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
       {
         label: 'Unit Test (vitest)',
         desc: '单测 (package.json: scripts & deps)',
-        fn: this.addUnitTest,
+        fn: this._addUnitTest,
       },
     ]
   }
 
-  constructor(args: string[], opts: {}) {
+  constructor(args: string[], opts: BaseOptions) {
     super(args, opts)
     // eslint-disable-next-line prefer-rest-params
     debug('constructor arguments %j', arguments)
@@ -69,7 +69,6 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
   /**
    * we starts here
    */
-
   async default() {
     // --all flag
     if (this.options.all) {
@@ -86,7 +85,7 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
 
     // prompt
     {
-      const { actions } = await this.promptAction()
+      const { actions } = await this._promptAction()
       return this._run(actions)
     }
   }
@@ -105,7 +104,7 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
     }
   }
 
-  async promptAction() {
+  async _promptAction() {
     const answers = await this.prompt([
       {
         type: 'checkbox',
@@ -121,7 +120,7 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
     return answers
   }
 
-  addUnitTest() {
+  _addUnitTest() {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
       devDependencies: pick(PKG_TPL.devDependencies, ['vitest', '@vitest/coverage-v8']),
@@ -133,7 +132,7 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
   }
 
   // 检查 `package.json` 文件
-  checkPackageJson() {
+  _checkPackageJson() {
     const destPackageJsonPath = this.destinationPath('package.json')
     const exists = fse.existsSync(destPackageJsonPath)
 
@@ -148,7 +147,7 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
   }
 
   /** 添加项目到 .gitignore 中 */
-  ensureGitIgnore(label: 'ts', ...items: Array<string | string[]>) {
+  _ensureGitIgnore(label: 'ts', ...items: Array<string | string[]>) {
     const gitignoreFile = this.destinationPath('.gitignore')
     if (!this.fs.exists(gitignoreFile)) {
       this.dotFilesGenerator._copyFiles(['.gitignore'])
@@ -196,11 +195,5 @@ class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
 
     debug('ensureGitIgnore: newContent=%s', newContent)
     this.fs.write(gitignoreFile, newContent)
-  }
-}
-
-export default class SetupGeneratorWrapper extends SetupGenerator {
-  override default() {
-    return super.default()
   }
 }

@@ -3,9 +3,9 @@ import type { SubSetup } from '../index.js'
 import type SetupGenerator from '../index.js'
 
 export const addPrettier: SubSetup = {
-  fn,
   label: 'prettier',
   desc: '格式化 (pkg husky/lint-staged/prettier) (prettier.config.js)',
+  fn,
 }
 
 async function fn(this: SetupGenerator) {

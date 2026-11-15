@@ -3,7 +3,7 @@
  */
 
 import axios from 'axios'
-import pProps from 'p-props'
+import { allKeyed } from 'es-toolkit'
 
 export const request = axios.create({
   adapter: 'fetch',
@@ -33,5 +33,5 @@ export function toLatest(deps: Record<string, string>) {
   for (const key of Object.keys(deps)) {
     input[key] = getLatestVersion(key).then((version) => `^${version}`)
   }
-  return pProps(input)
+  return allKeyed(input)
 }

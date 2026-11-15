@@ -1,11 +1,11 @@
 import { toLatest } from '../../utility/index.js'
-import type { SubSetup } from '../index.js'
 import type SetupGenerator from '../index.js'
+import type { SubSetup } from '../index.js'
 
 export const addEslint: SubSetup = {
-  fn,
   label: 'eslint',
   desc: 'eslint (use @magicdawn/eslint-config flat config)',
+  fn,
 }
 
 async function fn(this: SetupGenerator) {

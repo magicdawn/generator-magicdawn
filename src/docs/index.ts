@@ -2,15 +2,15 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import debugFactory from 'debug'
 import fg from 'fast-glob'
-import Generator from 'yeoman-generator'
+import { createDebug } from 'obug'
+import Generator, { type BaseOptions } from 'yeoman-generator'
 import type { PackageJson } from 'type-fest'
 
-const debug = debugFactory('yo:magicdawn:docs')
+const debug = createDebug('yo:magicdawn:docs')
 
 export default class DocsGenerator extends Generator {
-  constructor(args: string[], opts: {}) {
+  constructor(args?: string[], opts?: BaseOptions) {
     debug('constructor arguments %j', arguments)
     super(args, opts)
   }
@@ -19,10 +19,10 @@ export default class DocsGenerator extends Generator {
    * we starts here
    */
   default() {
-    this._addDocs()
+    this.#addDocs()
   }
 
-  _addDocs() {
+  #addDocs() {
     this.sourceRoot(import.meta.dirname + '/docs')
 
     const destDirName = path.basename(this.destinationRoot())
@@ -62,10 +62,10 @@ export default class DocsGenerator extends Generator {
     )
 
     // 要使用 copyTpl
-    const useTplFiles = ['md/index.md', 'website/siteConfig.js']
+    const useTplFiles = new Set(['md/index.md', 'website/siteConfig.js'])
 
     for (const f of files) {
-      if (useTplFiles.includes(f)) {
+      if (useTplFiles.has(f)) {
         this.fs.copyTpl(this.templatePath(f), this.destinationPath('docs/' + f), data)
       } else {
         this.fs.copy(this.templatePath(f), this.destinationPath('docs/' + f))

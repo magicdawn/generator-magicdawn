@@ -2,9 +2,9 @@ import { getLatestVersion } from '../../utility/index.js'
 import type { SubSetup } from '../index.js'
 import type SetupGenerator from '../index.js'
 
-export const addPrettier: SubSetup = {
-  label: 'prettier',
-  desc: '格式化 (pkg husky/lint-staged/prettier) (prettier.config.js)',
+export const addFormatter: SubSetup = {
+  label: 'formatter',
+  desc: '格式化 (pkg husky/lint-staged/oxfmt) (oxfmt.config.mts)',
   fn,
 }
 
@@ -12,11 +12,11 @@ async function fn(this: SetupGenerator) {
   const versions = await Promise.all([
     getLatestVersion('husky'),
     getLatestVersion('lint-staged'),
-    getLatestVersion('prettier'),
-    getLatestVersion('@magicdawn/prettier-config'),
+    getLatestVersion('oxfmt'),
+    getLatestVersion('@magicdawn/shared'),
   ])
 
-  const [huskyV, lintStagedV, prettierV, prettierConfigV] = versions.map((v) => `^${v}`)
+  const [huskyV, lintStagedV, oxfmtV, sharedConfigV] = versions.map((v) => `^${v}`)
 
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {
@@ -24,22 +24,21 @@ async function fn(this: SetupGenerator) {
       prepare: 'husky',
     },
     'devDependencies': {
-      '@magicdawn/prettier-config': prettierConfigV,
+      '@magicdawn/shared': sharedConfigV,
       'husky': huskyV,
       'lint-staged': lintStagedV,
-      'prettier': prettierV,
+      'oxfmt': oxfmtV,
     },
     'lint-staged': {
-      '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'prettier --write'],
-      '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['prettier --write --ignore-unknown'],
+      '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'oxfmt --write'],
+      '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['oxfmt --write --no-error-on-unmatched-pattern'],
     },
   })
 
   this.dotFilesGenerator._copyFiles([
     // git hook
     '.husky/pre-commit',
-
     // config files
-    'prettier.config.cjs',
+    'oxfmt.config.mts',
   ])
 }

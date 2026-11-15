@@ -11,10 +11,10 @@ const OPTIONS = [
     desc: 'use @magicdawn/eslint-config',
   },
 
-  // prettier
+  // oxfmt
   {
-    name: 'prettier.config.js',
-    desc: 'use @magicdawn/prettier-config',
+    name: 'oxfmt.config.mts',
+    desc: 'use @magicdawn/oxfmt-config',
   },
 
   // ts

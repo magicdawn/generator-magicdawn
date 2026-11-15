@@ -51,8 +51,8 @@ async function fn(this: SetupGenerator) {
   if (extraActions.includes('lint-staged')) {
     this.fs.extendJSON(this.destinationPath('package.json'), {
       'lint-staged': {
-        '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'prettier --write'],
-        '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['prettier --write --ignore-unknown'],
+        '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'oxfmt --write'],
+        '!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['oxfmt --write --no-error-on-unmatched-pattern'],
       },
     })
   }

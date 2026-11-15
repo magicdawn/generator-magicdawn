@@ -72,16 +72,16 @@ export default class AppGenerator extends Generator {
     const locals = this.#getTemplateLocals()
 
     const files: (string | { name: string; locals?: object })[] = [
+      // editor
+      '.editorconfig',
+
       // eslint
       'eslint.config.mjs',
 
-      // edit
-      '.editorconfig',
-
-      // prettier
-      '.prettierignore',
-      'prettier.config.cjs',
+      // formatter
       '.husky',
+      '.prettierignore',
+      'oxfmt.config.mts',
 
       // test
       'test/.gitkeep',
@@ -89,14 +89,17 @@ export default class AppGenerator extends Generator {
       // ci
       '.github',
 
-      // package related
-      { name: 'LICENSE' },
-      { name: 'CHANGELOG.md' },
-      { name: 'README.md' },
+      // deps
+      'pnpm-workspace.yaml',
 
       // ts
       'src',
       'tsconfig.json',
+
+      // package related
+      { name: 'LICENSE' },
+      { name: 'CHANGELOG.md' },
+      { name: 'README.md' },
     ]
 
     for (const f of files) {

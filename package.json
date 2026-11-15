@@ -57,16 +57,17 @@
   },
   "devDependencies": {
     "@magicdawn/eslint-config": "^1.6.18",
-    "@magicdawn/prettier-config": "^0.1.0",
+    "@magicdawn/shared": "file:../@magicdawn__shared/",
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/fs-extra": "^11.0.4",
     "@types/git-config": "^0.0.32",
     "@types/node": "^26.6.6",
     "@vitest/coverage-v8": "^5.1.0",
     "eslint": "^10.15.0",
+    "eslint-plugin-oxfmt": "^0.33.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
-    "prettier": "^3.10.1",
+    "oxfmt": "^0.78.0",
     "tsdown": "^0.23.7",
     "type-fest": "^5.10.0",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
@@ -78,10 +79,10 @@
   "lint-staged": {
     "*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [
       "eslint --fix",
-      "prettier --write"
+      "oxfmt --write"
     ],
     "!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [
-      "prettier --write --ignore-unknown"
+      "oxfmt --write --no-error-on-unmatched-pattern"
     ]
   }
 }

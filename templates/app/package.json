@@ -2,7 +2,7 @@
   "name": "generator-magicdawn-template",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@12.21.0+sha512.66fd8278ee28935ce951792d34367ff3af5c432a2756445823029533835b8da529bbe0be5130afd56ed0713fb8789e47bad82d93bd5ae2fe54b15562d6276ef0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
@@ -14,30 +14,22 @@
     "test-cover": "vitest run --coverage"
   },
   "devDependencies": {
-    "@magicdawn/eslint-config": "^1.6.3",
-    "@magicdawn/prettier-config": "^0.1.0",
-    "@types/node": "^25.6.0",
-    "@vitest/coverage-v8": "^4.1.4",
-    "eslint": "^10.2.0",
+    "@magicdawn/eslint-config": "^1.6.18",
+    "@types/node": "^26.6.6",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.15.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
-    "prettier": "^3.8.3",
+    "lint-staged": "^17.6.0",
     "typescript": "^6.0.2",
-    "vitest": "^4.1.4"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "unrs-resolver"
-    ]
+    "vitest": "^5.1.0"
   },
   "lint-staged": {
     "*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [
       "eslint --fix",
-      "prettier --write"
+      "oxfmt --write"
     ],
     "!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [
-      "prettier --write --ignore-unknown"
+      "oxfmt --write --no-error-on-unmatched-pattern"
     ]
-  },
-  "prettier": "@magicdawn/prettier-config"
+  }
 }

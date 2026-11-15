@@ -5,7 +5,7 @@ import { createDebug } from 'obug'
 import Generator, { type BaseOptions } from 'yeoman-generator'
 import AppGenerator from '../app/index.js'
 import DotFilesGenerator from '../dot-files/index.js'
-import { addEslint, addPackage, addPrettier, addTs } from './stuff/index.js'
+import { addEslint, addFormatter, addPackage, addTs } from './stuff/index.js'
 
 const require = createRequire(import.meta.url)
 const PKG_TPL = require('../../templates/app/package.json')
@@ -17,7 +17,7 @@ export interface SubSetup {
   fn: (this: SetupGenerator) => void | Promise<void>
 }
 
-const MORE_SETUPS: SubSetup[] = [addPrettier, addEslint, addTs, addPackage]
+const MORE_SETUPS: SubSetup[] = [addFormatter, addEslint, addTs, addPackage]
 
 export default class SetupGenerator extends Generator<any, BaseOptions & { all: boolean }> {
   dotFilesGenerator: DotFilesGenerator

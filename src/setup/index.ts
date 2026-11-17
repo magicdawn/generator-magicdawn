@@ -12,6 +12,7 @@ const PKG_TPL = require('../../templates/app/package.json')
 const debug = createDebug('yo:magicdawn:setup')
 
 export interface SubSetup {
+  /** used in `--label` */
   label: string
   desc: string
   fn: (this: SetupGenerator) => void | Promise<void>
@@ -29,7 +30,7 @@ export default class SetupGenerator extends Generator<any, BaseOptions & { all: 
       {
         label: 'Unit Test (vitest)',
         desc: '单测 (package.json: scripts & deps)',
-        fn: this._addUnitTest,
+        fn: this.#addUnitTest,
       },
     ]
   }
@@ -47,17 +48,11 @@ export default class SetupGenerator extends Generator<any, BaseOptions & { all: 
     // select action use --flag
     for (const item of this.subSetups) {
       const { label } = item
-      this.option(label, {
-        type: Boolean,
-        default: false,
-      })
+      this.option(label, { type: Boolean, default: false })
     }
 
     // --all
-    this.option('all', {
-      type: Boolean,
-      default: false,
-    })
+    this.option('all', { type: Boolean, default: false })
 
     // dotfiles
     this.dotFilesGenerator = new DotFilesGenerator(args, opts)
@@ -85,7 +80,7 @@ export default class SetupGenerator extends Generator<any, BaseOptions & { all: 
 
     // prompt
     {
-      const { actions } = await this._promptAction()
+      const { actions } = await this.#promptAction()
       return this._run(actions)
     }
   }
@@ -104,14 +99,14 @@ export default class SetupGenerator extends Generator<any, BaseOptions & { all: 
     }
   }
 
-  async _promptAction() {
+  async #promptAction() {
     const answers = await this.prompt([
       {
         type: 'checkbox',
         name: 'actions',
         message: 'Setup Actions',
         choices: this.subSetups.map((setup) => ({
-          name: setup.desc,
+          name: `${setup.desc} (--${setup.label})`,
           value: setup.label,
         })),
       },
@@ -120,7 +115,7 @@ export default class SetupGenerator extends Generator<any, BaseOptions & { all: 
     return answers
   }
 
-  _addUnitTest() {
+  #addUnitTest() {
     // deps
     this.fs.extendJSON(this.destinationPath('package.json'), {
       devDependencies: pick(PKG_TPL.devDependencies, ['vitest', '@vitest/coverage-v8']),

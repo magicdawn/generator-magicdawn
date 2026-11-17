@@ -1,1 +1,1 @@
-export { default } from '@magicdawn/shared/oxfmt'
+export { default } from '@magicdawn/configs/oxfmt'

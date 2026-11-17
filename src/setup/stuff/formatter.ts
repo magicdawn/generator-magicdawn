@@ -3,7 +3,7 @@ import type { SubSetup } from '../index.js'
 import type SetupGenerator from '../index.js'
 
 export const addFormatter: SubSetup = {
-  label: 'formatter',
+  label: 'oxfmt',
   desc: '格式化 (pkg husky/lint-staged/oxfmt) (oxfmt.config.mts)',
   fn,
 }
@@ -13,10 +13,10 @@ async function fn(this: SetupGenerator) {
     getLatestVersion('husky'),
     getLatestVersion('lint-staged'),
     getLatestVersion('oxfmt'),
-    getLatestVersion('@magicdawn/shared'),
+    getLatestVersion('@magicdawn/configs'),
   ])
 
-  const [huskyV, lintStagedV, oxfmtV, sharedConfigV] = versions.map((v) => `^${v}`)
+  const [huskyV, lintStagedV, oxfmtV, configsV] = versions.map((v) => `^${v}`)
 
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {
@@ -24,7 +24,7 @@ async function fn(this: SetupGenerator) {
       prepare: 'husky',
     },
     'devDependencies': {
-      '@magicdawn/shared': sharedConfigV,
+      '@magicdawn/configs': configsV,
       'husky': huskyV,
       'lint-staged': lintStagedV,
       'oxfmt': oxfmtV,

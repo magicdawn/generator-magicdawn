@@ -209,12 +209,12 @@ importers:
         specifier: ^10.3.0
         version: 10.3.0(@types/node@26.6.6)(@yeoman/types@1.10.3(@types/node@26.6.6)(@yeoman/adapter@5.1.1(@types/node@26.6.6))(mem-fs@6.0.0(@types/node@26.6.6)(@types/vinyl@2.0.12)))(mem-fs@6.0.0(@types/node@26.6.6)(@types/vinyl@2.0.12))(supports-color@7.2.0)
     devDependencies:
+      '@magicdawn/configs':
+        specifier: file:../@magicdawn__configs/
+        version: file:../@magicdawn__configs
       '@magicdawn/eslint-config':
         specifier: ^1.6.18
         version: 1.6.18(@types/eslint@9.6.1)(@typescript-eslint/eslint-plugin@8.72.2(@typescript-eslint/parser@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript-eslint/parser@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript-eslint/typescript-estree@8.72.2(@typescript/typescript6@6.0.2)(supports-color@7.2.0))(@typescript-eslint/utils@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint-plugin-oxfmt@0.33.0(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(oxfmt@0.78.0))(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(prettier@3.10.1)(supports-color@7.2.0)(ts-declaration-location@1.0.7(@typescript/typescript6@6.0.2))
-      '@magicdawn/shared':
-        specifier: file:../@magicdawn__shared/
-        version: file:../@magicdawn__shared
       '@total-typescript/ts-reset':
         specifier: ^0.6.1
         version: 0.6.1
@@ -240,8 +240,8 @@ importers:
         specifier: ^9.1.7
         version: 9.1.7
       lint-staged:
-        specifier: ^17.6.0
-        version: 17.6.0
+        specifier: ^17.6.1
+        version: 17.6.1
       oxfmt:
         specifier: ^0.78.0
         version: 0.78.0
@@ -612,6 +612,9 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
+  '@magicdawn/configs@file:../@magicdawn__configs':
+    resolution: {directory: ../@magicdawn__configs, type: directory}
+
   '@magicdawn/eslint-config@1.6.18':
     resolution: {integrity: sha512-kgE27udT84LMLdgGlRCZYlUyfgH5l/iHY0JgqBKsfFssT4b4zx1e9tSUbmjgZemB3KQfHaeanrXKeKgJIhpdRA==}
     peerDependencies:
@@ -620,9 +623,6 @@ packages:
     peerDependenciesMeta:
       '@unocss/eslint-plugin':
         optional: true
-
-  '@magicdawn/shared@file:../@magicdawn__shared':
-    resolution: {directory: ../@magicdawn__shared, type: directory}
 
   '@napi-rs/wasm-runtime@1.2.6':
     resolution: {integrity: sha512-mRyDmEw9/fCDXCGfL1sbgIw/GUK0PVxRW4YwgPN61F3LQ+fSyoBFarJVzgGyhF6kRzEQZ0FejDqm4WLXSeqQmw==}
@@ -2506,10 +2506,6 @@ packages:
     resolution: {integrity: sha512-wCBiZ77u1tuWde6G/nfOtLaCTYcFDU5yCzARzK10y+rLhzYoL7a7yEemcopcc2Mzow7gZOIjnV2ym1NYmdiJOQ==}
     engines: {node: '>= 4'}
 
-  ignore@7.0.5:
-    resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
-    engines: {node: '>= 4'}
-
   import-without-cache@0.4.1:
     resolution: {integrity: sha512-vXoV9PjKHEednCUu01e98TkImxy67e3BJXbTIOmIq4Hyzw3IAwYRcuPkfeTzJzwyyts4kjuA73x+pWJLc4f86A==}
     engines: {node: ^22.18.0 || >=24.0.0}
@@ -2752,8 +2748,8 @@ packages:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
 
-  lint-staged@17.6.0:
-    resolution: {integrity: sha512-nOhBfYkZEwkFtNzD5pK9s9LkcWoxJ+whLzEnhqi9nl7zTB5n7tg8+9iYgMGx2Wm3VlLu8cbNj0RACzY+nWi5iQ==}
+  lint-staged@17.6.1:
+    resolution: {integrity: sha512-3MXgVN7BERDR/6CXZs2fDHGc+r0+hlvGAa9wqMlVbIS6RVRuaPOnb5SnN6wMXulwfEy9DXVkMVUN/8cUlpPDnw==}
     engines: {node: '>=22.22.1'}
     hasBin: true
 
@@ -3525,9 +3521,9 @@ packages:
   streamx@2.21.0:
     resolution: {integrity: sha512-Qz6MsDZXJ6ur9u+b+4xCG18TluU7PGlRfXVAAjNiGsFrBUt/ioyLkxbFaKJygoPs+/kW4VyBj0bSj89Qu0IGyg==}
 
-  string-argv@0.3.2:
-    resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
-    engines: {node: '>=0.6.19'}
+  string-argv@0.4.0:
+    resolution: {integrity: sha512-UOtaksJ3SK3KLHba2i9I27fvuZNfBlImDP5wKsCOxCDMRDNxlipCe8rmnUAaDpqlQ93upnA0SzF2pjWhttozSA==}
+    engines: {node: '>=16.20.0'}
 
   string-width@8.1.0:
     resolution: {integrity: sha512-Kxl3KJGb/gxkaUMOjRsQ8IrXiGW75O4E3RPjFIINOVH8AMl2SQ/yWdTzWwF3FevIX9LcMAjJW+GRwAlAbTSXdg==}
@@ -4101,7 +4097,7 @@ snapshots:
     dependencies:
       escape-string-regexp: 4.0.0
       eslint: 10.15.0(jiti@2.7.0)(supports-color@7.2.0)
-      ignore: 7.0.5
+      ignore: 7.0.14
 
   '@eslint-community/eslint-utils@4.10.1(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))':
     dependencies:
@@ -4338,6 +4334,8 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
+  '@magicdawn/configs@file:../@magicdawn__configs': {}
+
   '@magicdawn/eslint-config@1.6.18(@types/eslint@9.6.1)(@typescript-eslint/eslint-plugin@8.72.2(@typescript-eslint/parser@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript-eslint/parser@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript-eslint/typescript-estree@8.72.2(@typescript/typescript6@6.0.2)(supports-color@7.2.0))(@typescript-eslint/utils@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint-plugin-oxfmt@0.33.0(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(oxfmt@0.78.0))(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(prettier@3.10.1)(supports-color@7.2.0)(ts-declaration-location@1.0.7(@typescript/typescript6@6.0.2))':
     dependencies:
       '@sxzz/eslint-config': 8.9.2(@types/eslint@9.6.1)(@typescript-eslint/eslint-plugin@8.72.2(@typescript-eslint/parser@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript-eslint/parser@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript-eslint/typescript-estree@8.72.2(@typescript/typescript6@6.0.2)(supports-color@7.2.0))(@typescript-eslint/utils@8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint-plugin-oxfmt@0.33.0(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(oxfmt@0.78.0))(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(prettier@3.10.1)(supports-color@7.2.0)(ts-declaration-location@1.0.7(@typescript/typescript6@6.0.2))
@@ -4360,8 +4358,6 @@ snapshots:
       - supports-color
       - ts-declaration-location
       - typescript
-
-  '@magicdawn/shared@file:../@magicdawn__shared': {}
 
   '@napi-rs/wasm-runtime@1.2.6(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)':
     dependencies:
@@ -4943,7 +4939,7 @@ snapshots:
       '@typescript-eslint/utils': 8.72.2(@typescript/typescript6@6.0.2)(eslint@10.15.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
       '@typescript-eslint/visitor-keys': 8.72.2
       eslint: 10.15.0(jiti@2.7.0)(supports-color@7.2.0)
-      ignore: 7.0.5
+      ignore: 7.0.14
       natural-compare: 1.4.0
       ts-api-utils: 2.5.0(@typescript/typescript6@6.0.2)
       typescript: '@typescript/typescript6@6.0.2'
@@ -6006,7 +6002,7 @@ snapshots:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       fast-glob: 3.3.3
-      ignore: 7.0.5
+      ignore: 7.0.14
       is-path-inside: 4.0.0
       micromatch: 4.0.8
       slash: 5.1.0
@@ -6095,8 +6091,6 @@ snapshots:
   ignore@5.3.2: {}
 
   ignore@7.0.14: {}
-
-  ignore@7.0.5: {}
 
   import-without-cache@0.4.1: {}
 
@@ -6271,10 +6265,10 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
 
-  lint-staged@17.6.0:
+  lint-staged@17.6.1:
     dependencies:
       picomatch: 4.0.7
-      string-argv: 0.3.2
+      string-argv: 0.4.0
       tinyexec: 1.3.1
     optionalDependencies:
       yaml: 2.9.1
@@ -7321,7 +7315,7 @@ snapshots:
     optionalDependencies:
       bare-events: 2.5.0
 
-  string-argv@0.3.2: {}
+  string-argv@0.4.0: {}
 
   string-width@8.1.0:
     dependencies:

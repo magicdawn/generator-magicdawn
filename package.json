@@ -56,8 +56,8 @@
     "yeoman-generator": "^10.3.0"
   },
   "devDependencies": {
+    "@magicdawn/configs": "file:../@magicdawn__configs/",
     "@magicdawn/eslint-config": "^1.6.18",
-    "@magicdawn/shared": "file:../@magicdawn__shared/",
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/fs-extra": "^11.0.4",
     "@types/git-config": "^0.0.32",
@@ -66,7 +66,7 @@
     "eslint": "^10.15.0",
     "eslint-plugin-oxfmt": "^0.33.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.6.0",
+    "lint-staged": "^17.6.1",
     "oxfmt": "^0.78.0",
     "tsdown": "^0.23.7",
     "type-fest": "^5.10.0",

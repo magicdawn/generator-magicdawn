@@ -9,14 +9,9 @@ export const addFormatter: SubSetup = {
 }
 
 async function fn(this: SetupGenerator) {
-  const versions = await Promise.all([
-    getLatestVersion('husky'),
-    getLatestVersion('lint-staged'),
-    getLatestVersion('oxfmt'),
-    getLatestVersion('@magicdawn/configs'),
-  ])
-
-  const [huskyV, lintStagedV, oxfmtV, configsV] = versions.map((v) => `^${v}`)
+  const relatedDeps = ['@magicdawn/configs', 'eslint-plugin-oxfmt', 'husky', 'lint-staged', 'oxfmt']
+  const versions = await Promise.all(relatedDeps.map((id) => getLatestVersion(id)))
+  const depMap = Object.fromEntries(relatedDeps.map((id, index) => [id, `^${versions[index]}`]))
 
   // deps
   this.fs.extendJSON(this.destinationPath('package.json'), {
@@ -24,10 +19,7 @@ async function fn(this: SetupGenerator) {
       prepare: 'husky',
     },
     'devDependencies': {
-      '@magicdawn/configs': configsV,
-      'husky': huskyV,
-      'lint-staged': lintStagedV,
-      'oxfmt': oxfmtV,
+      ...depMap,
     },
     'lint-staged': {
       '*.{?(c|m)(j|t)s?(x),json,y?(a)ml}': ['eslint --fix', 'oxfmt --write'],
